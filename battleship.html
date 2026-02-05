@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0d1b2a">
+    <title>Bataille Navale Alpha vs Oméga</title>
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@300;400;600;700;900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0d1b2a;
+            --bg-medium: #1b263b;
+            --bg-light: #2a3e5a;
+            --accent-alpha: #00ff88;
+            --accent-omega: #ff006e;
+            --accent-gold: #ffd700;
+            --water-color: #1e3a5f;
+            --ship-color: #4a5568;
+            --hit-color: #ff4444;
+            --miss-color: #ffffff;
+            --text-primary: #e0e1dd;
+            --text-secondary: #a0a8b8;
+            --border-color: rgba(224, 225, 221, 0.2);
+        }
+
+        body {
+            font-family: 'Saira Condensed', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 110, 0.05) 0%, transparent 50%),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 136, 0.03) 2px, rgba(0, 255, 136, 0.03) 4px);
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 1rem;
+            min-height: 100vh;
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, var(--accent-alpha), var(--accent-omega));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 1rem 2.5rem;
+            font-family: 'Saira Condensed', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            background: var(--bg-light);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            border-color: var(--accent-alpha);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-alpha {
+            border-color: var(--accent-alpha);
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .btn-alpha:hover {
+            background: rgba(0, 255, 136, 0.2);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-omega {
+            border-color: var(--accent-omega);
+            background: rgba(255, 0, 110, 0.1);
+        }
+
+        .btn-omega:hover {
+            background: rgba(255, 0, 110, 0.2);
+            box-shadow: 0 0 25px rgba(255, 0, 110, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-medium);
+            border-color: var(--text-secondary);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Menu Screen */
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 500px;
+            margin: 3rem auto;
+        }
+
+        .saved-games {
+            margin-top: 3rem;
+        }
+
+        .saved-games h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .game-list {
+            display: grid;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: var(--bg-medium);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover {
+            border-color: var(--accent-alpha);
+            background: var(--bg-light);
+            transform: translateX(5px);
+            box-shadow: -5px 0 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .game-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-alpha);
+        }
+
+        .game-meta {
+            display: flex;
+            gap: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .delete-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 0, 100, 0.2);
+            border: 1px solid rgba(255, 0, 100, 0.5);
+            color: #ff0064;
+            cursor: pointer;
+            font-family: 'Saira Condensed', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background: rgba(255, 0, 100, 0.3);
+            box-shadow: 0 0 15px rgba(255, 0, 100, 0.4);
+        }
+
+        /* Create Game Screen */
+        .create-layout {
+            display: grid;
+            grid-template-areas:
+                "name name"
+                "alpha omega"
+                "themes themes"
+                "actions actions";
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .game-name-section {
+            grid-area: name;
+        }
+
+        .game-name-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+        }
+
+        .game-name-section input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-medium);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Saira Condensed', sans-serif;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .game-name-section input:focus {
+            outline: none;
+            border-color: var(--accent-alpha);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .grid-section {
+            background: var(--bg-medium);
+            border: 2px solid var(--border-color);
+            padding: 1.5rem;
+        }
+
+        .grid-section.alpha {
+            grid-area: alpha;
+            border-color: var(--accent-alpha);
+        }
+
+        .grid-section.omega {
+            grid-area: omega;
+            border-color: var(--accent-omega);
+        }
+
+        .grid-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .grid-section.alpha h3 {
+            color: var(--accent-alpha);
+        }
+
+        .grid-section.omega h3 {
+            color: var(--accent-omega);
+        }
+
+        /* Grid */
+        .grid-container {
+            display: inline-block;
+            position: relative;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 40px repeat(6, 60px);
+            grid-template-rows: 40px repeat(6, 60px);
+            gap: 2px;
+            background: var(--water-color);
+            padding: 2px;
+            margin: 20px 0;
+        }
+
+        .grid-cell {
+            background: var(--water-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .grid-cell.label {
+            background: var(--bg-light);
+            cursor: default;
+            font-size: 1rem;
+        }
+
+        .grid-cell.playable:hover {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-alpha);
+        }
+
+        .grid-cell.ship {
+            background: var(--ship-color);
+            border-color: var(--accent-alpha);
+        }
+
+        .grid-cell.hit {
+            background: var(--hit-color);
+            position: relative;
+        }
+
+        .grid-cell.hit::after {
+            content: '✕';
+            font-size: 2rem;
+            color: white;
+            font-weight: 900;
+        }
+
+        .grid-cell.miss {
+            background: var(--water-color);
+            position: relative;
+        }
+
+        .grid-cell.miss::after {
+            content: '○';
+            font-size: 1.5rem;
+            color: var(--miss-color);
+        }
+
+        .grid-cell.placing {
+            background: rgba(0, 255, 136, 0.3);
+            border-color: var(--accent-alpha);
+        }
+
+        /* Ship Selection */
+        .ship-selection {
+            margin-top: 1.5rem;
+        }
+
+        .ship-selection h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .ship-list {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .ship-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--bg-light);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-family: 'Saira Condensed', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .ship-btn:hover {
+            border-color: var(--accent-alpha);
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .ship-btn.selected {
+            border-color: var(--accent-alpha);
+            background: rgba(0, 255, 136, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .ship-btn.placed {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .orientation-toggle {
+            margin-top: 1rem;
+        }
+
+        /* Themes Section */
+        .themes-section {
+            grid-area: themes;
+            background: var(--bg-medium);
+            border: 2px solid var(--accent-gold);
+            padding: 1.5rem;
+        }
+
+        .themes-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .theme-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .theme-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-checkbox:hover {
+            border-color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .theme-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .theme-checkbox label {
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .theme-checkbox.checked {
+            border-color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        /* Actions */
+        .create-actions {
+            grid-area: actions;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        /* Question Screen */
+        .question-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: var(--bg-medium);
+            border: 2px solid var(--accent-gold);
+            padding: 3rem;
+        }
+
+        .team-indicator {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .team-indicator.alpha {
+            color: var(--accent-alpha);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .team-indicator.omega {
+            color: var(--accent-omega);
+            text-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
+        }
+
+        .question-theme {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .question-text {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .question-image {
+            max-width: 100%;
+            max-height: 300px;
+            display: block;
+            margin: 2rem auto;
+            border: 2px solid var(--border-color);
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.3rem;
+            background: var(--bg-dark);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Courier Prime', monospace;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: var(--accent-alpha);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .answer-feedback {
+            text-align: center;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border: 2px solid;
+        }
+
+        .answer-feedback.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-alpha);
+            color: var(--accent-alpha);
+        }
+
+        .answer-feedback.incorrect {
+            background: rgba(255, 0, 100, 0.2);
+            border-color: var(--hit-color);
+            color: var(--hit-color);
+        }
+
+        .correct-answer {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        .question-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        /* Waiting Screen */
+        .waiting-container {
+            max-width: 600px;
+            margin: 4rem auto;
+            text-align: center;
+        }
+
+        .waiting-container h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .waiting-container .btn {
+            font-size: 1.5rem;
+            padding: 1.5rem 3rem;
+        }
+
+        /* Game Screen */
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-grids {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .team-grid-container {
+            background: var(--bg-medium);
+            border: 2px solid var(--border-color);
+            padding: 1.5rem;
+        }
+
+        .team-grid-container h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .team-grid-container.alpha {
+            border-color: var(--accent-alpha);
+        }
+
+        .team-grid-container.alpha h3 {
+            color: var(--accent-alpha);
+        }
+
+        .team-grid-container.omega {
+            border-color: var(--accent-omega);
+        }
+
+        .team-grid-container.omega h3 {
+            color: var(--accent-omega);
+        }
+
+        .game-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .message {
+            background: var(--bg-medium);
+            border: 2px solid var(--accent-gold);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Victory Screen */
+        .victory-container {
+            max-width: 800px;
+            margin: 4rem auto;
+            background: var(--bg-medium);
+            border: 3px solid var(--accent-gold);
+            padding: 4rem;
+            text-align: center;
+        }
+
+        .victory-container h1 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .victory-container h1.alpha {
+            color: var(--accent-alpha);
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+        }
+
+        .victory-container h1.omega {
+            color: var(--accent-omega);
+            text-shadow: 0 0 30px rgba(255, 0, 110, 0.6);
+        }
+
+        .victory-container p {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-medium);
+            border: 2px solid var(--accent-gold);
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+            text-align: center;
+        }
+
+        .modal-content p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .create-layout {
+                grid-template-areas:
+                    "name"
+                    "alpha"
+                    "omega"
+                    "themes"
+                    "actions";
+                grid-template-columns: 1fr;
+            }
+
+            .team-grids {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .grid {
+                grid-template-columns: 30px repeat(6, 45px);
+                grid-template-rows: 30px repeat(6, 45px);
+            }
+
+            .grid-cell {
+                font-size: 0.8rem;
+            }
+
+            .question-container {
+                padding: 2rem 1rem;
+            }
+
+            .question-text {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-alpha);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Bataille Navale</div>
+            <div class="subtitle">Alpha vs Oméga</div>
+        </div>
+
+        <!-- Menu Screen -->
+        <div id="menuScreen" class="screen active">
+            <div class="menu-buttons">
+                <button class="btn btn-alpha" onclick="gameApp.showCreateGame()">Nouvelle Partie</button>
+                <button class="btn btn-omega" onclick="gameApp.loadSavedGames()">Charger une Partie</button>
+                <button class="btn btn-secondary" onclick="gameApp.syncQuestions()">
+                    <span id="syncText">Synchroniser Questions</span>
+                </button>
+            </div>
+
+            <div class="saved-games" id="savedGamesSection" style="display: none;">
+                <h2>Parties Sauvegardées</h2>
+                <div class="game-list" id="gameList"></div>
+            </div>
+        </div>
+
+        <!-- Create Game Screen -->
+        <div id="createScreen" class="screen">
+            <div class="create-layout">
+                <div class="game-name-section">
+                    <h2>Nom de la Partie</h2>
+                    <input type="text" id="gameName" placeholder="Entrez le nom de la partie" maxlength="50">
+                </div>
+
+                <div class="grid-section alpha">
+                    <h3>Équipe Alpha</h3>
+                    <div class="grid-container">
+                        <div class="grid" id="gridAlpha"></div>
+                    </div>
+                    <div class="ship-selection">
+                        <h4>Navires à placer :</h4>
+                        <div class="ship-list" id="shipsAlpha"></div>
+                        <div class="orientation-toggle">
+                            <button class="btn btn-secondary" onclick="gameApp.toggleOrientation('alpha')">
+                                Orientation: <span id="orientationAlpha">Horizontal</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-section omega">
+                    <h3>Équipe Oméga</h3>
+                    <div class="grid-container">
+                        <div class="grid" id="gridOmega"></div>
+                    </div>
+                    <div class="ship-selection">
+                        <h4>Navires à placer :</h4>
+                        <div class="ship-list" id="shipsOmega"></div>
+                        <div class="orientation-toggle">
+                            <button class="btn btn-secondary" onclick="gameApp.toggleOrientation('omega')">
+                                Orientation: <span id="orientationOmega">Horizontal</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="themes-section">
+                    <h2>Thèmes</h2>
+                    <div class="theme-list" id="themeList"></div>
+                </div>
+
+                <div class="create-actions">
+                    <button class="btn btn-secondary" onclick="gameApp.showMenu()">Annuler</button>
+                    <button class="btn btn-alpha" onclick="gameApp.finalizeGame()">Créer la Partie</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Waiting Screen -->
+        <div id="waitingScreen" class="screen">
+            <div class="waiting-container">
+                <h2 class="team-indicator" id="waitingTeam"></h2>
+                <button class="btn btn-alpha" id="startTurnBtn" onclick="gameApp.startTurn()">Commencer le Tour</button>
+            </div>
+        </div>
+
+        <!-- Question Screen -->
+        <div id="questionScreen" class="screen">
+            <div class="question-container">
+                <div class="team-indicator" id="questionTeam"></div>
+                <div class="question-theme" id="questionTheme"></div>
+                <div class="question-text" id="questionText"></div>
+                <img id="questionImage" class="question-image" style="display: none;">
+                
+                <div id="answerSection">
+                    <input type="text" id="answerInput" class="answer-input" placeholder="Votre réponse...">
+                    <div class="question-actions">
+                        <button class="btn btn-alpha" onclick="gameApp.submitAnswer()">Valider</button>
+                    </div>
+                </div>
+
+                <div id="feedbackSection" style="display: none;">
+                    <div class="answer-feedback" id="answerFeedback"></div>
+                    <div class="correct-answer" id="correctAnswer"></div>
+                    <div class="question-actions">
+                        <button class="btn btn-secondary" id="feedbackBtn" onclick="gameApp.handleAnswerResult()"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attack Screen -->
+        <div id="attackScreen" class="screen">
+            <div class="message">Choisissez une case sur la grille adverse pour tirer</div>
+            <div class="team-grids">
+                <div class="team-grid-container" id="attackGridContainer">
+                    <h3 id="attackGridTitle"></h3>
+                    <div class="grid-container">
+                        <div class="grid" id="attackGrid"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="game-actions">
+                <button class="btn btn-alpha" onclick="gameApp.endTurn()">Terminer le Tour</button>
+            </div>
+        </div>
+
+        <!-- Victory Screen -->
+        <div id="victoryScreen" class="screen">
+            <div class="victory-container">
+                <h1 id="victoryTeam"></h1>
+                <p>a remporté la bataille navale !</p>
+                <button class="btn btn-alpha" onclick="gameApp.showMenu()">Retour au Menu</button>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <h3 id="modalTitle"></h3>
+                <p id="modalMessage"></p>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" onclick="gameApp.closeModal()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // IndexedDB Manager
+        class BattleshipDatabase {
+            constructor() {
+                this.dbName = 'BattleshipDB';
+                this.version = 1;
+                this.db = null;
+            }
+
+            async init() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(this.dbName, this.version);
+
+                    request.onerror = () => reject(request.error);
+                    request.onsuccess = () => {
+                        this.db = request.result;
+                        resolve(this.db);
+                    };
+
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        
+                        // Store for games
+                        if (!db.objectStoreNames.contains('games')) {
+                            const gamesStore = db.createObjectStore('games', { keyPath: 'id', autoIncrement: true });
+                            gamesStore.createIndex('name', 'name', { unique: false });
+                            gamesStore.createIndex('createdAt', 'createdAt', { unique: false });
+                        }
+
+                        // Store for themes
+                        if (!db.objectStoreNames.contains('themes')) {
+                            const themesStore = db.createObjectStore('themes', { keyPath: 'id' });
+                            themesStore.createIndex('nom', 'nom', { unique: false });
+                        }
+
+                        // Store for questions
+                        if (!db.objectStoreNames.contains('questions')) {
+                            const questionsStore = db.createObjectStore('questions', { keyPath: 'id' });
+                            questionsStore.createIndex('theme', 'theme', { unique: false });
+                        }
+                    };
+                });
+            }
+
+            async saveGame(gameData) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['games'], 'readwrite');
+                    const objectStore = transaction.objectStore('games');
+                    
+                    const request = gameData.id 
+                        ? objectStore.put(gameData)
+                        : objectStore.add(gameData);
+
+                    request.onsuccess = () => {
+                        gameData.id = request.result;
+                        resolve(gameData);
+                    };
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async getGame(id) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['games'], 'readonly');
+                    const objectStore = transaction.objectStore('games');
+                    const request = objectStore.get(id);
+
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async getAllGames() {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['games'], 'readonly');
+                    const objectStore = transaction.objectStore('games');
+                    const request = objectStore.getAll();
+
+                    request.onsuccess = () => {
+                        const games = request.result;
+                        games.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                        resolve(games);
+                    };
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async deleteGame(id) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['games'], 'readwrite');
+                    const objectStore = transaction.objectStore('games');
+                    const request = objectStore.delete(id);
+
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async saveThemes(themes) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['themes'], 'readwrite');
+                    const objectStore = transaction.objectStore('themes');
+                    
+                    // Clear existing themes
+                    objectStore.clear();
+                    
+                    // Add new themes
+                    themes.forEach(theme => {
+                        objectStore.add(theme);
+                    });
+
+                    transaction.oncomplete = () => resolve();
+                    transaction.onerror = () => reject(transaction.error);
+                });
+            }
+
+            async getAllThemes() {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['themes'], 'readonly');
+                    const objectStore = transaction.objectStore('themes');
+                    const request = objectStore.getAll();
+
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async saveQuestions(questions) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['questions'], 'readwrite');
+                    const objectStore = transaction.objectStore('questions');
+                    
+                    // Clear existing questions
+                    objectStore.clear();
+                    
+                    // Add new questions
+                    questions.forEach(question => {
+                        objectStore.add(question);
+                    });
+
+                    transaction.oncomplete = () => resolve();
+                    transaction.onerror = () => reject(transaction.error);
+                });
+            }
+
+            async getAllQuestions() {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['questions'], 'readonly');
+                    const objectStore = transaction.objectStore('questions');
+                    const request = objectStore.getAll();
+
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async getQuestionsByTheme(themeId) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['questions'], 'readonly');
+                    const objectStore = transaction.objectStore('questions');
+                    const index = objectStore.index('theme');
+                    const request = index.getAll(themeId);
+
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+        }
+
+        // Game Application
+        class BattleshipGame {
+            constructor() {
+                this.db = new BattleshipDatabase();
+                this.currentGame = null;
+                this.createMode = {
+                    alpha: {
+                        ships: [
+                            { size: 4, placed: false },
+                            { size: 3, placed: false },
+                            { size: 3, placed: false },
+                            { size: 2, placed: false }
+                        ],
+                        grid: this.createEmptyGrid(),
+                        selectedShip: null,
+                        orientation: 'horizontal'
+                    },
+                    omega: {
+                        ships: [
+                            { size: 4, placed: false },
+                            { size: 3, placed: false },
+                            { size: 3, placed: false },
+                            { size: 2, placed: false }
+                        ],
+                        grid: this.createEmptyGrid(),
+                        selectedShip: null,
+                        orientation: 'horizontal'
+                    }
+                };
+                this.currentQuestion = null;
+                this.currentAnswer = null;
+            }
+
+            createEmptyGrid() {
+                const grid = [];
+                for (let i = 0; i < 6; i++) {
+                    grid[i] = [];
+                    for (let j = 0; j < 6; j++) {
+                        grid[i][j] = {
+                            ship: false,
+                            hit: false,
+                            miss: false
+                        };
+                    }
+                }
+                return grid;
+            }
+
+            async init() {
+                try {
+                    await this.db.init();
+                    this.showMenu();
+                } catch (error) {
+                    console.error('Erreur d\'initialisation:', error);
+                    this.showModal('Erreur', 'Impossible d\'initialiser la base de données');
+                }
+            }
+
+            // Screen Navigation
+            hideAllScreens() {
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.remove('active');
+                });
+            }
+
+            showMenu() {
+                this.hideAllScreens();
+                document.getElementById('menuScreen').classList.add('active');
+                document.getElementById('savedGamesSection').style.display = 'none';
+            }
+
+            showCreateGame() {
+                this.hideAllScreens();
+                document.getElementById('createScreen').classList.add('active');
+                this.resetCreateMode();
+                this.renderCreateScreen();
+            }
+
+            resetCreateMode() {
+                this.createMode = {
+                    alpha: {
+                        ships: [
+                            { size: 4, placed: false },
+                            { size: 3, placed: false },
+                            { size: 3, placed: false },
+                            { size: 2, placed: false }
+                        ],
+                        grid: this.createEmptyGrid(),
+                        selectedShip: null,
+                        orientation: 'horizontal'
+                    },
+                    omega: {
+                        ships: [
+                            { size: 4, placed: false },
+                            { size: 3, placed: false },
+                            { size: 3, placed: false },
+                            { size: 2, placed: false }
+                        ],
+                        grid: this.createEmptyGrid(),
+                        selectedShip: null,
+                        orientation: 'horizontal'
+                    }
+                };
+            }
+
+            async renderCreateScreen() {
+                // Render grids
+                this.renderGrid('gridAlpha', this.createMode.alpha.grid, 'alpha', true);
+                this.renderGrid('gridOmega', this.createMode.omega.grid, 'omega', true);
+
+                // Render ship buttons
+                this.renderShipButtons('alpha');
+                this.renderShipButtons('omega');
+
+                // Render themes
+                await this.renderThemes();
+            }
+
+            renderGrid(containerId, grid, team, editable = false) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+
+                // Empty corner cell
+                const corner = document.createElement('div');
+                corner.className = 'grid-cell label';
+                container.appendChild(corner);
+
+                // Column labels (1-6)
+                for (let j = 0; j < 6; j++) {
+                    const label = document.createElement('div');
+                    label.className = 'grid-cell label';
+                    label.textContent = j + 1;
+                    container.appendChild(label);
+                }
+
+                // Rows with labels (A-F)
+                const rowLabels = ['A', 'B', 'C', 'D', 'E', 'F'];
+                for (let i = 0; i < 6; i++) {
+                    // Row label
+                    const label = document.createElement('div');
+                    label.className = 'grid-cell label';
+                    label.textContent = rowLabels[i];
+                    container.appendChild(label);
+
+                    // Grid cells
+                    for (let j = 0; j < 6; j++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'grid-cell playable';
+                        cell.dataset.row = i;
+                        cell.dataset.col = j;
+
+                        if (grid[i][j].ship) {
+                            cell.classList.add('ship');
+                        }
+                        if (grid[i][j].hit) {
+                            cell.classList.add('hit');
+                        }
+                        if (grid[i][j].miss) {
+                            cell.classList.add('miss');
+                        }
+
+                        if (editable) {
+                            cell.onclick = () => this.handleCellClick(i, j, team);
+                            cell.onmouseover = () => this.handleCellHover(i, j, team);
+                            cell.onmouseout = () => this.handleCellOut(team);
+                        }
+
+                        container.appendChild(cell);
+                    }
+                }
+            }
+
+            renderShipButtons(team) {
+                const container = document.getElementById(`ships${team.charAt(0).toUpperCase() + team.slice(1)}`);
+                container.innerHTML = '';
+
+                this.createMode[team].ships.forEach((ship, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'ship-btn';
+                    btn.textContent = `Navire (${ship.size} cases)`;
+                    
+                    if (ship.placed) {
+                        btn.classList.add('placed');
+                        btn.disabled = true;
+                    }
+                    
+                    if (this.createMode[team].selectedShip === index) {
+                        btn.classList.add('selected');
+                    }
+
+                    btn.onclick = () => this.selectShip(team, index);
+                    container.appendChild(btn);
+                });
+            }
+
+            selectShip(team, index) {
+                if (this.createMode[team].ships[index].placed) return;
+                
+                this.createMode[team].selectedShip = index;
+                this.renderShipButtons(team);
+            }
+
+            toggleOrientation(team) {
+                this.createMode[team].orientation = 
+                    this.createMode[team].orientation === 'horizontal' ? 'vertical' : 'horizontal';
+                document.getElementById(`orientation${team.charAt(0).toUpperCase() + team.slice(1)}`).textContent = 
+                    this.createMode[team].orientation === 'horizontal' ? 'Horizontal' : 'Vertical';
+            }
+
+            handleCellHover(row, col, team) {
+                const shipIndex = this.createMode[team].selectedShip;
+                if (shipIndex === null) return;
+
+                const ship = this.createMode[team].ships[shipIndex];
+                if (ship.placed) return;
+
+                const cells = this.getShipCells(row, col, ship.size, this.createMode[team].orientation);
+                
+                // Preview ship placement
+                const grid = document.getElementById(`grid${team.charAt(0).toUpperCase() + team.slice(1)}`);
+                grid.querySelectorAll('.grid-cell.placing').forEach(cell => {
+                    cell.classList.remove('placing');
+                });
+
+                if (this.canPlaceShip(team, row, col, ship.size, this.createMode[team].orientation)) {
+                    cells.forEach(([r, c]) => {
+                        const cell = grid.querySelector(`[data-row="${r}"][data-col="${c}"]`);
+                        if (cell) cell.classList.add('placing');
+                    });
+                }
+            }
+
+            handleCellOut(team) {
+                const grid = document.getElementById(`grid${team.charAt(0).toUpperCase() + team.slice(1)}`);
+                grid.querySelectorAll('.grid-cell.placing').forEach(cell => {
+                    cell.classList.remove('placing');
+                });
+            }
+
+            handleCellClick(row, col, team) {
+                const shipIndex = this.createMode[team].selectedShip;
+                if (shipIndex === null) {
+                    this.showModal('Attention', 'Veuillez d\'abord sélectionner un navire à placer');
+                    return;
+                }
+
+                const ship = this.createMode[team].ships[shipIndex];
+                if (ship.placed) return;
+
+                if (this.canPlaceShip(team, row, col, ship.size, this.createMode[team].orientation)) {
+                    this.placeShip(team, row, col, ship.size, this.createMode[team].orientation);
+                    ship.placed = true;
+                    this.createMode[team].selectedShip = null;
+                    this.renderGrid(`grid${team.charAt(0).toUpperCase() + team.slice(1)}`, this.createMode[team].grid, team, true);
+                    this.renderShipButtons(team);
+                } else {
+                    this.showModal('Placement impossible', 'Le navire ne peut pas être placé ici');
+                }
+            }
+
+            getShipCells(row, col, size, orientation) {
+                const cells = [];
+                if (orientation === 'horizontal') {
+                    for (let j = 0; j < size; j++) {
+                        cells.push([row, col + j]);
+                    }
+                } else {
+                    for (let i = 0; i < size; i++) {
+                        cells.push([row + i, col]);
+                    }
+                }
+                return cells;
+            }
+
+            canPlaceShip(team, row, col, size, orientation) {
+                const cells = this.getShipCells(row, col, size, orientation);
+                
+                for (const [r, c] of cells) {
+                    if (r < 0 || r >= 6 || c < 0 || c >= 6) return false;
+                    if (this.createMode[team].grid[r][c].ship) return false;
+                }
+                
+                return true;
+            }
+
+            placeShip(team, row, col, size, orientation) {
+                const cells = this.getShipCells(row, col, size, orientation);
+                cells.forEach(([r, c]) => {
+                    this.createMode[team].grid[r][c].ship = true;
+                });
+            }
+
+            async renderThemes() {
+                const themes = await this.db.getAllThemes();
+                const container = document.getElementById('themeList');
+                container.innerHTML = '';
+
+                if (themes.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">Aucun thème disponible. Veuillez synchroniser les questions.</p>';
+                    return;
+                }
+
+                themes.forEach(theme => {
+                    const div = document.createElement('div');
+                    div.className = 'theme-checkbox';
+                    div.innerHTML = `
+                        <input type="checkbox" id="theme-${theme.id}" value="${theme.id}">
+                        <label for="theme-${theme.id}">${theme.nom}</label>
+                    `;
+                    
+                    const checkbox = div.querySelector('input');
+                    checkbox.onchange = () => {
+                        div.classList.toggle('checked', checkbox.checked);
+                    };
+                    
+                    container.appendChild(div);
+                });
+            }
+
+            async finalizeGame() {
+                // Validate game name
+                const gameName = document.getElementById('gameName').value.trim();
+                if (!gameName) {
+                    this.showModal('Erreur', 'Veuillez entrer un nom pour la partie');
+                    return;
+                }
+
+                // Validate ship placement
+                const alphaAllPlaced = this.createMode.alpha.ships.every(ship => ship.placed);
+                const omegaAllPlaced = this.createMode.omega.ships.every(ship => ship.placed);
+                
+                if (!alphaAllPlaced || !omegaAllPlaced) {
+                    this.showModal('Erreur', 'Tous les navires doivent être placés pour les deux équipes');
+                    return;
+                }
+
+                // Validate theme selection
+                const selectedThemes = [];
+                document.querySelectorAll('#themeList input[type="checkbox"]:checked').forEach(checkbox => {
+                    selectedThemes.push(checkbox.value);
+                });
+
+                if (selectedThemes.length === 0) {
+                    this.showModal('Erreur', 'Veuillez sélectionner au moins un thème');
+                    return;
+                }
+
+                // Create game data
+                const allQuestions = await this.db.getAllQuestions();
+                const gameQuestions = allQuestions
+                    .filter(q => selectedThemes.includes(q.theme))
+                    .map(q => ({ ...q, asked: false }));
+
+                if (gameQuestions.length === 0) {
+                    this.showModal('Erreur', 'Aucune question disponible pour les thèmes sélectionnés');
+                    return;
+                }
+
+                const gameData = {
+                    name: gameName,
+                    currentTeam: 'alpha',
+                    alpha: {
+                        grid: JSON.parse(JSON.stringify(this.createMode.alpha.grid))
+                    },
+                    omega: {
+                        grid: JSON.parse(JSON.stringify(this.createMode.omega.grid))
+                    },
+                    selectedThemes: selectedThemes,
+                    questions: gameQuestions,
+                    createdAt: new Date().toISOString()
+                };
+
+                try {
+                    await this.db.saveGame(gameData);
+                    this.showModal('Succès', 'La partie a été créée avec succès');
+                    setTimeout(() => {
+                        this.closeModal();
+                        this.showMenu();
+                    }, 1500);
+                } catch (error) {
+                    console.error('Erreur lors de la création de la partie:', error);
+                    this.showModal('Erreur', 'Impossible de créer la partie');
+                }
+            }
+
+            async loadSavedGames() {
+                const games = await this.db.getAllGames();
+                const gameList = document.getElementById('gameList');
+                const savedGamesSection = document.getElementById('savedGamesSection');
+
+                if (games.length === 0) {
+                    this.showModal('Information', 'Aucune partie sauvegardée');
+                    return;
+                }
+
+                gameList.innerHTML = '';
+                games.forEach(game => {
+                    const card = document.createElement('div');
+                    card.className = 'game-card';
+                    
+                    const alphaShips = this.countShips(game.alpha.grid);
+                    const omegaShips = this.countShips(game.omega.grid);
+                    
+                    card.innerHTML = `
+                        <div class="game-info">
+                            <h3>${game.name}</h3>
+                            <div class="game-meta">
+                                <span>Tour: ${game.currentTeam === 'alpha' ? 'Alpha' : 'Oméga'}</span>
+                                <span>Alpha: ${alphaShips} navires</span>
+                                <span>Oméga: ${omegaShips} navires</span>
+                            </div>
+                        </div>
+                        <button class="delete-btn" onclick="gameApp.deleteGame(event, ${game.id})">Supprimer</button>
+                    `;
+                    
+                    card.onclick = (e) => {
+                        if (!e.target.classList.contains('delete-btn')) {
+                            this.loadGame(game.id);
+                        }
+                    };
+                    
+                    gameList.appendChild(card);
+                });
+
+                savedGamesSection.style.display = 'block';
+            }
+
+            countShips(grid) {
+                let count = 0;
+                for (let i = 0; i < 6; i++) {
+                    for (let j = 0; j < 6; j++) {
+                        if (grid[i][j].ship && !grid[i][j].hit) {
+                            count++;
+                        }
+                    }
+                }
+                return count;
+            }
+
+            async deleteGame(event, gameId) {
+                event.stopPropagation();
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette partie ?')) {
+                    await this.db.deleteGame(gameId);
+                    this.loadSavedGames();
+                }
+            }
+
+            async loadGame(gameId) {
+                this.currentGame = await this.db.getGame(gameId);
+                this.showWaitingScreen();
+            }
+
+            showWaitingScreen() {
+                this.hideAllScreens();
+                document.getElementById('waitingScreen').classList.add('active');
+                
+                const teamIndicator = document.getElementById('waitingTeam');
+                const startBtn = document.getElementById('startTurnBtn');
+                
+                if (this.currentGame.currentTeam === 'alpha') {
+                    teamIndicator.textContent = 'Tour de l\'Équipe Alpha';
+                    teamIndicator.className = 'team-indicator alpha';
+                    startBtn.className = 'btn btn-alpha';
+                } else {
+                    teamIndicator.textContent = 'Tour de l\'Équipe Oméga';
+                    teamIndicator.className = 'team-indicator omega';
+                    startBtn.className = 'btn btn-omega';
+                }
+            }
+
+            async startTurn() {
+                // Check if there are available questions
+                const availableQuestions = this.currentGame.questions.filter(q => !q.asked);
+                
+                if (availableQuestions.length === 0) {
+                    this.showModal('Attention', 'Toutes les questions ont été posées. Réinitialisation...');
+                    this.currentGame.questions.forEach(q => q.asked = false);
+                    await this.db.saveGame(this.currentGame);
+                }
+
+                await this.askQuestion();
+            }
+
+            async askQuestion() {
+                const availableQuestions = this.currentGame.questions.filter(q => !q.asked);
+                
+                if (availableQuestions.length === 0) {
+                    this.showModal('Erreur', 'Aucune question disponible');
+                    return;
+                }
+
+                // Select random question
+                const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+                this.currentQuestion = availableQuestions[randomIndex];
+                this.currentQuestion.asked = true;
+
+                // Save game state
+                await this.db.saveGame(this.currentGame);
+
+                // Show question screen
+                this.hideAllScreens();
+                document.getElementById('questionScreen').classList.add('active');
+
+                const teamIndicator = document.getElementById('questionTeam');
+                if (this.currentGame.currentTeam === 'alpha') {
+                    teamIndicator.textContent = 'Équipe Alpha';
+                    teamIndicator.className = 'team-indicator alpha';
+                } else {
+                    teamIndicator.textContent = 'Équipe Oméga';
+                    teamIndicator.className = 'team-indicator omega';
+                }
+
+                // Get theme name
+                const themes = await this.db.getAllThemes();
+                const theme = themes.find(t => t.id === this.currentQuestion.theme);
+                document.getElementById('questionTheme').textContent = theme ? theme.nom : this.currentQuestion.theme;
+
+                document.getElementById('questionText').textContent = this.currentQuestion.intitule;
+
+                // Handle image
+                const imageEl = document.getElementById('questionImage');
+                if (this.currentQuestion.image) {
+                    imageEl.src = this.currentQuestion.image;
+                    imageEl.style.display = 'block';
+                } else {
+                    imageEl.style.display = 'none';
+                }
+
+                // Reset answer section
+                document.getElementById('answerSection').style.display = 'block';
+                document.getElementById('feedbackSection').style.display = 'none';
+                document.getElementById('answerInput').value = '';
+            }
+
+            submitAnswer() {
+                const userAnswer = document.getElementById('answerInput').value.trim();
+                
+                if (!userAnswer) {
+                    this.showModal('Attention', 'Veuillez entrer une réponse');
+                    return;
+                }
+
+                this.currentAnswer = userAnswer;
+                this.showAnswerFeedback();
+            }
+
+            showAnswerFeedback() {
+                const correctAnswer = this.currentQuestion.reponse.toLowerCase().trim();
+                const userAnswer = this.currentAnswer.toLowerCase().trim();
+                
+                // Simple comparison (can be improved)
+                const isCorrect = userAnswer === correctAnswer || 
+                                 correctAnswer.includes(userAnswer) || 
+                                 userAnswer.includes(correctAnswer);
+
+                document.getElementById('answerSection').style.display = 'none';
+                document.getElementById('feedbackSection').style.display = 'block';
+
+                const feedbackEl = document.getElementById('answerFeedback');
+                const correctAnswerEl = document.getElementById('correctAnswer');
+                const feedbackBtn = document.getElementById('feedbackBtn');
+
+                if (isCorrect) {
+                    feedbackEl.className = 'answer-feedback correct';
+                    feedbackEl.textContent = '✓ Bonne réponse !';
+                    feedbackBtn.textContent = 'Attaquer';
+                    feedbackBtn.className = 'btn btn-alpha';
+                } else {
+                    feedbackEl.className = 'answer-feedback incorrect';
+                    feedbackEl.textContent = '✗ Mauvaise réponse';
+                    feedbackBtn.textContent = 'Passer le tour';
+                    feedbackBtn.className = 'btn btn-secondary';
+                }
+
+                correctAnswerEl.innerHTML = `<strong>Réponse correcte :</strong> ${this.currentQuestion.reponse}`;
+
+                // Add override button for incorrect answers
+                if (!isCorrect) {
+                    const actionsDiv = document.querySelector('#feedbackSection .question-actions');
+                    // Remove existing override button if any
+                    const existingOverride = actionsDiv.querySelector('.override-btn');
+                    if (existingOverride) existingOverride.remove();
+                    
+                    const overrideBtn = document.createElement('button');
+                    overrideBtn.className = 'btn btn-alpha override-btn';
+                    overrideBtn.textContent = 'Valider quand même';
+                    overrideBtn.style.marginLeft = '1rem';
+                    overrideBtn.onclick = () => {
+                        feedbackEl.className = 'answer-feedback correct';
+                        feedbackEl.textContent = '✓ Réponse validée !';
+                        feedbackBtn.textContent = 'Attaquer';
+                        feedbackBtn.className = 'btn btn-alpha';
+                        overrideBtn.remove();
+                    };
+                    actionsDiv.appendChild(overrideBtn);
+                }
+            }
+
+            async handleAnswerResult() {
+                const feedbackBtn = document.getElementById('feedbackBtn');
+                
+                if (feedbackBtn.textContent === 'Attaquer') {
+                    // Show attack screen
+                    await this.showAttackScreen();
+                } else {
+                    // Pass turn
+                    this.switchTeam();
+                    await this.db.saveGame(this.currentGame);
+                    this.showWaitingScreen();
+                }
+            }
+
+            async showAttackScreen() {
+                this.hideAllScreens();
+                document.getElementById('attackScreen').classList.add('active');
+
+                // Determine which grid to show (opponent's grid)
+                const opponentTeam = this.currentGame.currentTeam === 'alpha' ? 'omega' : 'alpha';
+                const opponentGrid = this.currentGame[opponentTeam].grid;
+
+                // Create a display grid (hide ships)
+                const displayGrid = JSON.parse(JSON.stringify(opponentGrid));
+                for (let i = 0; i < 6; i++) {
+                    for (let j = 0; j < 6; j++) {
+                        if (!displayGrid[i][j].hit && !displayGrid[i][j].miss) {
+                            displayGrid[i][j].ship = false;
+                        }
+                    }
+                }
+
+                const titleEl = document.getElementById('attackGridTitle');
+                const containerEl = document.getElementById('attackGridContainer');
+                
+                if (opponentTeam === 'alpha') {
+                    titleEl.textContent = 'Grille Alpha (Adverse)';
+                    containerEl.className = 'team-grid-container alpha';
+                } else {
+                    titleEl.textContent = 'Grille Oméga (Adverse)';
+                    containerEl.className = 'team-grid-container omega';
+                }
+
+                this.renderAttackGrid(displayGrid, opponentGrid, opponentTeam);
+            }
+
+            renderAttackGrid(displayGrid, actualGrid, opponentTeam) {
+                const container = document.getElementById('attackGrid');
+                container.innerHTML = '';
+
+                // Empty corner cell
+                const corner = document.createElement('div');
+                corner.className = 'grid-cell label';
+                container.appendChild(corner);
+
+                // Column labels (1-6)
+                for (let j = 0; j < 6; j++) {
+                    const label = document.createElement('div');
+                    label.className = 'grid-cell label';
+                    label.textContent = j + 1;
+                    container.appendChild(label);
+                }
+
+                // Rows with labels (A-F)
+                const rowLabels = ['A', 'B', 'C', 'D', 'E', 'F'];
+                for (let i = 0; i < 6; i++) {
+                    // Row label
+                    const label = document.createElement('div');
+                    label.className = 'grid-cell label';
+                    label.textContent = rowLabels[i];
+                    container.appendChild(label);
+
+                    // Grid cells
+                    for (let j = 0; j < 6; j++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'grid-cell playable';
+                        cell.dataset.row = i;
+                        cell.dataset.col = j;
+
+                        if (displayGrid[i][j].hit) {
+                            cell.classList.add('hit');
+                            cell.style.cursor = 'not-allowed';
+                        } else if (displayGrid[i][j].miss) {
+                            cell.classList.add('miss');
+                            cell.style.cursor = 'not-allowed';
+                        } else {
+                            cell.onclick = () => this.handleAttack(i, j, opponentTeam);
+                        }
+
+                        container.appendChild(cell);
+                    }
+                }
+            }
+
+            async handleAttack(row, col, opponentTeam) {
+                const grid = this.currentGame[opponentTeam].grid;
+                
+                if (grid[row][col].hit || grid[row][col].miss) {
+                    this.showModal('Attention', 'Cette case a déjà été ciblée');
+                    return;
+                }
+
+                if (grid[row][col].ship) {
+                    grid[row][col].hit = true;
+                    this.showModal('Succès', 'Touché ! 🎯');
+                } else {
+                    grid[row][col].miss = true;
+                    this.showModal('Information', 'Manqué ! 💦');
+                }
+
+                await this.db.saveGame(this.currentGame);
+
+                // Check for victory
+                if (this.checkVictory(opponentTeam)) {
+                    await this.showVictory();
+                    return;
+                }
+
+                // Refresh attack grid
+                const displayGrid = JSON.parse(JSON.stringify(grid));
+                for (let i = 0; i < 6; i++) {
+                    for (let j = 0; j < 6; j++) {
+                        if (!displayGrid[i][j].hit && !displayGrid[i][j].miss) {
+                            displayGrid[i][j].ship = false;
+                        }
+                    }
+                }
+                this.renderAttackGrid(displayGrid, grid, opponentTeam);
+            }
+
+            checkVictory(opponentTeam) {
+                const grid = this.currentGame[opponentTeam].grid;
+                for (let i = 0; i < 6; i++) {
+                    for (let j = 0; j < 6; j++) {
+                        if (grid[i][j].ship && !grid[i][j].hit) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+
+            async showVictory() {
+                this.hideAllScreens();
+                document.getElementById('victoryScreen').classList.add('active');
+
+                const victoryTeamEl = document.getElementById('victoryTeam');
+                
+                if (this.currentGame.currentTeam === 'alpha') {
+                    victoryTeamEl.textContent = 'Équipe Alpha';
+                    victoryTeamEl.className = 'alpha';
+                } else {
+                    victoryTeamEl.textContent = 'Équipe Oméga';
+                    victoryTeamEl.className = 'omega';
+                }
+
+                // Delete the completed game
+                await this.db.deleteGame(this.currentGame.id);
+            }
+
+            async endTurn() {
+                this.switchTeam();
+                await this.db.saveGame(this.currentGame);
+                this.showWaitingScreen();
+            }
+
+            switchTeam() {
+                this.currentGame.currentTeam = this.currentGame.currentTeam === 'alpha' ? 'omega' : 'alpha';
+            }
+
+            async syncQuestions() {
+                const syncBtn = document.getElementById('syncText');
+                const originalText = syncBtn.textContent;
+                syncBtn.innerHTML = '<span class="loading"></span> Synchronisation...';
+
+                try {
+                    // Try to fetch from local file
+                    const response = await fetch('questions.json');
+                    if (!response.ok) {
+                        throw new Error('Fichier questions.json introuvable');
+                    }
+
+                    const rawData = await response.json();
+
+                    // Adapter le format si nécessaire
+                    let data;
+                    
+                    // Vérifier si le format est un tableau (nouveau format)
+                    if (Array.isArray(rawData)) {
+                        // Extraire les thèmes uniques
+                        const themeSet = new Set();
+                        rawData.forEach(q => themeSet.add(q.theme));
+                        
+                        const themes = Array.from(themeSet).map(themeName => ({
+                            id: themeName.toLowerCase().replace(/\s+/g, '_'),
+                            nom: themeName
+                        }));
+
+                        // Convertir les questions au format attendu
+                        const questions = rawData.map((q, index) => ({
+                            id: index + 1,
+                            theme: q.theme.toLowerCase().replace(/\s+/g, '_'),
+                            intitule: q.question,
+                            image: q.image || null,
+                            reponse: q.answer
+                        }));
+
+                        data = { themes, questions };
+                    } else {
+                        // Format original avec themes et questions séparés
+                        data = rawData;
+                    }
+
+                    // Save themes
+                    await this.db.saveThemes(data.themes);
+
+                    // Save questions
+                    await this.db.saveQuestions(data.questions);
+
+                    syncBtn.textContent = '✓ Synchronisé';
+                    setTimeout(() => {
+                        syncBtn.textContent = originalText;
+                    }, 2000);
+
+                    this.showModal('Succès', `${data.questions.length} questions et ${data.themes.length} thèmes ont été synchronisés`);
+                } catch (error) {
+                    console.error('Erreur de synchronisation:', error);
+                    syncBtn.textContent = originalText;
+                    this.showModal('Erreur', 'Impossible de synchroniser les questions. Assurez-vous que le fichier questions.json est présent.');
+                }
+            }
+
+            showModal(title, message) {
+                document.getElementById('modalTitle').textContent = title;
+                document.getElementById('modalMessage').textContent = message;
+                document.getElementById('modal').classList.add('active');
+            }
+
+            closeModal() {
+                document.getElementById('modal').classList.remove('active');
+            }
+        }
+
+        // Initialize app
+        const gameApp = new BattleshipGame();
+        window.addEventListener('DOMContentLoaded', () => gameApp.init());
+    </script>
+</body>
+</html>
