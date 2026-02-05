@@ -905,6 +905,10 @@
             <div class="waiting-container">
                 <h2 class="team-indicator" id="waitingTeam"></h2>
                 <button class="btn btn-alpha" id="startTurnBtn" onclick="gameApp.startTurn()">Commencer le Tour</button>
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                    <button class="btn btn-secondary" onclick="gameApp.showThemesModal()">Gérer les Thèmes</button>
+                    <button class="btn btn-secondary" onclick="gameApp.returnToMenuFromGame()">Retour au Menu</button>
+                </div>
             </div>
         </div>
 
@@ -965,6 +969,21 @@
                 <p id="modalMessage"></p>
                 <div class="modal-actions">
                     <button class="btn btn-secondary" onclick="gameApp.closeModal()">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Themes Management Modal -->
+        <div id="themesModal" class="modal">
+            <div class="modal-content" style="max-width: 700px;">
+                <h3>Gestion des Thèmes</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Sélectionnez les thèmes pour cette partie
+                </p>
+                <div class="theme-list" id="themesModalList"></div>
+                <div class="modal-actions" style="margin-top: 2rem;">
+                    <button class="btn btn-secondary" onclick="gameApp.closeThemesModal()">Annuler</button>
+                    <button class="btn btn-alpha" onclick="gameApp.saveThemesSelection()">Enregistrer</button>
                 </div>
             </div>
         </div>
@@ -1977,6 +1996,94 @@
 
             closeModal() {
                 document.getElementById('modal').classList.remove('active');
+            }
+
+            async returnToMenuFromGame() {
+                if (this.currentGame) {
+                    if (confirm('Voulez-vous sauvegarder la partie avant de retourner au menu ?')) {
+                        await this.db.saveGame(this.currentGame);
+                    }
+                }
+                this.currentGame = null;
+                this.showMenu();
+            }
+
+            async showThemesModal() {
+                if (!this.currentGame) return;
+
+                const allThemes = await this.db.getAllThemes();
+                const modalList = document.getElementById('themesModalList');
+                modalList.innerHTML = '';
+
+                allThemes.forEach(theme => {
+                    const isSelected = this.currentGame.selectedThemes.includes(theme.id);
+                    
+                    const div = document.createElement('div');
+                    div.className = 'theme-checkbox' + (isSelected ? ' checked' : '');
+                    div.innerHTML = `
+                        <input type="checkbox" id="modal-theme-${theme.id}" value="${theme.id}" ${isSelected ? 'checked' : ''}>
+                        <label for="modal-theme-${theme.id}">${theme.nom}</label>
+                    `;
+                    
+                    const checkbox = div.querySelector('input');
+                    checkbox.onchange = () => {
+                        div.classList.toggle('checked', checkbox.checked);
+                    };
+                    
+                    modalList.appendChild(div);
+                });
+
+                document.getElementById('themesModal').classList.add('active');
+            }
+
+            closeThemesModal() {
+                document.getElementById('themesModal').classList.remove('active');
+            }
+
+            async saveThemesSelection() {
+                if (!this.currentGame) return;
+
+                // Get selected themes
+                const selectedThemes = [];
+                document.querySelectorAll('#themesModalList input[type="checkbox"]:checked').forEach(checkbox => {
+                    selectedThemes.push(checkbox.value);
+                });
+
+                if (selectedThemes.length === 0) {
+                    this.showModal('Erreur', 'Vous devez sélectionner au moins un thème');
+                    return;
+                }
+
+                // Update game with new themes
+                this.currentGame.selectedThemes = selectedThemes;
+
+                // Get all questions and filter by selected themes
+                const allQuestions = await this.db.getAllQuestions();
+                
+                // Preserve 'asked' status for questions that were already in the game
+                const existingQuestionsMap = new Map();
+                this.currentGame.questions.forEach(q => {
+                    existingQuestionsMap.set(q.id, q.asked);
+                });
+
+                // Update questions list
+                this.currentGame.questions = allQuestions
+                    .filter(q => selectedThemes.includes(q.theme))
+                    .map(q => ({
+                        ...q,
+                        asked: existingQuestionsMap.has(q.id) ? existingQuestionsMap.get(q.id) : false
+                    }));
+
+                if (this.currentGame.questions.length === 0) {
+                    this.showModal('Erreur', 'Aucune question disponible pour les thèmes sélectionnés');
+                    return;
+                }
+
+                // Save game
+                await this.db.saveGame(this.currentGame);
+
+                this.closeThemesModal();
+                this.showModal('Succès', `Thèmes mis à jour. ${this.currentGame.questions.length} questions disponibles.`);
             }
         }
 
