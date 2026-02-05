@@ -1561,6 +1561,11 @@
                     const alphaShips = this.countShips(game.alpha.grid);
                     const omegaShips = this.countShips(game.omega.grid);
                     
+                    // Compter les questions non posées
+                    const totalQuestions = game.questions ? game.questions.length : 0;
+                    const askedQuestions = game.questions ? game.questions.filter(q => q.asked).length : 0;
+                    const remainingQuestions = totalQuestions - askedQuestions;
+                    
                     card.innerHTML = `
                         <div class="game-info">
                             <h3>${game.name}</h3>
@@ -1568,6 +1573,7 @@
                                 <span>Tour: ${game.currentTeam === 'alpha' ? 'Alpha' : 'Oméga'}</span>
                                 <span>Alpha: ${alphaShips} navires</span>
                                 <span>Oméga: ${omegaShips} navires</span>
+                                <span style="color: var(--accent-gold);">📋 ${remainingQuestions}/${totalQuestions} questions restantes</span>
                             </div>
                         </div>
                         <button class="delete-btn" onclick="gameApp.deleteGame(event, ${game.id})">Supprimer</button>
