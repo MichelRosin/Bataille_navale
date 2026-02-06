@@ -1594,8 +1594,14 @@
                     return;
                 }
 
+                console.log('=== Parties chargées ===');
+                
                 gameList.innerHTML = '';
-                games.forEach(game => {
+                games.forEach((game, idx) => {
+                    console.log(`Partie ${idx + 1}: ${game.name}`);
+                    console.log('  - Alpha ships:', game.alpha.ships ? `${game.alpha.ships.length} navires` : 'NON DÉFINI');
+                    console.log('  - Omega ships:', game.omega.ships ? `${game.omega.ships.length} navires` : 'NON DÉFINI');
+                    
                     const card = document.createElement('div');
                     card.className = 'game-card';
                     
@@ -1629,26 +1635,44 @@
                     gameList.appendChild(card);
                 });
 
+                console.log('=======================');
                 savedGamesSection.style.display = 'block';
             }
 
             countShips(grid, ships) {
                 // Si les informations des navires sont disponibles (nouvelles parties)
                 if (ships && Array.isArray(ships)) {
+                    console.log('=== Comptage des navires ===');
+                    console.log('Nombre total de navires:', ships.length);
+                    
                     let notSunkCount = 0;
                     
-                    for (const ship of ships) {
+                    ships.forEach((ship, index) => {
                         // Vérifier si toutes les cases du navire sont touchées
+                        const hitStatus = ship.cells.map(cell => ({
+                            position: `(${cell.row},${cell.col})`,
+                            hit: grid[cell.row][cell.col].hit
+                        }));
+                        
                         const allHit = ship.cells.every(cell => grid[cell.row][cell.col].hit);
+                        
+                        console.log(`Navire ${index + 1} (taille ${ship.size}):`, {
+                            cells: hitStatus,
+                            coulé: allHit
+                        });
                         
                         if (!allHit) {
                             notSunkCount++;
                         }
-                    }
+                    });
+                    
+                    console.log('Navires non coulés:', notSunkCount);
+                    console.log('========================');
                     
                     return notSunkCount;
                 }
                 
+                console.log('Pas d\'info ships - utilisation fallback');
                 // Fallback pour les anciennes parties (sans info ships)
                 // Compter simplement les cases non touchées
                 let cellCount = 0;
@@ -1659,7 +1683,9 @@
                         }
                     }
                 }
-                return Math.min(4, Math.ceil(cellCount / 3)); // Estimation approximative
+                const estimate = Math.min(4, Math.ceil(cellCount / 3));
+                console.log('Estimation:', estimate, 'navires (basé sur', cellCount, 'cases)');
+                return estimate;
             }
 
             async deleteGame(event, gameId) {
