@@ -1516,14 +1516,55 @@
                     return;
                 }
 
+                // Extract ship positions for both teams
+                const extractShips = (grid) => {
+                    const visited = Array(6).fill(null).map(() => Array(6).fill(false));
+                    const ships = [];
+
+                    const exploreShip = (row, col, cells = []) => {
+                        if (row < 0 || row >= 6 || col < 0 || col >= 6) return cells;
+                        if (visited[row][col] || !grid[row][col].ship) return cells;
+                        
+                        visited[row][col] = true;
+                        cells.push({ row, col });
+                        
+                        const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+                        for (const [dr, dc] of directions) {
+                            exploreShip(row + dr, col + dc, cells);
+                        }
+                        
+                        return cells;
+                    };
+
+                    for (let i = 0; i < 6; i++) {
+                        for (let j = 0; j < 6; j++) {
+                            if (grid[i][j].ship && !visited[i][j]) {
+                                const cells = exploreShip(i, j);
+                                if (cells.length > 0) {
+                                    ships.push({
+                                        size: cells.length,
+                                        cells: cells
+                                    });
+                                }
+                            }
+                        }
+                    }
+
+                    // Trier par taille pour correspondre à [4, 3, 3, 2]
+                    ships.sort((a, b) => b.size - a.size);
+                    return ships;
+                };
+
                 const gameData = {
                     name: gameName,
                     currentTeam: 'alpha',
                     alpha: {
-                        grid: JSON.parse(JSON.stringify(this.createMode.alpha.grid))
+                        grid: JSON.parse(JSON.stringify(this.createMode.alpha.grid)),
+                        ships: extractShips(this.createMode.alpha.grid)
                     },
                     omega: {
-                        grid: JSON.parse(JSON.stringify(this.createMode.omega.grid))
+                        grid: JSON.parse(JSON.stringify(this.createMode.omega.grid)),
+                        ships: extractShips(this.createMode.omega.grid)
                     },
                     selectedThemes: selectedThemes,
                     questions: gameQuestions,
@@ -1558,8 +1599,8 @@
                     const card = document.createElement('div');
                     card.className = 'game-card';
                     
-                    const alphaShips = this.countShips(game.alpha.grid);
-                    const omegaShips = this.countShips(game.omega.grid);
+                    const alphaShips = this.countShips(game.alpha.grid, game.alpha.ships);
+                    const omegaShips = this.countShips(game.omega.grid, game.omega.ships);
                     
                     // Compter les questions non posées
                     const totalQuestions = game.questions ? game.questions.length : 0;
@@ -1591,47 +1632,34 @@
                 savedGamesSection.style.display = 'block';
             }
 
-            countShips(grid) {
-                // Créer une copie de la grille pour marquer les cases déjà visitées
-                const visited = Array(6).fill(null).map(() => Array(6).fill(false));
-                let shipsCount = 0;
-
-                // Fonction pour explorer un navire entier
-                const exploreShip = (row, col) => {
-                    if (row < 0 || row >= 6 || col < 0 || col >= 6) return { total: 0, hit: 0 };
-                    if (visited[row][col] || !grid[row][col].ship) return { total: 0, hit: 0 };
+            countShips(grid, ships) {
+                // Si les informations des navires sont disponibles (nouvelles parties)
+                if (ships && Array.isArray(ships)) {
+                    let notSunkCount = 0;
                     
-                    visited[row][col] = true;
-                    let stats = { 
-                        total: 1, 
-                        hit: grid[row][col].hit ? 1 : 0 
-                    };
-                    
-                    // Explorer les 4 directions
-                    const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
-                    for (const [dr, dc] of directions) {
-                        const result = exploreShip(row + dr, col + dc);
-                        stats.total += result.total;
-                        stats.hit += result.hit;
+                    for (const ship of ships) {
+                        // Vérifier si toutes les cases du navire sont touchées
+                        const allHit = ship.cells.every(cell => grid[cell.row][cell.col].hit);
+                        
+                        if (!allHit) {
+                            notSunkCount++;
+                        }
                     }
                     
-                    return stats;
-                };
-
-                // Parcourir la grille pour trouver tous les navires
+                    return notSunkCount;
+                }
+                
+                // Fallback pour les anciennes parties (sans info ships)
+                // Compter simplement les cases non touchées
+                let cellCount = 0;
                 for (let i = 0; i < 6; i++) {
                     for (let j = 0; j < 6; j++) {
-                        if (grid[i][j].ship && !visited[i][j]) {
-                            const shipStats = exploreShip(i, j);
-                            // Si le navire n'est pas entièrement coulé, on le compte
-                            if (shipStats.hit < shipStats.total) {
-                                shipsCount++;
-                            }
+                        if (grid[i][j].ship && !grid[i][j].hit) {
+                            cellCount++;
                         }
                     }
                 }
-                
-                return shipsCount;
+                return Math.min(4, Math.ceil(cellCount / 3)); // Estimation approximative
             }
 
             async deleteGame(event, gameId) {
@@ -1932,7 +1960,22 @@
             }
 
             checkIfShipSunk(grid, row, col) {
-                // Marquer les cases visitées pour éviter les boucles infinies
+                // Si les informations des navires sont disponibles, les utiliser
+                const team = this.currentGame.currentTeam === 'alpha' ? 'omega' : 'alpha';
+                const ships = this.currentGame[team].ships;
+                
+                if (ships && Array.isArray(ships)) {
+                    // Trouver le navire qui contient cette case
+                    for (const ship of ships) {
+                        const containsCell = ship.cells.some(cell => cell.row === row && cell.col === col);
+                        if (containsCell) {
+                            // Vérifier si toutes les cases de ce navire sont touchées
+                            return ship.cells.every(cell => grid[cell.row][cell.col].hit);
+                        }
+                    }
+                }
+                
+                // Fallback : méthode d'exploration (pour compatibilité avec anciennes parties)
                 const visited = Array(6).fill(null).map(() => Array(6).fill(false));
                 
                 const exploreShip = (r, c) => {
@@ -1941,10 +1984,8 @@
                     
                     visited[r][c] = true;
                     
-                    // Si une case du navire n'est pas touchée, le navire n'est pas coulé
                     if (!grid[r][c].hit) return false;
                     
-                    // Explorer les 4 directions
                     const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
                     for (const [dr, dc] of directions) {
                         if (!exploreShip(r + dr, c + dc)) {
