@@ -1166,10 +1166,10 @@
                 this.createMode = {
                     alpha: {
                         ships: [
-                            { size: 4, placed: false },
-                            { size: 3, placed: false },
-                            { size: 3, placed: false },
-                            { size: 2, placed: false }
+                            { size: 4, placed: false, cells: [] },
+                            { size: 3, placed: false, cells: [] },
+                            { size: 3, placed: false, cells: [] },
+                            { size: 2, placed: false, cells: [] }
                         ],
                         grid: this.createEmptyGrid(),
                         selectedShip: null,
@@ -1177,10 +1177,10 @@
                     },
                     omega: {
                         ships: [
-                            { size: 4, placed: false },
-                            { size: 3, placed: false },
-                            { size: 3, placed: false },
-                            { size: 2, placed: false }
+                            { size: 4, placed: false, cells: [] },
+                            { size: 3, placed: false, cells: [] },
+                            { size: 3, placed: false, cells: [] },
+                            { size: 2, placed: false, cells: [] }
                         ],
                         grid: this.createEmptyGrid(),
                         selectedShip: null,
@@ -1240,10 +1240,10 @@
                 this.createMode = {
                     alpha: {
                         ships: [
-                            { size: 4, placed: false },
-                            { size: 3, placed: false },
-                            { size: 3, placed: false },
-                            { size: 2, placed: false }
+                            { size: 4, placed: false, cells: [] },
+                            { size: 3, placed: false, cells: [] },
+                            { size: 3, placed: false, cells: [] },
+                            { size: 2, placed: false, cells: [] }
                         ],
                         grid: this.createEmptyGrid(),
                         selectedShip: null,
@@ -1251,10 +1251,10 @@
                     },
                     omega: {
                         ships: [
-                            { size: 4, placed: false },
-                            { size: 3, placed: false },
-                            { size: 3, placed: false },
-                            { size: 2, placed: false }
+                            { size: 4, placed: false, cells: [] },
+                            { size: 3, placed: false, cells: [] },
+                            { size: 3, placed: false, cells: [] },
+                            { size: 2, placed: false, cells: [] }
                         ],
                         grid: this.createEmptyGrid(),
                         selectedShip: null,
@@ -1408,8 +1408,15 @@
                 if (ship.placed) return;
 
                 if (this.canPlaceShip(team, row, col, ship.size, this.createMode[team].orientation)) {
+                    const cells = this.getShipCells(row, col, ship.size, this.createMode[team].orientation);
+                    
+                    // Placer le navire sur la grille
                     this.placeShip(team, row, col, ship.size, this.createMode[team].orientation);
+                    
+                    // Enregistrer les coordonnées des cases du navire
+                    ship.cells = cells.map(([r, c]) => ({ row: r, col: c }));
                     ship.placed = true;
+                    
                     this.createMode[team].selectedShip = null;
                     this.renderGrid(`grid${team.charAt(0).toUpperCase() + team.slice(1)}`, this.createMode[team].grid, team, true);
                     this.renderShipButtons(team);
@@ -1516,43 +1523,12 @@
                     return;
                 }
 
-                // Extract ship positions for both teams
-                const extractShips = (grid) => {
-                    const visited = Array(6).fill(null).map(() => Array(6).fill(false));
-                    const ships = [];
-
-                    const exploreShip = (row, col, cells = []) => {
-                        if (row < 0 || row >= 6 || col < 0 || col >= 6) return cells;
-                        if (visited[row][col] || !grid[row][col].ship) return cells;
-                        
-                        visited[row][col] = true;
-                        cells.push({ row, col });
-                        
-                        const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
-                        for (const [dr, dc] of directions) {
-                            exploreShip(row + dr, col + dc, cells);
-                        }
-                        
-                        return cells;
-                    };
-
-                    for (let i = 0; i < 6; i++) {
-                        for (let j = 0; j < 6; j++) {
-                            if (grid[i][j].ship && !visited[i][j]) {
-                                const cells = exploreShip(i, j);
-                                if (cells.length > 0) {
-                                    ships.push({
-                                        size: cells.length,
-                                        cells: cells
-                                    });
-                                }
-                            }
-                        }
-                    }
-
-                    // Trier par taille pour correspondre à [4, 3, 3, 2]
-                    ships.sort((a, b) => b.size - a.size);
-                    return ships;
+                // Préparer les informations des navires (déjà enregistrées lors du placement)
+                const prepareShipsData = (ships) => {
+                    return ships.map(ship => ({
+                        size: ship.size,
+                        cells: ship.cells // Les coordonnées ont déjà été enregistrées lors du placement
+                    }));
                 };
 
                 const gameData = {
@@ -1560,16 +1536,21 @@
                     currentTeam: 'alpha',
                     alpha: {
                         grid: JSON.parse(JSON.stringify(this.createMode.alpha.grid)),
-                        ships: extractShips(this.createMode.alpha.grid)
+                        ships: prepareShipsData(this.createMode.alpha.ships)
                     },
                     omega: {
                         grid: JSON.parse(JSON.stringify(this.createMode.omega.grid)),
-                        ships: extractShips(this.createMode.omega.grid)
+                        ships: prepareShipsData(this.createMode.omega.ships)
                     },
                     selectedThemes: selectedThemes,
                     questions: gameQuestions,
                     createdAt: new Date().toISOString()
                 };
+
+                console.log('=== Création de la partie ===');
+                console.log('Alpha ships:', gameData.alpha.ships);
+                console.log('Omega ships:', gameData.omega.ships);
+                console.log('============================');
 
                 try {
                     await this.db.saveGame(gameData);
