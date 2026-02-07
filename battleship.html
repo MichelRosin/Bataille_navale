@@ -910,20 +910,6 @@
             <div class="waiting-container">
                 <h2 class="team-indicator" id="waitingTeam"></h2>
                 
-                <!-- Configuration du chronomètre -->
-                <div style="margin: 2rem auto; max-width: 400px;">
-                    <label style="display: block; text-align: center; font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                        Temps pour répondre (minutes:secondes)
-                    </label>
-                    <div style="display: flex; gap: 1rem; justify-content: center; align-items: center;">
-                        <input type="number" id="timerMinutes" value="5" min="0" max="10" 
-                               style="width: 80px; padding: 0.8rem; text-align: center; font-size: 1.2rem; background: var(--bg-medium); border: 2px solid var(--border-color); color: var(--text-primary);">
-                        <span style="font-size: 1.5rem; color: var(--text-primary);">:</span>
-                        <input type="number" id="timerSeconds" value="0" min="0" max="59" 
-                               style="width: 80px; padding: 0.8rem; text-align: center; font-size: 1.2rem; background: var(--bg-medium); border: 2px solid var(--border-color); color: var(--text-primary);">
-                    </div>
-                </div>
-                
                 <button class="btn btn-alpha" id="startTurnBtn" onclick="gameApp.startTurn()">Commencer le Tour</button>
                 <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
                     <button class="btn btn-secondary" onclick="gameApp.showThemesModal()">Gérer les Thèmes</button>
@@ -940,8 +926,8 @@
                 <!-- Chronomètre -->
                 <div style="text-align: center; margin-bottom: 2rem;">
                     <div id="timerDisplay" style="font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; color: var(--accent-gold); text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);"></div>
-                    <div id="timerBar" style="width: 100%; height: 8px; background: var(--bg-dark); margin-top: 1rem; position: relative; overflow: hidden; opacity: 0; transition: opacity 0.3s;">
-                        <div id="timerProgress" style="height: 100%; background: linear-gradient(90deg, var(--accent-alpha), var(--accent-tertiary)); transition: width 0.1s linear, background 0.3s;"></div>
+                    <div id="timerBar" style="width: 100%; height: 8px; background: var(--bg-dark); margin-top: 1rem; position: relative; overflow: hidden;">
+                        <div id="timerProgress" style="height: 100%; background: #ffffff; transition: width 0.1s linear, background 0.3s;"></div>
                     </div>
                 </div>
                 
@@ -1005,8 +991,25 @@
         <!-- Themes Management Modal -->
         <div id="themesModal" class="modal">
             <div class="modal-content" style="max-width: 700px;">
-                <h3>Gestion des Thèmes</h3>
-                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                <h3>Gestion des Thèmes et Chronomètre</h3>
+                
+                <!-- Configuration du chronomètre -->
+                <div style="margin: 1.5rem 0; padding: 1.5rem; background: var(--bg-dark); border: 1px solid var(--border-color);">
+                    <h4 style="color: var(--accent-gold); margin-bottom: 1rem; text-align: center;">⏱️ Temps pour répondre</h4>
+                    <div style="display: flex; gap: 1rem; justify-content: center; align-items: center;">
+                        <input type="number" id="timerMinutes" value="5" min="0" max="10" 
+                               style="width: 80px; padding: 0.8rem; text-align: center; font-size: 1.2rem; background: var(--bg-medium); border: 2px solid var(--border-color); color: var(--text-primary); font-family: 'Orbitron', sans-serif;">
+                        <span style="font-size: 1.5rem; color: var(--text-primary);">:</span>
+                        <input type="number" id="timerSeconds" value="0" min="0" max="59" 
+                               style="width: 80px; padding: 0.8rem; text-align: center; font-size: 1.2rem; background: var(--bg-medium); border: 2px solid var(--border-color); color: var(--text-primary); font-family: 'Orbitron', sans-serif;">
+                    </div>
+                    <p style="text-align: center; color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">
+                        (minutes : secondes)
+                    </p>
+                </div>
+                
+                <!-- Sélection des thèmes -->
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; text-align: center;">
                     Sélectionnez les thèmes pour cette partie
                 </p>
                 <div class="theme-list" id="themesModalList"></div>
@@ -1795,9 +1798,9 @@
                 document.getElementById('answerInput').value = '';
                 document.getElementById('answerInput').focus();
 
-                // Récupérer le temps configuré depuis l'écran d'attente
-                const minutes = parseInt(document.getElementById('timerMinutes').value) || 5;
-                const seconds = parseInt(document.getElementById('timerSeconds').value) || 0;
+                // Récupérer le temps configuré (ou valeur par défaut 5:00)
+                const minutes = this.currentGame.timerMinutes !== undefined ? this.currentGame.timerMinutes : 5;
+                const seconds = this.currentGame.timerSeconds !== undefined ? this.currentGame.timerSeconds : 0;
                 const totalSeconds = (minutes * 60) + seconds;
 
                 // Démarrer le chronomètre
@@ -1811,13 +1814,12 @@
                 this.timeRemaining = duration;
                 const totalDuration = duration;
 
-                // Réinitialiser la barre de progression
+                // Réinitialiser et afficher la barre de progression en blanc
                 const progressBar = document.getElementById('timerProgress');
+                const timerBar = document.getElementById('timerBar');
                 progressBar.style.width = '100%';
-                progressBar.style.background = 'linear-gradient(90deg, var(--accent-alpha), var(--accent-tertiary))';
-                
-                // Cacher la barre initialement (visible seulement en zone rouge)
-                document.getElementById('timerBar').style.opacity = '0';
+                progressBar.style.background = '#ffffff'; // Blanc par défaut
+                timerBar.style.opacity = '1'; // Visible dès le début
 
                 // Mise à jour initiale
                 this.updateTimerDisplay();
@@ -1831,12 +1833,11 @@
                     const percentage = (this.timeRemaining / totalDuration) * 100;
                     progressBar.style.width = percentage + '%';
 
-                    // Afficher la barre et changer la couleur en rouge quand il reste moins de 10 secondes
-                    if (this.timeRemaining <= 10) {
-                        document.getElementById('timerBar').style.opacity = '1';
+                    // Changer la couleur en rouge quand il reste moins d'1 minute (60 secondes)
+                    if (this.timeRemaining <= 60) {
                         progressBar.style.background = 'linear-gradient(90deg, var(--hit-color), #ff6b6b)';
                     } else {
-                        document.getElementById('timerBar').style.opacity = '0';
+                        progressBar.style.background = '#ffffff';
                     }
 
                     // Temps écoulé
@@ -1852,12 +1853,6 @@
                     clearInterval(this.timerInterval);
                     this.timerInterval = null;
                 }
-                
-                // Cacher la barre quand on arrête
-                const timerBar = document.getElementById('timerBar');
-                if (timerBar) {
-                    timerBar.style.opacity = '0';
-                }
             }
 
             updateTimerDisplay() {
@@ -1866,10 +1861,15 @@
                 const seconds = this.timeRemaining % 60;
                 timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
-                // Animation de pulsation quand il reste peu de temps
-                if (this.timeRemaining <= 10 && this.timeRemaining > 0) {
+                // Animation de pulsation et couleur rouge quand il reste moins d'1 minute
+                if (this.timeRemaining <= 60 && this.timeRemaining > 0) {
                     timerDisplay.style.color = 'var(--hit-color)';
-                    timerDisplay.style.animation = 'pulse 0.5s ease-in-out';
+                    // Pulsation plus rapide dans les 10 dernières secondes
+                    if (this.timeRemaining <= 10) {
+                        timerDisplay.style.animation = 'pulse 0.5s ease-in-out';
+                    } else {
+                        timerDisplay.style.animation = 'none';
+                    }
                 } else {
                     timerDisplay.style.color = 'var(--accent-gold)';
                     timerDisplay.style.animation = 'none';
@@ -2289,6 +2289,13 @@
                     modalList.appendChild(div);
                 });
 
+                // Charger la configuration actuelle du chronomètre (ou valeur par défaut 5:00)
+                const savedMinutes = this.currentGame.timerMinutes !== undefined ? this.currentGame.timerMinutes : 5;
+                const savedSeconds = this.currentGame.timerSeconds !== undefined ? this.currentGame.timerSeconds : 0;
+                
+                document.getElementById('timerMinutes').value = savedMinutes;
+                document.getElementById('timerSeconds').value = savedSeconds;
+
                 document.getElementById('themesModal').classList.add('active');
             }
 
@@ -2310,8 +2317,19 @@
                     return;
                 }
 
-                // Update game with new themes
+                // Get timer configuration
+                const timerMinutes = parseInt(document.getElementById('timerMinutes').value) || 0;
+                const timerSeconds = parseInt(document.getElementById('timerSeconds').value) || 0;
+                
+                if (timerMinutes === 0 && timerSeconds === 0) {
+                    this.showModal('Erreur', 'Le chronomètre doit être configuré avec au moins 1 seconde');
+                    return;
+                }
+
+                // Update game with new themes and timer settings
                 this.currentGame.selectedThemes = selectedThemes;
+                this.currentGame.timerMinutes = timerMinutes;
+                this.currentGame.timerSeconds = timerSeconds;
 
                 // Get all questions and filter by selected themes
                 const allQuestions = await this.db.getAllQuestions();
@@ -2339,7 +2357,7 @@
                 await this.db.saveGame(this.currentGame);
 
                 this.closeThemesModal();
-                this.showModal('Succès', `Thèmes mis à jour. ${this.currentGame.questions.length} questions disponibles.`);
+                this.showModal('Succès', `Configuration mise à jour !\n${this.currentGame.questions.length} questions disponibles.\nChronomètre: ${timerMinutes}:${timerSeconds.toString().padStart(2, '0')}`);
             }
         }
 
