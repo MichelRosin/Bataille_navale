@@ -859,12 +859,6 @@
                 <div class="game-name-section">
                     <h2>Nom de la Partie</h2>
                     <input type="text" id="gameName" placeholder="Entrez le nom de la partie" maxlength="50">
-                    
-                    <h2 style="margin-top: 2rem;">Chronomètre</h2>
-                    <div style="display: flex; gap: 1rem; align-items: center;">
-                        <input type="number" id="timerDuration" value="30" min="10" max="180" step="5" style="width: 100px;">
-                        <span style="color: var(--text-secondary);">secondes par question</span>
-                    </div>
                 </div>
 
                 <div class="grid-section alpha">
@@ -915,6 +909,21 @@
         <div id="waitingScreen" class="screen">
             <div class="waiting-container">
                 <h2 class="team-indicator" id="waitingTeam"></h2>
+                
+                <!-- Configuration du chronomètre -->
+                <div style="margin: 2rem auto; max-width: 400px;">
+                    <label style="display: block; text-align: center; font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                        Temps pour répondre (minutes:secondes)
+                    </label>
+                    <div style="display: flex; gap: 1rem; justify-content: center; align-items: center;">
+                        <input type="number" id="timerMinutes" value="5" min="0" max="10" 
+                               style="width: 80px; padding: 0.8rem; text-align: center; font-size: 1.2rem; background: var(--bg-medium); border: 2px solid var(--border-color); color: var(--text-primary);">
+                        <span style="font-size: 1.5rem; color: var(--text-primary);">:</span>
+                        <input type="number" id="timerSeconds" value="0" min="0" max="59" 
+                               style="width: 80px; padding: 0.8rem; text-align: center; font-size: 1.2rem; background: var(--bg-medium); border: 2px solid var(--border-color); color: var(--text-primary);">
+                    </div>
+                </div>
+                
                 <button class="btn btn-alpha" id="startTurnBtn" onclick="gameApp.startTurn()">Commencer le Tour</button>
                 <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
                     <button class="btn btn-secondary" onclick="gameApp.showThemesModal()">Gérer les Thèmes</button>
@@ -931,7 +940,7 @@
                 <!-- Chronomètre -->
                 <div style="text-align: center; margin-bottom: 2rem;">
                     <div id="timerDisplay" style="font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; color: var(--accent-gold); text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);"></div>
-                    <div id="timerBar" style="width: 100%; height: 8px; background: var(--bg-dark); margin-top: 1rem; position: relative; overflow: hidden;">
+                    <div id="timerBar" style="width: 100%; height: 8px; background: var(--bg-dark); margin-top: 1rem; position: relative; overflow: hidden; opacity: 0; transition: opacity 0.3s;">
                         <div id="timerProgress" style="height: 100%; background: linear-gradient(90deg, var(--accent-alpha), var(--accent-tertiary)); transition: width 0.1s linear, background 0.3s;"></div>
                     </div>
                 </div>
@@ -1514,13 +1523,6 @@
                     return;
                 }
 
-                // Get timer duration
-                const timerDuration = parseInt(document.getElementById('timerDuration').value);
-                if (timerDuration < 10 || timerDuration > 180) {
-                    this.showModal('Erreur', 'La durée du chronomètre doit être entre 10 et 180 secondes');
-                    return;
-                }
-
                 // Validate ship placement
                 const alphaAllPlaced = this.createMode.alpha.ships.every(ship => ship.placed);
                 const omegaAllPlaced = this.createMode.omega.ships.every(ship => ship.placed);
@@ -1556,14 +1558,13 @@
                 const prepareShipsData = (ships) => {
                     return ships.map(ship => ({
                         size: ship.size,
-                        cells: ship.cells // Les coordonnées ont déjà été enregistrées lors du placement
+                        cells: ship.cells
                     }));
                 };
 
                 const gameData = {
                     name: gameName,
                     currentTeam: 'alpha',
-                    timerDuration: timerDuration,
                     alpha: {
                         grid: JSON.parse(JSON.stringify(this.createMode.alpha.grid)),
                         ships: prepareShipsData(this.createMode.alpha.ships)
@@ -1580,7 +1581,6 @@
                 console.log('=== Création de la partie ===');
                 console.log('Alpha ships:', gameData.alpha.ships);
                 console.log('Omega ships:', gameData.omega.ships);
-                console.log('Timer duration:', timerDuration, 'secondes');
                 console.log('============================');
 
                 try {
@@ -1795,9 +1795,13 @@
                 document.getElementById('answerInput').value = '';
                 document.getElementById('answerInput').focus();
 
+                // Récupérer le temps configuré depuis l'écran d'attente
+                const minutes = parseInt(document.getElementById('timerMinutes').value) || 5;
+                const seconds = parseInt(document.getElementById('timerSeconds').value) || 0;
+                const totalSeconds = (minutes * 60) + seconds;
+
                 // Démarrer le chronomètre
-                const duration = this.currentGame.timerDuration || 30; // 30s par défaut pour anciennes parties
-                this.startTimer(duration);
+                this.startTimer(totalSeconds);
             }
 
             startTimer(duration) {
@@ -1806,6 +1810,14 @@
 
                 this.timeRemaining = duration;
                 const totalDuration = duration;
+
+                // Réinitialiser la barre de progression
+                const progressBar = document.getElementById('timerProgress');
+                progressBar.style.width = '100%';
+                progressBar.style.background = 'linear-gradient(90deg, var(--accent-alpha), var(--accent-tertiary))';
+                
+                // Cacher la barre initialement (visible seulement en zone rouge)
+                document.getElementById('timerBar').style.opacity = '0';
 
                 // Mise à jour initiale
                 this.updateTimerDisplay();
@@ -1817,12 +1829,14 @@
 
                     // Calculer le pourcentage restant
                     const percentage = (this.timeRemaining / totalDuration) * 100;
-                    const progressBar = document.getElementById('timerProgress');
                     progressBar.style.width = percentage + '%';
 
-                    // Changer la couleur en rouge quand il reste moins de 10 secondes
+                    // Afficher la barre et changer la couleur en rouge quand il reste moins de 10 secondes
                     if (this.timeRemaining <= 10) {
+                        document.getElementById('timerBar').style.opacity = '1';
                         progressBar.style.background = 'linear-gradient(90deg, var(--hit-color), #ff6b6b)';
+                    } else {
+                        document.getElementById('timerBar').style.opacity = '0';
                     }
 
                     // Temps écoulé
@@ -1837,6 +1851,12 @@
                 if (this.timerInterval) {
                     clearInterval(this.timerInterval);
                     this.timerInterval = null;
+                }
+                
+                // Cacher la barre quand on arrête
+                const timerBar = document.getElementById('timerBar');
+                if (timerBar) {
+                    timerBar.style.opacity = '0';
                 }
             }
 
