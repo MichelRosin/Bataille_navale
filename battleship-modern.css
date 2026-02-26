@@ -392,34 +392,42 @@ button[onclick*="toggleOrientation"]:hover {
 
 /* Inputs */
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+.answer-input,
+#answerInput {
     background: white !important;
-    border: 2px solid #e5e7eb !important;
+    border: 3px solid #cbd5e1 !important;
     border-radius: 0.5rem !important;
     padding: 0.75rem !important;
-    color: var(--text-primary) !important;
+    color: #0f172a !important;
     font-size: 1rem !important;
+    font-weight: 600 !important;
     width: 100% !important;
     transition: all 0.2s ease !important;
 }
 
 input[type="text"]:focus,
-input[type="number"]:focus {
+input[type="number"]:focus,
+.answer-input:focus,
+#answerInput:focus {
     outline: none !important;
-    border-color: var(--accent-blue) !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15) !important;
 }
 
-.answer-input {
+.answer-input,
+#answerInput {
     font-size: 1.125rem !important;
     padding: 1rem !important;
+    font-weight: 600 !important;
 }
 
 /* Question screen */
-.question-theme {
+.question-container .question-theme,
+#questionTheme {
     display: block !important;
     text-align: center !important;
-    background: linear-gradient(135deg, var(--accent-blue) 0%, #2563eb 100%) !important;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
     color: white !important;
     padding: 0.75rem 1.5rem !important;
     border-radius: 0.5rem !important;
@@ -430,16 +438,18 @@ input[type="number"]:focus {
     box-shadow: var(--shadow-md) !important;
 }
 
-.question-text {
+.question-container .question-text,
+#questionText {
     font-size: 1.5rem !important;
     font-weight: 700 !important;
-    color: var(--text-primary) !important;
+    color: #0f172a !important;
     margin: 1.5rem 0 !important;
     line-height: 1.6 !important;
     text-align: center !important;
 }
 
-.question-image {
+.question-container .question-image,
+#questionImage {
     max-width: 100% !important;
     max-height: 400px !important;
     height: auto !important;
@@ -501,18 +511,20 @@ input[type="number"]:focus {
     font-size: 3rem !important;
     font-weight: 900 !important;
     color: #2563eb !important;
-    text-shadow: 0 2px 4px rgba(37, 99, 235, 0.2) !important;
+    text-shadow: 0 2px 8px rgba(37, 99, 235, 0.3) !important;
 }
 
 #timerBar {
-    background: #e5e7eb !important;
+    background: #cbd5e1 !important;
     border-radius: 0.5rem !important;
     overflow: hidden !important;
+    height: 12px !important;
 }
 
 #timerProgress {
-    background: white !important;
+    background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%) !important;
     transition: width 0.1s linear, background 0.3s !important;
+    height: 100% !important;
 }
 
 /* Modal backdrop */
@@ -531,11 +543,15 @@ input[type="number"]:focus {
 }
 
 /* Conteneurs de grilles */
-.team-grid-container {
+.team-grid-container,
+.attack-container > div,
+#attackGridContainer {
     background: white !important;
     padding: 1.5rem !important;
     border-radius: 0.75rem !important;
     border: 2px solid #e5e7eb !important;
+    margin: 0 auto !important;
+    width: fit-content !important;
 }
 
 .team-grid-container.alpha {
@@ -544,6 +560,15 @@ input[type="number"]:focus {
 
 .team-grid-container.omega {
     border-color: var(--accent-purple) !important;
+}
+
+/* Centrage des titres de grille */
+.attack-container h3,
+#attackGridTitle {
+    text-align: center !important;
+    color: #0f172a !important;
+    font-weight: 800 !important;
+    margin-bottom: 1rem !important;
 }
 
 /* Responsive */
@@ -588,4 +613,56 @@ button:focus-visible,
 input:focus-visible {
     outline: 3px solid var(--accent-blue) !important;
     outline-offset: 2px !important;
+}
+
+/* Règles supplémentaires pour forcer le contraste partout */
+p, span, div:not(.btn):not(.grid-cell) {
+    color: inherit !important;
+}
+
+.question-container p,
+.question-container span,
+.question-container div:not(.btn):not(.grid-cell) {
+    color: #0f172a !important;
+}
+
+.answer-input::placeholder,
+#answerInput::placeholder {
+    color: #94a3b8 !important;
+}
+
+/* Forcer les labels de grille en blanc sur fond bleu */
+.grid-cell.label {
+    background: transparent !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 800 !important;
+    font-size: 0.95rem !important;
+}
+
+/* Améliorer le contraste des sections d'actions */
+.question-actions,
+.modal-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+}
+
+/* Contraste renforcé pour tous les conteneurs blancs */
+.menu-container,
+.create-container,
+.waiting-container,
+.question-container,
+.attack-container,
+.victory-container,
+.modal-content {
+    background: white !important;
+    color: #0f172a !important;
+}
+
+/* Titre des grilles centré */
+.attack-container h3,
+.create-container h3 {
+    text-align: center !important;
 }
