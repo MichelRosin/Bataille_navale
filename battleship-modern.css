@@ -360,7 +360,43 @@ button[onclick*="toggleOrientation"]:hover {
     color: #7f1d1d !important;
 }
 
+/* Modal */
+.modal {
+    background: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(8px) !important;
+    overflow-y: auto !important;
+    padding: 2rem 1rem !important;
+}
+
+.modal-content {
+    background: white !important;
+    border-radius: var(--border-radius) !important;
+    padding: 2rem !important;
+    box-shadow: var(--shadow-xl) !important;
+    border: none !important;
+    color: var(--text-primary) !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+}
+
+.modal-content h3 {
+    color: #0f172a !important;
+    font-weight: 800 !important;
+    font-size: 1.75rem !important;
+    margin-bottom: 1.5rem !important;
+    text-align: center !important;
+}
+
 /* Checkboxes de thèmes */
+.theme-list {
+    display: grid !important;
+    gap: 0.75rem !important;
+    margin: 1.5rem 0 !important;
+    max-height: 400px !important;
+    overflow-y: auto !important;
+    padding: 0.5rem !important;
+}
+
 .theme-checkbox {
     background: white !important;
     border: 2px solid #e5e7eb !important;
@@ -379,15 +415,29 @@ button[onclick*="toggleOrientation"]:hover {
 }
 
 .theme-checkbox.checked {
-    background: linear-gradient(135deg, var(--accent-blue) 0%, #2563eb 100%) !important;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
     color: white !important;
-    border-color: var(--accent-blue) !important;
+    border-color: #3b82f6 !important;
 }
 
 .theme-checkbox input[type="checkbox"] {
     width: 1.25rem !important;
     height: 1.25rem !important;
     cursor: pointer !important;
+    flex-shrink: 0 !important;
+}
+
+.theme-checkbox label {
+    cursor: pointer !important;
+    flex: 1 !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    margin: 0 !important;
+}
+
+.theme-checkbox.checked label {
+    color: white !important;
 }
 
 /* Inputs */
@@ -542,6 +592,20 @@ input[type="number"]:focus,
     margin-bottom: 1rem !important;
 }
 
+/* Actions du modal */
+.modal-actions {
+    margin-top: 2rem !important;
+    padding-top: 1.5rem !important;
+    border-top: 2px solid #e5e7eb !important;
+}
+
+/* Paragraphes dans les modals */
+.modal-content p {
+    color: #475569 !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+}
+
 /* Conteneurs de grilles */
 .team-grid-container,
 .attack-container > div,
@@ -629,6 +693,38 @@ p, span, div:not(.btn):not(.grid-cell) {
 .answer-input::placeholder,
 #answerInput::placeholder {
     color: #94a3b8 !important;
+}
+
+/* Configuration du chronomètre dans le modal */
+.modal-content h4 {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+    font-size: 1.25rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.modal-content label {
+    color: #475569 !important;
+    font-weight: 600 !important;
+}
+
+#timerMinutes,
+#timerSeconds {
+    text-align: center !important;
+    font-family: 'Courier New', monospace !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+}
+
+/* Liste des thèmes dans le modal */
+#themesModalList {
+    max-height: 400px !important;
+    overflow-y: auto !important;
+}
+
+#themesModalList .theme-checkbox {
+    margin-bottom: 0 !important;
 }
 
 /* Forcer les labels de grille en blanc sur fond bleu */
