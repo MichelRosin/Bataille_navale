@@ -1,5 +1,11 @@
 [
   {
+    "theme": "Binaire",
+    "question": "Combien vaut l'illustration suivante en décimale ?",
+    "image": "images/base_4.jpg",
+    "answer": "358"
+  },
+  {
     "theme": "Autres",
     "question": "alors ?",
     "image": "",
@@ -576,6 +582,7 @@
     "answer": "1024"
   }
 ]
+
 
 
 
