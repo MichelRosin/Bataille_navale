@@ -6,18 +6,6 @@
     "answer": "358"
   },
   {
-    "theme": "Autres",
-    "question": "alors ?",
-    "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Processus",
-    "question": "En utilisant l'ordonnancement round-robin, au bout de combien de temps le processus d1 sera-t-il achevé ?",
-    "image": "images/quantum_ordonnancement.jpg",
-    "answer": "790"
-  },
-  {
     "theme": "Prem",
     "question": "Donner l'ojectif de cette fonction et la corriger.",
     "image": "images/moyenne_erreur.jpg",
@@ -27,12 +15,6 @@
     "theme": "Recursivite",
     "question": "Écrire une fonction qui calcule de façon récursive la moyenne d'un tableau t non vide.",
     "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Routage",
-    "question": "Donner la particularité de ce réseau de routeur.",
-    "image": "images/table_liens.jpg",
     "answer": "oui"
   },
   {
@@ -48,24 +30,6 @@
     "answer": "oui"
   },
   {
-    "theme": "Listes",
-    "question": "Quel est le rôle de chacune des opération suivantes sur une liste ?",
-    "image": "images/association_liste.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Prem",
-    "question": "Quelle(s) instruction(s) permet(tent) de savoir si 'mangue' est présent dans le dictionnaire panier = {'banane' : 5, 'mangue' : 1, 'orange' : 3}",
-    "image": "images/verif_dico.jpg",
-    "answer": "3"
-  },
-  {
-    "theme": "Arbres",
-    "question": "On cherche la valeur 40 dans un ABR. Lesquelles des séquences de clés suivantes sont possibles pour un parcours de recherche ?",
-    "image": "images/vrai_abr.png",
-    "answer": "1,2,3,4"
-  },
-  {
     "theme": "Prem",
     "question": "Peut-on être sûr que la boucle suivante n'est pas infinie ?",
     "image": "images/while_non_infini.jpg",
@@ -76,12 +40,6 @@
     "question": "Quelle requête SQL permet de supprimer les données d'une table t ?",
     "image": "images/supprimer_donnees.png",
     "answer": "3"
-  },
-  {
-    "theme": "POO",
-    "question": "Quelle est l'erreur dans le programme suivant ?",
-    "image": "images/pas_init.jpg",
-    "answer": "oui"
   },
   {
     "theme": "Prem",
@@ -102,24 +60,6 @@
     "answer": "1,3"
   },
   {
-    "theme": "Prem",
-    "question": "Quelle est la différence entre RAM et ROM ?",
-    "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Prem",
-    "question": "Écrivez un programme effectuant un calcul de la factorielle d'un nombre de façon itérative.",
-    "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Prem",
-    "question": "Quelle instruction utilise-t-on pour tester une pré-condition ?",
-    "image": "images/test_precondition.jpg",
-    "answer": "2"
-  },
-  {
     "theme": "BdD",
     "question": "Associer chaque terme du modèle relationnel à sa description.",
     "image": "images/base_modele_relationnel.jpg",
@@ -138,19 +78,7 @@
     "answer": "42"
   },
   {
-    "theme": "Reseau",
-    "question": "Que vaut le message SYMETRIQUE chiffré en code César avec un décalage de 7 ?",
-    "image": "",
-    "answer": "zftlaypxbl"
-  },
-  {
-    "theme": "POO",
-    "question": "self est :",
-    "image": "images/type_self.jpg",
-    "answer": "c,d"
-  },
-  {
-    "theme": "Autres",
+    "theme": "Prem",
     "question": "Trouvez l'intru.",
     "image": "images/paradigmes.jpg",
     "answer": "Graduelle"
@@ -168,30 +96,6 @@
     "answer": "oui"
   },
   {
-    "theme": "Prem",
-    "question": "Quelles sont les principales différences entre TCP et UDP ?",
-    "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Listes",
-    "question": "Quelle est la différence entre une liste chaînée simple et une liste chaînée double ?",
-    "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Prem",
-    "question": "Implémentez une fonction qui retourne le maximum d'une liste sans utiliser max().",
-    "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Prem",
-    "question": "Quel est l'entier positif codé en base 2 sur 8 bits par le code 0010 1010 ?",
-    "image": "",
-    "answer": "42"
-  },
-  {
     "theme": "Reseau",
     "question": "Quelle méthode de cryptage permet de chiffrer un message selon la table suivante ?",
     "image": "images/table_vigenere.jpg",
@@ -204,28 +108,10 @@
     "answer": "oui"
   },
   {
-    "theme": "Prem",
-    "question": "Quel est le principe de la recherche par dichotomie ?",
-    "image": "",
-    "answer": "oui"
-  },
-  {
     "theme": "Routage",
     "question": "Déterminer l'adresse du réseau d'une machine dont l'adresse est 192.172.5.4 avec un masque de sous-réseau à 255.255.0.0.",
     "image": "",
     "answer": "192.172.0.0"
-  },
-  {
-    "theme": "Arbres",
-    "question": "Donner la racine, la taille, la hauteur et le nombre de feuille de cet arbre en considérant que la profondeur de la racine est de 1.",
-    "image": "images/mesures_arbre.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Prem",
-    "question": "Écrire (sans boucle) une fonction nb_diviseur(j,n) qui renvoie le nombre d'entier entre 1 et j qui divisent n.",
-    "image": "",
-    "answer": "oui"
   },
   {
     "theme": "Graphes",
@@ -237,36 +123,6 @@
     "theme": "Routage",
     "question": "Quel est le plus court chemin entre A et B passant par G ?",
     "image": "images/plus_court_chemin_reseau.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Recursivite",
-    "question": "Indiquer ce que renvoie f(8,20) ?",
-    "image": "images/mystere_recursive.jpg",
-    "answer": "4"
-  },
-  {
-    "theme": "Autres",
-    "question": "Quel est le sens de la vie, du monde et de tout ce qui est ?",
-    "image": "",
-    "answer": "42"
-  },
-  {
-    "theme": "POO",
-    "question": "Une instance de classe est :",
-    "image": "images/type_instance.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Prem",
-    "question": "Associer chaque type d'opération à son rôle :",
-    "image": "images/association_operation.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Prem",
-    "question": "Quelle structures de données choisir pour chacune de ces tâches ?",
-    "image": "images/exemple_structures.png",
     "answer": "oui"
   },
   {
@@ -285,12 +141,6 @@
     "theme": "Graphes",
     "question": "Un club de tennis doit sélectionner deux joueurs parmis quatre pour un tournoi nationnal. Pour réaliser la sélection le club organise des matchs : chaque joueurs rencontre les trois autres. On représente le résultat de ces matchs par le graphe orienté suivant : le sens des arcs indique quel joueur bat quel joueur. Quels joueurs seront sélectionnés pour le tounoi ?",
     "image": "images/qualif_tenis.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Listes",
-    "question": "Quelles implémentations permettent de représenter le fonctionnement d'une pile ?",
-    "image": "images/qcm_implementation_pile.jpg",
     "answer": "oui"
   },
   {
@@ -316,72 +166,6 @@
     "question": "On considère le dictionnaire ci-dessous. Quelle est la valeur de D[D[D[2]]] ?",
     "image": "images/appel_dictionnaire.jpg",
     "answer": "4"
-  },
-  {
-    "theme": "Tableaux",
-    "question": "Que renvoie l'appel s((1,3), (2,4)) à la fonction ci-dessous ?",
-    "image": "images/tuple.jpg",
-    "answer": "(3,7)"
-  },
-  {
-    "theme": "Tableaux",
-    "question": "Qu'obtient-on si on tape l'instruction [1,4,3] + [2,4,5] dans la console ?",
-    "image": "",
-    "answer": "[1,4,3,2,4,5]"
-  },
-  {
-    "theme": "Booleen",
-    "question": "Soit l'expression ci-dessous. Quelle valeur est son résultat avec a à vrai et b à faux ?",
-    "image": "images/expression_logique.jpg",
-    "answer": "faux"
-  },
-  {
-    "theme": "Python",
-    "question": "Que renvoie l'appel rey(100) de la fonction ci-dessous ?",
-    "image": "images/boucle_infinie.jpg",
-    "answer": "rien"
-  },
-  {
-    "theme": "Algo tri",
-    "question": "En utilisant la recherche dichotomique, en combien de tentative êtes-vous certains de trouver un nombre tiré entre 1 et 100 ?",
-    "image": "",
-    "answer": "7"
-  },
-  {
-    "theme": "Tableaux",
-    "question": "Que vaut l'expression [k**2 for k in range(4)]",
-    "image": "",
-    "answer": "[0,1,4,9]"
-  },
-  {
-    "theme": "Systeme",
-    "question": "Quelle commande permettrait de retirer les droits d'exécution d'un fichier nommé \"virus.exe\" pour tous les utilisateurs ?",
-    "image": "",
-    "answer": "chmod u-x virus.exe"
-  },
-  {
-    "theme": "Web",
-    "question": "Pour écrire sa page HTML, un élève a saisi la ligne ci-dessous. Pourquoi a-t-il fait cela ?",
-    "image": "images/meta_charset.jpg",
-    "answer": "3"
-  },
-  {
-    "theme": "Binaire",
-    "question": "Quelle est l'écriture décimale du nombre qui s'écrit 101,0111 en binaire ?",
-    "image": "",
-    "answer": "5,3125"
-  },
-  {
-    "theme": "Web",
-    "question": "Un élève a écrit une page HTML. L'affichage de son titre est : \"La spécialité NSI\". Quelle est la cause de cet affichage farfelu ?",
-    "image": "images/encodage_caractere.jpg",
-    "answer": "3"
-  },
-  {
-    "theme": "Binaire",
-    "question": "Quel est le nombre maximal de bits nécessaires pour écrire le produit de deux entiers positifs codés sur 16 bits ?",
-    "image": "",
-    "answer": "32"
   },
   {
     "theme": "Systeme",
@@ -582,6 +366,7 @@
     "answer": "1024"
   }
 ]
+
 
 
 
