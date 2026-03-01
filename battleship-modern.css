@@ -76,7 +76,6 @@ h3 {
 .create-container,
 .waiting-container,
 .question-container,
-.attack-container,
 .victory-container {
     background: white !important;
     border-radius: var(--border-radius) !important;
@@ -85,6 +84,22 @@ h3 {
     max-width: 1200px !important;
     margin: 0 auto !important;
     color: var(--text-primary) !important;
+    width: auto !important;
+    display: block !important;
+}
+
+/* Container spécifique pour l'attaque - permettre flexbox */
+.attack-container {
+    background: white !important;
+    border-radius: var(--border-radius) !important;
+    padding: 2rem !important;
+    box-shadow: var(--shadow-xl) !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    color: var(--text-primary) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
 }
 
 .modal-content {
@@ -453,7 +468,11 @@ input[type="number"],
     font-size: 1rem !important;
     font-weight: 600 !important;
     width: 100% !important;
+    max-width: 600px !important;
     transition: all 0.2s ease !important;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 input[type="text"]:focus,
@@ -470,6 +489,14 @@ input[type="number"]:focus,
     font-size: 1.125rem !important;
     padding: 1rem !important;
     font-weight: 600 !important;
+}
+
+/* Inputs dans les sections de configuration (ne pas limiter la largeur) */
+.game-name-section input[type="text"],
+#gameName,
+#timerMinutes,
+#timerSeconds {
+    max-width: none !important;
 }
 
 /* Question screen */
@@ -515,7 +542,10 @@ input[type="number"]:focus,
     border-radius: 0.5rem !important;
     font-weight: 700 !important;
     font-size: 1.25rem !important;
-    margin: 1rem 0 !important;
+    margin: 1rem auto !important;
+    max-width: 600px !important;
+    width: 100% !important;
+    text-align: center !important;
 }
 
 .answer-feedback.correct {
@@ -562,6 +592,7 @@ input[type="number"]:focus,
     font-weight: 900 !important;
     color: #2563eb !important;
     text-shadow: 0 2px 8px rgba(37, 99, 235, 0.3) !important;
+    text-align: center !important;
 }
 
 #timerBar {
@@ -569,12 +600,33 @@ input[type="number"]:focus,
     border-radius: 0.5rem !important;
     overflow: hidden !important;
     height: 12px !important;
+    width: 100% !important;
+    max-width: 600px !important;
+    margin: 1rem auto !important;
 }
 
 #timerProgress {
     background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%) !important;
     transition: width 0.1s linear, background 0.3s !important;
     height: 100% !important;
+}
+
+/* Correct answer display */
+.correct-answer {
+    padding: 1rem !important;
+    background: #f1f5f9 !important;
+    border-radius: 0.5rem !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+    margin: 1rem auto !important;
+    border: 2px solid #cbd5e1 !important;
+    max-width: 600px !important;
+    width: 100% !important;
+    text-align: left !important;
+}
+
+.correct-answer strong {
+    color: #0f172a !important;
 }
 
 /* Modal backdrop */
@@ -608,7 +660,6 @@ input[type="number"]:focus,
 
 /* Conteneurs de grilles */
 .team-grid-container,
-.attack-container > div,
 #attackGridContainer {
     background: white !important;
     padding: 1.5rem !important;
@@ -626,10 +677,8 @@ input[type="number"]:focus,
     border-color: var(--accent-purple) !important;
 }
 
-/* Centrage des sections contenant les grilles */
-.attack-container,
-.create-container > div,
-.screen > div {
+/* Centrage UNIQUEMENT des sections d'attaque contenant les grilles */
+.attack-container {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -645,20 +694,11 @@ input[type="number"]:focus,
     width: 100% !important;
 }
 
-/* Wrapper pour les grilles côte à côte */
-.create-container .flex,
-.screen .flex {
+/* Wrapper pour les grilles côte à côte dans la création */
+.create-container .flex {
     justify-content: center !important;
     align-items: flex-start !important;
     gap: 2rem !important;
-}
-
-/* S'assurer que les divs parents des grilles soient centrés */
-div:has(> .grid-container) {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    width: 100% !important;
 }
 
 /* Responsive */
@@ -784,28 +824,21 @@ p, span, div:not(.btn):not(.grid-cell) {
 }
 
 /* Titre des grilles centré */
-.attack-container h3,
-.create-container h3 {
+.attack-container h3 {
     text-align: center !important;
-}
-
-/* Forcer le centrage de tous les conteneurs de grilles */
-.attack-container,
-.team-section,
-.game-name-section {
-    text-align: center !important;
-}
-
-/* Centrer les wrappers de grilles */
-.attack-container > *,
-.team-section > *,
-div[style*="flex"] {
-    margin-left: auto !important;
-    margin-right: auto !important;
 }
 
 /* Grilles elles-mêmes */
 .grid-container {
     margin-left: auto !important;
     margin-right: auto !important;
+}
+
+/* Centrage spécifique pour les sections de création */
+.team-section {
+    text-align: center !important;
+}
+
+.team-section h2 {
+    text-align: center !important;
 }
