@@ -626,6 +626,15 @@ input[type="number"]:focus,
     border-color: var(--accent-purple) !important;
 }
 
+/* Centrage des sections contenant les grilles */
+.attack-container,
+.create-container > div,
+.screen > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
 /* Centrage des titres de grille */
 .attack-container h3,
 #attackGridTitle {
@@ -633,6 +642,23 @@ input[type="number"]:focus,
     color: #0f172a !important;
     font-weight: 800 !important;
     margin-bottom: 1rem !important;
+    width: 100% !important;
+}
+
+/* Wrapper pour les grilles côte à côte */
+.create-container .flex,
+.screen .flex {
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 2rem !important;
+}
+
+/* S'assurer que les divs parents des grilles soient centrés */
+div:has(> .grid-container) {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
 }
 
 /* Responsive */
@@ -761,4 +787,25 @@ p, span, div:not(.btn):not(.grid-cell) {
 .attack-container h3,
 .create-container h3 {
     text-align: center !important;
+}
+
+/* Forcer le centrage de tous les conteneurs de grilles */
+.attack-container,
+.team-section,
+.game-name-section {
+    text-align: center !important;
+}
+
+/* Centrer les wrappers de grilles */
+.attack-container > *,
+.team-section > *,
+div[style*="flex"] {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Grilles elles-mêmes */
+.grid-container {
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
