@@ -196,14 +196,9 @@
     "question": "Parmi les balises HTML ci-dessous, quelle est celle qui permet à l'utilisateur de saisir son nom dans un formulaire en respectant la norme HTML ?",
     "image": "images/champ_texte_html.jpg",
     "answer": "1"
-  },
-  {
-    "theme": "Python",
-    "question": "Que peut-on dire du programme Python suivant de calcul de nombre flottants ?",
-    "image": "images/resultat_boucle_flottant.jpg",
-    "answer": "1"
   }
 ]
+
 
 
 
