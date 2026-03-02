@@ -249,8 +249,15 @@ button[onclick*="loadSavedGames"]:hover {
 }
 
 .grid-cell.miss {
-    background: var(--miss-color) !important;
-    border-color: #d1d5db !important;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+    border-color: #93c5fd !important;
+}
+
+.grid-cell.miss::before {
+    content: '○' !important;
+    color: #3b82f6 !important;
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
 }
 
 /* Boutons de navires */
