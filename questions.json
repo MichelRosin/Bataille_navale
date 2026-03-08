@@ -1,5 +1,29 @@
 [
   {
+    "theme": "Tableaux",
+    "question": "Une erreur s’est glissée dans ce tableau, car le symbole du Fluor est F et non Fl. Quelle instruction permet de rectifier ce tableau ?",
+    "image": "images/tableau_periodique.png",
+    "answer": "oui"
+  },
+  {
+    "theme": "Tableaux",
+    "question": "Quelle est la valeur de x après exécution du programme ci-dessous ?",
+    "image": "images/plus_grand_matrice.png",
+    "answer": "33"
+  },
+  {
+    "theme": "Binaire",
+    "question": "Le résultat de la multiplication en binaire 1011 * 101 est égal au nombre binaire :",
+    "image": "images/produit_binaire.jpg",
+    "answer": "3"
+  },
+  {
+    "theme": "Binaire",
+    "question": "Parmi les quatre nombres suivants lequel est le seul à pouvoir être représenté de façon exacte en machine ?",
+    "image": "images/representation_decimale.jpg",
+    "answer": "4"
+  },
+  {
     "theme": "Binaire",
     "question": "Combien vaut l'illustration suivante en décimale ?",
     "image": "images/base_4.jpg",
@@ -198,6 +222,7 @@
     "answer": "1"
   }
 ]
+
 
 
 
