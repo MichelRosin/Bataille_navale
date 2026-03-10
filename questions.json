@@ -42,7 +42,7 @@
     "answer": "oui"
   },
   {
-    "theme": "Reseau",
+    "theme": "Securisation",
     "question": "Parmi les affirmations suivantes, quelle(s) affirmation(s) est/sont correcte(s) ?",
     "image": "images/affirmations_chiffrement.jpg",
     "answer": "3"
@@ -114,13 +114,13 @@
     "answer": "oui"
   },
   {
-    "theme": "Reseau",
+    "theme": "Securisation",
     "question": "Quelle est la différence entre chiffrement symétrique et chiffrement asymétrique ?",
     "image": "",
     "answer": "oui"
   },
   {
-    "theme": "Reseau",
+    "theme": "Securisation",
     "question": "Quelle méthode de cryptage permet de chiffrer un message selon la table suivante ?",
     "image": "images/table_vigenere.jpg",
     "answer": "vigenere"
@@ -222,6 +222,7 @@
     "answer": "1"
   }
 ]
+
 
 
 
