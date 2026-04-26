@@ -1,123 +1,9 @@
 [
   {
-    "theme": "Dictionnaire",
-    "question": "Quelle est la valeur de la variable stock à la fin de cette exécution ?",
-    "image": "images/dico_brico.png",
-    "answer": "oui"
-  },
-  {
-    "theme": "Autres",
-    "question": "Laquelle des mémoires suivantes est volatile ?",
-    "image": "images/memoire_volatile.jpg",
-    "answer": "3"
-  },
-  {
-    "theme": "Systemes",
-    "question": "Dans la console Linux, quelle commande faut-il exécuter pour obtenir la documentation sur la commande pwd ?",
-    "image": "images/documentation_commande.jpg",
-    "answer": "1"
-  },
-  {
     "theme": "Tableaux",
     "question": "Une erreur s’est glissée dans ce tableau, car le symbole du Fluor est F et non Fl. Quelle instruction permet de rectifier ce tableau ?",
     "image": "images/tableau_periodique.png",
     "answer": "oui"
-  },
-  {
-    "theme": "Tableaux",
-    "question": "Quelle est la valeur de x après exécution du programme ci-dessous ?",
-    "image": "images/plus_grand_matrice.png",
-    "answer": "33"
-  },
-  {
-    "theme": "Binaire",
-    "question": "Le résultat de la multiplication en binaire 1011 * 101 est égal au nombre binaire :",
-    "image": "images/produit_binaire.jpg",
-    "answer": "3"
-  },
-  {
-    "theme": "Binaire",
-    "question": "Parmi les quatre nombres suivants lequel est le seul à pouvoir être représenté de façon exacte en machine ?",
-    "image": "images/representation_decimale.jpg",
-    "answer": "4"
-  },
-  {
-    "theme": "Binaire",
-    "question": "Combien vaut l'illustration suivante en décimale ?",
-    "image": "images/base_4.jpg",
-    "answer": "358"
-  },
-  {
-    "theme": "Prem",
-    "question": "Donner l'ojectif de cette fonction et la corriger.",
-    "image": "images/moyenne_erreur.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Recursivite",
-    "question": "Écrire une fonction qui calcule de façon récursive la moyenne d'un tableau t non vide.",
-    "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Securisation",
-    "question": "Parmi les affirmations suivantes, quelle(s) affirmation(s) est/sont correcte(s) ?",
-    "image": "images/affirmations_chiffrement.jpg",
-    "answer": "3"
-  },
-  {
-    "theme": "Graphes",
-    "question": "Donner une représentation du labyrinthe ci-dessous sous forme de graphe.",
-    "image": "images/labyrinthe.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Prem",
-    "question": "Peut-on être sûr que la boucle suivante n'est pas infinie ?",
-    "image": "images/while_non_infini.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "BdD",
-    "question": "Quelle requête SQL permet de supprimer les données d'une table t ?",
-    "image": "images/supprimer_donnees.png",
-    "answer": "3"
-  },
-  {
-    "theme": "Prem",
-    "question": "Quelle est l'erreur dans ce programme ?",
-    "image": "images/non_erreur.jpg",
-    "answer": "non"
-  },
-  {
-    "theme": "POO",
-    "question": "Un objet :",
-    "image": "images/type_objet.jpg",
-    "answer": "1,3"
-  },
-  {
-    "theme": "POO",
-    "question": "Une classe :",
-    "image": "images/type_classe.jpg",
-    "answer": "1,3"
-  },
-  {
-    "theme": "BdD",
-    "question": "Associer chaque terme du modèle relationnel à sa description.",
-    "image": "images/base_modele_relationnel.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Prem",
-    "question": "Quelle instruction css permettra aux titres de niveau 1 d'une' page de s'afficher en rouge ?",
-    "image": "images/balise_titre.jpg",
-    "answer": "1"
-  },
-  {
-    "theme": "Autres",
-    "question": "Combien de fois faut-il plier une feuille de papier pour que son épaisseur dépasse la distance Terre-Lune ?",
-    "image": "images/feuille_lune.jpg",
-    "answer": "42"
   },
   {
     "theme": "Prem",
@@ -126,118 +12,16 @@
     "answer": "Graduelle"
   },
   {
-    "theme": "Prem",
-    "question": "Quel est le résultat de l'expression suivante ?",
-    "image": "images/resultat_tableau_comprehension.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Securisation",
-    "question": "Quelle est la différence entre chiffrement symétrique et chiffrement asymétrique ?",
-    "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Securisation",
-    "question": "Quelle méthode de cryptage permet de chiffrer un message selon la table suivante ?",
-    "image": "images/table_vigenere.jpg",
-    "answer": "vigenere"
-  },
-  {
-    "theme": "Graphes",
-    "question": "Implémentez un parcours en largeur du graphe représenté par cette liste d'adjacence en partant de A ?",
-    "image": "images/graphe_largeur.jpg",
-    "answer": "oui"
-  },
-  {
     "theme": "Routage",
     "question": "Déterminer l'adresse du réseau d'une machine dont l'adresse est 192.172.5.4 avec un masque de sous-réseau à 255.255.0.0.",
     "image": "",
     "answer": "192.172.0.0"
   },
   {
-    "theme": "Graphes",
-    "question": "Écrire une fonction non_oriente(graphe) qui détermine si un graphe orienté peut en réalité être représenté comme un graphe non-orienté. Le graphe est défini en matrice d'adjacence.",
-    "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Routage",
-    "question": "Quel est le plus court chemin entre A et B passant par G ?",
-    "image": "images/plus_court_chemin_reseau.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "POO",
-    "question": "Complétez ce schéma en indiquant le type de chaque méthode :",
-    "image": "images/schema_interface.png",
-    "answer": "oui"
-  },
-  {
-    "theme": "Listes",
-    "question": "Écrivez une fonction qui, à l'aide d'une pile, inverse les valeurs d'une file",
-    "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Graphes",
-    "question": "Un club de tennis doit sélectionner deux joueurs parmis quatre pour un tournoi nationnal. Pour réaliser la sélection le club organise des matchs : chaque joueurs rencontre les trois autres. On représente le résultat de ces matchs par le graphe orienté suivant : le sens des arcs indique quel joueur bat quel joueur. Quels joueurs seront sélectionnés pour le tounoi ?",
-    "image": "images/qualif_tenis.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Listes",
-    "question": "Lequel de ces mot de vocabulaire ne fait pas partie du champ lexical des files ?",
-    "image": "images/lexique_file.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Arbres",
-    "question": "Construisez un arbre binaire de recherche en implémentant les nœuds suivants dans l'ordre :",
-    "image": "images/creation_abr.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "KPPV",
-    "question": "On a représenté sur un quadrillage les éléments de quatre classes (chaque classe est représentée par un carré, un triangle, un losange ou un disque) ainsi qu'un nouvel élément X. En appliquant l'algorithme des k plus proches voisins pour une distance de mesure de 3, à quelle classe est affecté le nouvel élément X ?",
-    "image": "images/kppv.jpg",
-    "answer": "disque"
-  },
-  {
-    "theme": "Dictionnaire",
-    "question": "On considère le dictionnaire ci-dessous. Quelle est la valeur de D[D[D[2]]] ?",
-    "image": "images/appel_dictionnaire.jpg",
-    "answer": "4"
-  },
-  {
-    "theme": "Algo tri",
-    "question": "Quelle particularité doit présenter une liste pour pouvoir être parcourue par un algorithme de recherche par dichotomie ?",
-    "image": "images/recherche_dichotomie.jpg",
-    "answer": "4"
-  },
-  {
     "theme": "Reseau",
     "question": "Parmi les URL suivantes, laquelle pourrait être utilisée pour une tentative d'hamesonage (phishing) ?",
     "image": "images/phishing.jpg",
     "answer": "2"
-  },
-  {
-    "theme": "Algo tri",
-    "question": "Quel tri entre le tri par insertion et le tri par sélection triera le plus rapidement le tableau suivant ?",
-    "image": "images/tri_efficace.jpg",
-    "answer": "insertion"
-  },
-  {
-    "theme": "Algo tri",
-    "question": "Que fait ce programme python ?",
-    "image": "images/tri_insertion_mystere.jpg",
-    "answer": "tri par insertion"
-  },
-  {
-    "theme": "Web",
-    "question": "Parmi les balises HTML ci-dessous, quelle est celle qui permet à l'utilisateur de saisir son nom dans un formulaire en respectant la norme HTML ?",
-    "image": "images/champ_texte_html.jpg",
-    "answer": "1"
   }
 ]
 
