@@ -1,39 +1,15 @@
 [
   {
-    "theme": "Tableaux",
-    "question": "Écrire une instruction permettant de générer par compréhension la liste L des dix premiers carrés d’entiers, soit L = [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]",
-    "image": "",
-    "answer": "oui"
-  },
-  {
-    "theme": "Tableaux",
-    "question": "Laquelle de ces expressions a pour valeur [2, 5, 8, 11] ?",
-    "image": "images/comprehension_expression.jpg",
-    "answer": ""
-  },
-  {
-    "theme": "Dictionnaire",
-    "question": "Soit le dictionnaire eleve = { ‘nom’ : ‘Dugarden’, ‘prenom’ : ‘Jean’, ‘age’ : 17 }. Que renvoie l’expression list(eleve.keys()) ?",
-    "image": "images/dictionnaire_keys.jpg",
-    "answer": ""
-  },
-  {
-    "theme": "Systeme",
-    "question": "Écrire deux commandes différentes qui donnent les droits suivants a un fichier situé dans le répertoire courant. ",
-    "image": "images/unix_droit_video.jpg",
-    "answer": "oui"
-  },
-  {
-    "theme": "Reseaux",
-    "question": "Indiquer si chacune des adresse suivantes est une adresse IPv4, MAC ou invalide.",
-    "image": "images/type_adresses.jpg",
-    "answer": "oui"
-  },
-  {
     "theme": "Systeme",
     "question": "Dans un système Linux, quel est l’effet de la commande suivante ?",
     "image": "images/unix_copie_anna.jpg",
     "answer": "oui"
+  },
+  {
+    "theme": "Binaire",
+    "question": "Quel est le résultat de l’addition en écriture hexadécimale 7B692 + 4C81E ?",
+    "image": "",
+    "answer": "C7EB0"
   }
 ]
 
