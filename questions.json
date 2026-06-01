@@ -1,9 +1,51 @@
 [
   {
+    "theme": "",
+    "question": "",
+    "image": "images/",
+    "answer": ""
+  },
+  {
+    "theme": "IHM",
+    "question": "Un fichier HTML contient la ligne suivante. Quelle commande CSS écrire pour que le texte apparaisse en rose sur fond jaune ?",
+    "image": "images/coucou_css.jpg",
+    "answer": "D"
+  },
+  {
+    "theme": "IHM",
+    "question": "Lors de la consultation d’une page HTML contenant un bouton auquel est associée la fonction suivante, que se passe-t-il quand on clique sur ce bouton ?",
+    "image": "images/bouton_bleu.jpg",
+    "answer": "oui"
+  },
+  {
+    "theme": "Tableaux",
+    "question": "Qu'obtient-on si on exécute la commande suivante dans la console python ?",
+    "image": "images/addition_tableaux.jpg",
+    "answer": "C"
+  },
+  {
     "theme": "Systeme",
     "question": "Dans un système Linux, quel est l’effet de la commande suivante ?",
     "image": "images/unix_copie_anna.jpg",
     "answer": "oui"
+  },
+  {
+    "theme": "Binaire",
+    "question": "Si on ajoute trois zéros à droite d'un nombre binaire, cela revient à le multiplier par un certain nombre. Lequel ?",
+    "image": "",
+    "answer": "8"
+  },
+  {
+    "theme": "Binaire",
+    "question": "Quelle est la représentation binaire, en complément à 2 sur 8 bits, de l'entier -25 ?",
+    "image": "",
+    "answer": "1110 0111"
+  },
+  {
+    "theme": "Dictionnaire",
+    "question": "Quelle est la valeur de l'expression [(a,b) for a in range(3) for b in range(3) if a > b] ?",
+    "image": "images/liste_tuple_comprehension.jpg",
+    "answer": "C"
   },
   {
     "theme": "Binaire",
