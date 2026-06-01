@@ -6,6 +6,48 @@
     "answer": ""
   },
   {
+    "theme": "Systeme",
+    "question": "Quel est l’effet de la commande shell suivante ?",
+    "image": "images/copie_ex1.jpg",
+    "answer": "oui"
+  },
+  {
+    "theme": "IHM",
+    "question": "Après avoir tenté d’accéder à un site, le navigateur affiche : 403 Forbidden. Qu'est-ce que cela signifie ?",
+    "image": "images/erreur_403.jpg",
+    "answer": "C"
+  },
+  {
+    "theme": "Prem",
+    "question": "Quelle est la fonction principale d’un fichier CSS ?",
+    "image": "images/def_css.jpg",
+    "answer": "A"
+  },
+  {
+    "theme": "Python",
+    "question": "On exécute le script Python suivant. Que vaut le couple (a,b) à la fin de l'exécution ?",
+    "image": "images/fonction_cube.jpg",
+    "answer": "(2,8)"
+  },
+  {
+    "theme": "Réseaux",
+    "question": "Quel matériel permet d'interconnecter des réseaux entre eux ?",
+    "image": "images/connecter_reseaux.jpg",
+    "answer": "A"
+  },
+  {
+    "theme": "Systeme",
+    "question": "Lequel de ces périphériques n'est pas un périphérique d'entrée ?",
+    "image": "images/peripherique_entree.jpg",
+    "answer": "A"
+  },
+  {
+    "theme": "IHM",
+    "question": "Un internaute clique sur un lien qui envoie la requête HTTP suivante à un serveur : Quelle est l'adresse du serveur ?",
+    "image": "images/jaime_la_neige.jpg",
+    "answer": "B"
+  },
+  {
     "theme": "IHM",
     "question": "Un fichier HTML contient la ligne suivante. Quelle commande CSS écrire pour que le texte apparaisse en rose sur fond jaune ?",
     "image": "images/coucou_css.jpg",
