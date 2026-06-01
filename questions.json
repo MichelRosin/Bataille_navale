@@ -6,6 +6,12 @@
     "answer": ""
   },
   {
+    "theme": "Donnees",
+    "question": "Laquelle de ces affirmations est vraie ?",
+    "image": "images/affirmations_csv.jpg",
+    "answer": "A"
+  },
+  {
     "theme": "Systeme",
     "question": "Quel est l’effet de la commande shell suivante ?",
     "image": "images/copie_ex1.jpg",
