@@ -851,3 +851,404 @@ p, span, div:not(.btn):not(.grid-cell) {
 .team-section h2 {
     text-align: center !important;
 }
+
+
+/* ====================================
+   BATAILLE NAVALE - ÉCRAN DE COMBAT
+   (styles ajoutés - version sans quiz)
+   ==================================== */
+
+/* Header logo gradient */
+.logo {
+    font-size: 3rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.1em !important;
+    background: linear-gradient(135deg, #00ff88, #ff006e) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    text-transform: uppercase !important;
+    font-family: 'Saira Condensed', sans-serif !important;
+    text-shadow: none !important;
+}
+.subtitle {
+    font-size: 1.1rem !important;
+    color: rgba(255,255,255,0.5) !important;
+    letter-spacing: 0.3em !important;
+    text-transform: uppercase !important;
+}
+
+/* Turn banner */
+.turn-banner {
+    flex: 1 !important;
+    text-align: center !important;
+    font-size: 1.2rem !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.12em !important;
+    padding: 0.7rem 1.5rem !important;
+    border: 2px solid !important;
+    border-radius: 0 !important;
+    font-family: 'Saira Condensed', sans-serif !important;
+}
+.turn-banner.alpha {
+    color: #00ff88 !important;
+    border-color: #00ff88 !important;
+    background: rgba(0,255,136,0.08) !important;
+    text-shadow: 0 0 15px rgba(0,255,136,0.4) !important;
+}
+.turn-banner.omega {
+    color: #ff006e !important;
+    border-color: #ff006e !important;
+    background: rgba(255,0,110,0.08) !important;
+    text-shadow: 0 0 15px rgba(255,0,110,0.4) !important;
+}
+
+/* Battle panels */
+.battle-panel {
+    background: #1b263b !important;
+    border: 2px solid rgba(224,225,221,0.2) !important;
+    padding: 1.5rem !important;
+    position: relative !important;
+    transition: box-shadow 0.3s !important;
+    border-radius: 0 !important;
+}
+.battle-panel.alpha { border-color: #00ff88 !important; }
+.battle-panel.omega { border-color: #ff006e !important; }
+.battle-panel.target-active { box-shadow: 0 0 35px rgba(255,215,0,0.2) !important; }
+
+.panel-title {
+    font-size: 1.4rem !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.12em !important;
+    margin-bottom: 0.3rem !important;
+    font-family: 'Saira Condensed', sans-serif !important;
+}
+.battle-panel.alpha .panel-title { color: #00ff88 !important; }
+.battle-panel.omega .panel-title { color: #ff006e !important; }
+
+.panel-meta {
+    font-size: 0.95rem !important;
+    color: rgba(224,225,221,0.55) !important;
+    margin-bottom: 0.4rem !important;
+}
+
+.ship-counter {
+    display: inline-block !important;
+    padding: 0.2rem 0.8rem !important;
+    border: 1px solid !important;
+    font-size: 0.9rem !important;
+    font-family: 'Courier Prime', monospace !important;
+    margin-bottom: 0.4rem !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+}
+.battle-panel.alpha .ship-counter { border-color: #00ff88 !important; color: #00ff88 !important; }
+.battle-panel.omega .ship-counter { border-color: #ff006e !important; color: #ff006e !important; }
+
+/* Target badge */
+.target-badge {
+    position: absolute !important;
+    top: 0.8rem !important; right: 1rem !important;
+    font-size: 0.78rem !important;
+    color: #ffd700 !important;
+    letter-spacing: 0.1em !important;
+    font-family: 'Courier Prime', monospace !important;
+    font-weight: 700 !important;
+}
+
+/* Shot result messages */
+.shot-msg {
+    margin-top: 0.6rem !important;
+    min-height: 1.4rem !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    font-family: 'Saira Condensed', sans-serif !important;
+    letter-spacing: 0.05em !important;
+}
+.shot-msg.hit  { color: #ff4444 !important; }
+.shot-msg.sunk { color: #ffd700 !important; }
+.shot-msg.miss { color: rgba(224,225,221,0.5) !important; }
+
+/* Sunk cells */
+.grid-cell.sunk {
+    background: #7a0000 !important;
+    border-color: #cc0000 !important;
+}
+.grid-cell.sunk::after {
+    content: '✕' !important;
+    display: flex !important;
+    font-size: 1.5rem !important;
+    color: #ff8888 !important;
+    font-weight: 900 !important;
+}
+
+/* Victory screen (dark theme override) */
+.victory-container {
+    background: #1b263b !important;
+    border: 3px solid #ffd700 !important;
+    color: #e0e1dd !important;
+}
+.victory-container > p { color: rgba(224,225,221,0.6) !important; }
+
+.stat-block {
+    background: #0d1b2a !important;
+    border: 1px solid rgba(224,225,221,0.2) !important;
+    padding: 1rem !important;
+    border-radius: 0 !important;
+}
+.stat-block .stat-label {
+    font-size: 0.88rem !important;
+    color: rgba(224,225,221,0.5) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+}
+.stat-block .stat-value {
+    font-size: 2rem !important;
+    font-weight: 900 !important;
+    margin-top: 0.3rem !important;
+    font-family: 'Courier Prime', monospace !important;
+}
+.stat-block.alpha .stat-value { color: #00ff88 !important; }
+.stat-block.omega .stat-value { color: #ff006e !important; }
+
+/* Victory title override */
+.victory-container h1 {
+    font-family: 'Saira Condensed', sans-serif !important;
+    font-size: 3rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.2em !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    text-shadow: none !important;
+    color: #e0e1dd !important;
+}
+.victory-container h1.alpha {
+    color: #00ff88 !important;
+    text-shadow: 0 0 30px rgba(0,255,136,0.5) !important;
+}
+.victory-container h1.omega {
+    color: #ff006e !important;
+    text-shadow: 0 0 30px rgba(255,0,110,0.5) !important;
+}
+
+/* Modal dark override */
+.modal-content {
+    background: #1b263b !important;
+    border: 2px solid #ffd700 !important;
+    border-radius: 0 !important;
+    color: #e0e1dd !important;
+}
+.modal-content h3 { color: #ffd700 !important; font-family: 'Saira Condensed', sans-serif !important; }
+.modal-content p  { color: #e0e1dd !important; }
+
+/* Game cards dark override */
+.game-card {
+    background: #1b263b !important;
+    border: 1px solid rgba(224,225,221,0.2) !important;
+    border-radius: 0 !important;
+}
+.game-card:hover {
+    border-color: #00ff88 !important;
+    background: #2a3e5a !important;
+    transform: translateX(5px) !important;
+    box-shadow: none !important;
+}
+.game-card h3 { color: #00ff88 !important; font-family: 'Saira Condensed', sans-serif !important; }
+.game-meta span { color: rgba(224,225,221,0.55) !important; }
+
+.delete-btn {
+    background: rgba(255,0,100,0.15) !important;
+    border: 1px solid rgba(255,0,100,0.5) !important;
+    color: #ff6688 !important;
+    border-radius: 0 !important;
+}
+.delete-btn:hover { background: rgba(255,0,100,0.3) !important; }
+
+/* Grid dark theme */
+.grid-cell {
+    background: #1e3a5f !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    color: rgba(224,225,221,0.6) !important;
+    border-radius: 0 !important;
+    font-family: 'Courier Prime', monospace !important;
+}
+.grid-cell.label {
+    background: #2a3e5a !important;
+    color: rgba(224,225,221,0.7) !important;
+    border: none !important;
+}
+.grid-cell.ship {
+    background: #4a5568 !important;
+    border-color: rgba(0,255,136,0.4) !important;
+}
+.grid-cell.placing {
+    background: rgba(0,255,136,0.3) !important;
+    border-color: #00ff88 !important;
+}
+.grid-cell.hit {
+    background: #cc2200 !important;
+    border-color: #ff4444 !important;
+}
+.grid-cell.hit::after  { display: flex !important; content: '✕' !important; color: white !important; font-size: 1.5rem !important; }
+.grid-cell.miss {
+    background: rgba(30,58,95,0.6) !important;
+    border-color: rgba(255,255,255,0.2) !important;
+}
+.grid-cell.miss::after { display: flex !important; content: '○' !important; color: rgba(255,255,255,0.6) !important; font-size: 1.2rem !important; }
+
+.grid-cell.playable:hover {
+    background: rgba(0,255,136,0.2) !important;
+    border-color: #00ff88 !important;
+    transform: scale(1.05) !important;
+    box-shadow: none !important;
+}
+
+/* Ship buttons dark */
+.ship-btn {
+    background: #2a3e5a !important;
+    border: 2px solid rgba(224,225,221,0.2) !important;
+    color: #e0e1dd !important;
+    border-radius: 0 !important;
+}
+.ship-btn:hover {
+    border-color: #00ff88 !important;
+    background: rgba(0,255,136,0.1) !important;
+}
+.ship-btn.selected {
+    border-color: #00ff88 !important;
+    background: rgba(0,255,136,0.2) !important;
+    color: #00ff88 !important;
+}
+.ship-btn.placed {
+    opacity: 0.4 !important;
+    background: #2a3e5a !important;
+    color: rgba(224,225,221,0.4) !important;
+}
+
+/* Orientation buttons */
+button[onclick*="toggleOrientation"] {
+    background: #1b263b !important;
+    border: 2px solid rgba(224,225,221,0.2) !important;
+    color: #e0e1dd !important;
+    border-radius: 0 !important;
+}
+button[onclick*="toggleOrientation"]:hover {
+    border-color: #00ff88 !important;
+    background: rgba(0,255,136,0.08) !important;
+}
+
+/* Inputs dark */
+input[type="text"],
+#gameName {
+    background: #1b263b !important;
+    border: 2px solid rgba(224,225,221,0.2) !important;
+    color: #e0e1dd !important;
+    border-radius: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+}
+input[type="text"]:focus,
+#gameName:focus {
+    border-color: #00ff88 !important;
+    box-shadow: 0 0 15px rgba(0,255,136,0.15) !important;
+}
+input[type="text"]::placeholder,
+#gameName::placeholder { color: rgba(224,225,221,0.35) !important; }
+
+/* Grid sections in create */
+.grid-section {
+    background: #1b263b !important;
+    border: 2px solid rgba(224,225,221,0.2) !important;
+    border-radius: 0 !important;
+    padding: 1.5rem !important;
+}
+.grid-section.alpha { border-color: #00ff88 !important; }
+.grid-section.omega { border-color: #ff006e !important; }
+.grid-section h3 {
+    font-family: 'Saira Condensed', sans-serif !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.15em !important;
+    font-size: 1.6rem !important;
+    color: #e0e1dd !important;
+}
+.grid-section.alpha h3 { color: #00ff88 !important; }
+.grid-section.omega h3 { color: #ff006e !important; }
+.ship-selection h4 {
+    color: rgba(224,225,221,0.6) !important;
+    font-family: 'Saira Condensed', sans-serif !important;
+    font-size: 1.1rem !important;
+}
+
+/* Own panel - disable hover on grid cells */
+.battle-panel.own-panel .grid-cell.playable {
+    cursor: default !important;
+}
+.battle-panel.own-panel .grid-cell.playable:hover {
+    background: #1e3a5f !important;
+    border-color: rgba(255,255,255,0.1) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Header */
+.header {
+    text-align: center !important;
+    padding: 1.5rem 0 !important;
+    border-bottom: 2px solid rgba(224,225,221,0.2) !important;
+    margin-bottom: 1.5rem !important;
+    background: transparent !important;
+}
+
+/* Saved games title */
+.saved-games h2 {
+    color: #ffd700 !important;
+    font-family: 'Saira Condensed', sans-serif !important;
+    text-transform: uppercase !important;
+}
+
+/* Menu buttons */
+.menu-buttons .btn {
+    text-align: center !important;
+    display: block !important;
+}
+
+/* Btn overrides for dark theme */
+.btn {
+    font-family: 'Saira Condensed', sans-serif !important;
+    border-radius: 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.12em !important;
+}
+.btn-alpha {
+    background: rgba(0,255,136,0.1) !important;
+    border: 2px solid #00ff88 !important;
+    color: #00ff88 !important;
+    box-shadow: none !important;
+}
+.btn-alpha:hover {
+    background: rgba(0,255,136,0.2) !important;
+    box-shadow: 0 0 20px rgba(0,255,136,0.35) !important;
+}
+.btn-omega {
+    background: rgba(255,0,110,0.1) !important;
+    border: 2px solid #ff006e !important;
+    color: #ff006e !important;
+    box-shadow: none !important;
+}
+.btn-omega:hover {
+    background: rgba(255,0,110,0.2) !important;
+    box-shadow: 0 0 20px rgba(255,0,110,0.35) !important;
+}
+.btn-secondary {
+    background: #1b263b !important;
+    border: 2px solid rgba(224,225,221,0.35) !important;
+    color: #e0e1dd !important;
+    box-shadow: none !important;
+}
+.btn-secondary:hover {
+    background: #2a3e5a !important;
+    border-color: rgba(224,225,221,0.6) !important;
+    box-shadow: none !important;
+}
