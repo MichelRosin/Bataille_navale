@@ -7,16 +7,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0d1b2a">
     <title>Bataille Navale Alpha vs Oméga</title>
-    <link rel="manifest" href="manifest.json">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="battleship-modern.css">
+    <link rel="manifest" href="manifest-battleship.json">
     <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@300;400;600;700;900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --bg-dark: #0d1b2a;
@@ -40,7 +34,7 @@
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 10% 20%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
                 radial-gradient(circle at 90% 80%, rgba(255, 0, 110, 0.05) 0%, transparent 50%),
                 repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 136, 0.03) 2px, rgba(0, 255, 136, 0.03) 4px);
@@ -56,36 +50,24 @@
         }
 
         /* Screens */
-        .screen {
-            display: none;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        .screen.active {
-            display: block;
-        }
+        .screen { display: none; animation: fadeIn 0.4s ease-out; }
+        .screen.active { display: block; }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Header */
         .header {
             text-align: center;
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             border-bottom: 2px solid var(--border-color);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .logo {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 900;
             letter-spacing: 0.1em;
             background: linear-gradient(135deg, var(--accent-alpha), var(--accent-omega));
@@ -93,12 +75,10 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-secondary);
             letter-spacing: 0.3em;
             text-transform: uppercase;
@@ -106,7 +86,7 @@
 
         /* Buttons */
         .btn {
-            padding: 1rem 2.5rem;
+            padding: 0.9rem 2.2rem;
             font-family: 'Saira Condensed', sans-serif;
             font-size: 1.1rem;
             font-weight: 700;
@@ -120,62 +100,25 @@
             position: relative;
             overflow: hidden;
         }
-
         .btn::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.1);
-            transform: translate(-50%, -50%);
+            top: 50%; left: 50%;
+            width: 0; height: 0;
+            background: rgba(255,255,255,0.1);
+            transform: translate(-50%,-50%);
             transition: width 0.3s, height 0.3s;
         }
+        .btn:hover::before { width: 300px; height: 300px; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-alpha { border-color: var(--accent-alpha); background: rgba(0,255,136,0.1); }
+        .btn-alpha:hover { background: rgba(0,255,136,0.2); box-shadow: 0 0 25px rgba(0,255,136,0.4); }
+        .btn-omega { border-color: var(--accent-omega); background: rgba(255,0,110,0.1); }
+        .btn-omega:hover { background: rgba(255,0,110,0.2); box-shadow: 0 0 25px rgba(255,0,110,0.4); }
+        .btn-secondary { background: var(--bg-medium); border-color: var(--text-secondary); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn:hover {
-            border-color: var(--accent-alpha);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .btn-alpha {
-            border-color: var(--accent-alpha);
-            background: rgba(0, 255, 136, 0.1);
-        }
-
-        .btn-alpha:hover {
-            background: rgba(0, 255, 136, 0.2);
-            box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
-        }
-
-        .btn-omega {
-            border-color: var(--accent-omega);
-            background: rgba(255, 0, 110, 0.1);
-        }
-
-        .btn-omega:hover {
-            background: rgba(255, 0, 110, 0.2);
-            box-shadow: 0 0 25px rgba(255, 0, 110, 0.4);
-        }
-
-        .btn-secondary {
-            background: var(--bg-medium);
-            border-color: var(--text-secondary);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Menu Screen */
+        /* Menu */
         .menu-buttons {
             display: flex;
             flex-direction: column;
@@ -184,10 +127,7 @@
             margin: 3rem auto;
         }
 
-        .saved-games {
-            margin-top: 3rem;
-        }
-
+        .saved-games { margin-top: 3rem; }
         .saved-games h2 {
             text-align: center;
             font-size: 2rem;
@@ -197,12 +137,7 @@
             letter-spacing: 0.2em;
         }
 
-        .game-list {
-            display: grid;
-            gap: 1rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .game-list { display: grid; gap: 1rem; max-width: 800px; margin: 0 auto; }
 
         .game-card {
             background: var(--bg-medium);
@@ -215,67 +150,41 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
         .game-card:hover {
             border-color: var(--accent-alpha);
             background: var(--bg-light);
             transform: translateX(5px);
-            box-shadow: -5px 0 15px rgba(0, 255, 136, 0.2);
         }
-
-        .game-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--accent-alpha);
-        }
-
-        .game-meta {
-            display: flex;
-            gap: 2rem;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
+        .game-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--accent-alpha); }
+        .game-meta { display: flex; gap: 2rem; color: var(--text-secondary); font-size: 0.95rem; }
 
         .delete-btn {
             padding: 0.5rem 1rem;
-            background: rgba(255, 0, 100, 0.2);
-            border: 1px solid rgba(255, 0, 100, 0.5);
+            background: rgba(255,0,100,0.2);
+            border: 1px solid rgba(255,0,100,0.5);
             color: #ff0064;
             cursor: pointer;
             font-family: 'Saira Condensed', sans-serif;
             font-weight: 600;
             transition: all 0.3s ease;
         }
+        .delete-btn:hover { background: rgba(255,0,100,0.3); box-shadow: 0 0 15px rgba(255,0,100,0.4); }
 
-        .delete-btn:hover {
-            background: rgba(255, 0, 100, 0.3);
-            box-shadow: 0 0 15px rgba(255, 0, 100, 0.4);
-        }
-
-        /* Create Game Screen */
+        /* Create Screen */
         .create-layout {
             display: grid;
-            grid-template-areas:
-                "name name"
-                "alpha omega"
-                "themes themes"
-                "actions actions";
+            grid-template-areas: "name name" "alpha omega" "actions actions";
             gap: 2rem;
             max-width: 1400px;
             margin: 0 auto;
         }
-
-        .game-name-section {
-            grid-area: name;
-        }
-
+        .game-name-section { grid-area: name; }
         .game-name-section h2 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: var(--accent-gold);
             text-transform: uppercase;
         }
-
         .game-name-section input {
             width: 100%;
             padding: 1rem;
@@ -286,11 +195,10 @@
             font-size: 1.2rem;
             transition: all 0.3s ease;
         }
-
         .game-name-section input:focus {
             outline: none;
             border-color: var(--accent-alpha);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 0 15px rgba(0,255,136,0.2);
         }
 
         .grid-section {
@@ -298,38 +206,19 @@
             border: 2px solid var(--border-color);
             padding: 1.5rem;
         }
-
-        .grid-section.alpha {
-            grid-area: alpha;
-            border-color: var(--accent-alpha);
-        }
-
-        .grid-section.omega {
-            grid-area: omega;
-            border-color: var(--accent-omega);
-        }
-
+        .grid-section.alpha { grid-area: alpha; border-color: var(--accent-alpha); }
+        .grid-section.omega { grid-area: omega; border-color: var(--accent-omega); }
         .grid-section h3 {
             font-size: 1.8rem;
             margin-bottom: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.15em;
         }
-
-        .grid-section.alpha h3 {
-            color: var(--accent-alpha);
-        }
-
-        .grid-section.omega h3 {
-            color: var(--accent-omega);
-        }
+        .grid-section.alpha h3 { color: var(--accent-alpha); }
+        .grid-section.omega h3 { color: var(--accent-omega); }
 
         /* Grid */
-        .grid-container {
-            display: inline-block;
-            position: relative;
-        }
-
+        .grid-container { display: inline-block; position: relative; }
         .grid {
             display: grid;
             grid-template-columns: 40px repeat(6, 60px);
@@ -337,12 +226,11 @@
             gap: 2px;
             background: var(--water-color);
             padding: 2px;
-            margin: 20px 0;
+            margin: 12px 0;
         }
-
         .grid-cell {
             background: var(--water-color);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -354,68 +242,21 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-
-        .grid-cell.label {
-            background: var(--bg-light);
-            cursor: default;
-            font-size: 1rem;
-        }
-
-        .grid-cell.playable:hover {
-            background: rgba(0, 255, 136, 0.2);
-            border-color: var(--accent-alpha);
-        }
-
-        .grid-cell.ship {
-            background: var(--ship-color);
-            border-color: var(--accent-alpha);
-        }
-
-        .grid-cell.hit {
-            background: var(--hit-color);
-            position: relative;
-        }
-
-        .grid-cell.hit::after {
-            content: '✕';
-            font-size: 2rem;
-            color: white;
-            font-weight: 900;
-        }
-
-        .grid-cell.miss {
-            background: var(--water-color);
-            position: relative;
-        }
-
-        .grid-cell.miss::after {
-            content: '○';
-            font-size: 1.5rem;
-            color: var(--miss-color);
-        }
-
-        .grid-cell.placing {
-            background: rgba(0, 255, 136, 0.3);
-            border-color: var(--accent-alpha);
-        }
+        .grid-cell.label { background: var(--bg-light); cursor: default; font-size: 1rem; }
+        .grid-cell.playable:hover { background: rgba(0,255,136,0.2); border-color: var(--accent-alpha); }
+        .grid-cell.ship { background: var(--ship-color); border-color: var(--accent-alpha); }
+        .grid-cell.hit { background: var(--hit-color); position: relative; }
+        .grid-cell.hit::after { content: '✕'; font-size: 2rem; color: white; font-weight: 900; }
+        .grid-cell.miss { background: var(--water-color); position: relative; }
+        .grid-cell.miss::after { content: '○'; font-size: 1.5rem; color: var(--miss-color); }
+        .grid-cell.placing { background: rgba(0,255,136,0.3); border-color: var(--accent-alpha); }
+        .grid-cell.sunk { background: #8b0000 !important; }
+        .grid-cell.sunk::after { content: '✕'; font-size: 2rem; color: #ff8888; font-weight: 900; }
 
         /* Ship Selection */
-        .ship-selection {
-            margin-top: 1.5rem;
-        }
-
-        .ship-selection h4 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: var(--text-secondary);
-        }
-
-        .ship-list {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
+        .ship-selection { margin-top: 1.2rem; }
+        .ship-selection h4 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-secondary); }
+        .ship-list { display: flex; gap: 1rem; flex-wrap: wrap; }
         .ship-btn {
             padding: 0.8rem 1.5rem;
             background: var(--bg-light);
@@ -426,83 +267,12 @@
             font-weight: 600;
             transition: all 0.3s ease;
         }
+        .ship-btn:hover { border-color: var(--accent-alpha); background: rgba(0,255,136,0.1); }
+        .ship-btn.selected { border-color: var(--accent-alpha); background: rgba(0,255,136,0.2); box-shadow: 0 0 15px rgba(0,255,136,0.3); }
+        .ship-btn.placed { opacity: 0.5; cursor: not-allowed; }
 
-        .ship-btn:hover {
-            border-color: var(--accent-alpha);
-            background: rgba(0, 255, 136, 0.1);
-        }
+        .orientation-toggle { margin-top: 1rem; }
 
-        .ship-btn.selected {
-            border-color: var(--accent-alpha);
-            background: rgba(0, 255, 136, 0.2);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
-        }
-
-        .ship-btn.placed {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .orientation-toggle {
-            margin-top: 1rem;
-        }
-
-        /* Themes Section */
-        .themes-section {
-            grid-area: themes;
-            background: var(--bg-medium);
-            border: 2px solid var(--accent-gold);
-            padding: 1.5rem;
-        }
-
-        .themes-section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent-gold);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-        }
-
-        .theme-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .theme-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 1rem;
-            background: var(--bg-light);
-            border: 2px solid var(--border-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .theme-checkbox:hover {
-            border-color: var(--accent-gold);
-            background: rgba(255, 215, 0, 0.1);
-        }
-
-        .theme-checkbox input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .theme-checkbox label {
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .theme-checkbox.checked {
-            border-color: var(--accent-gold);
-            background: rgba(255, 215, 0, 0.2);
-        }
-
-        /* Actions */
         .create-actions {
             grid-area: actions;
             display: flex;
@@ -511,186 +281,120 @@
             margin-top: 1rem;
         }
 
-        /* Question Screen */
-        .question-container {
-            max-width: 800px;
-            margin: 2rem auto;
-            background: var(--bg-medium);
-            border: 2px solid var(--accent-gold);
-            padding: 3rem;
+        /* ===== BATTLE SCREEN ===== */
+        .battle-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            gap: 1rem;
         }
 
-        .team-indicator {
+        .turn-indicator {
+            flex: 1;
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 1.4rem;
             font-weight: 900;
-            margin-bottom: 2rem;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
-        }
-
-        .team-indicator.alpha {
-            color: var(--accent-alpha);
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
-        }
-
-        .team-indicator.omega {
-            color: var(--accent-omega);
-            text-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
-        }
-
-        .question-theme {
-            text-align: center;
-            font-size: 1.2rem;
-            color: var(--accent-gold);
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-        }
-
-        .question-text {
-            font-size: 1.8rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-            color: var(--text-primary);
-        }
-
-        .question-image {
-            max-width: 100%;
-            max-height: 300px;
-            display: block;
-            margin: 2rem auto;
-            border: 2px solid var(--border-color);
-        }
-
-        .answer-input {
-            width: 100%;
-            padding: 1.2rem;
-            font-size: 1.3rem;
-            background: var(--bg-dark);
-            border: 2px solid var(--border-color);
-            color: var(--text-primary);
-            font-family: 'Courier Prime', monospace;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .answer-input:focus {
-            outline: none;
-            border-color: var(--accent-alpha);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
-        }
-
-        .answer-feedback {
-            text-align: center;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            font-size: 1.3rem;
-            font-weight: 700;
+            letter-spacing: 0.15em;
+            padding: 0.7rem 1.5rem;
             border: 2px solid;
+            background: var(--bg-medium);
         }
-
-        .answer-feedback.correct {
-            background: rgba(0, 255, 136, 0.2);
-            border-color: var(--accent-alpha);
+        .turn-indicator.alpha {
             color: var(--accent-alpha);
+            border-color: var(--accent-alpha);
+            text-shadow: 0 0 15px rgba(0,255,136,0.5);
+            box-shadow: 0 0 20px rgba(0,255,136,0.15);
+        }
+        .turn-indicator.omega {
+            color: var(--accent-omega);
+            border-color: var(--accent-omega);
+            text-shadow: 0 0 15px rgba(255,0,110,0.5);
+            box-shadow: 0 0 20px rgba(255,0,110,0.15);
         }
 
-        .answer-feedback.incorrect {
-            background: rgba(255, 0, 100, 0.2);
-            border-color: var(--hit-color);
-            color: var(--hit-color);
-        }
-
-        .correct-answer {
-            text-align: center;
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-top: 1rem;
-        }
-
-        .question-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        /* Waiting Screen */
-        .waiting-container {
-            max-width: 600px;
-            margin: 4rem auto;
-            text-align: center;
-        }
-
-        .waiting-container h2 {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .waiting-container .btn {
-            font-size: 1.5rem;
-            padding: 1.5rem 3rem;
-        }
-
-        /* Game Screen */
-        .game-layout {
+        .battle-grids {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-top: 2rem;
         }
 
-        .team-grids {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .team-grid-container {
+        .battle-grid-panel {
             background: var(--bg-medium);
             border: 2px solid var(--border-color);
             padding: 1.5rem;
+            position: relative;
         }
+        .battle-grid-panel.alpha { border-color: var(--accent-alpha); }
+        .battle-grid-panel.omega { border-color: var(--accent-omega); }
 
-        .team-grid-container h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+        .battle-grid-panel .panel-title {
+            font-size: 1.4rem;
+            font-weight: 900;
             text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .battle-grid-panel.alpha .panel-title { color: var(--accent-alpha); }
+        .battle-grid-panel.omega .panel-title { color: var(--accent-omega); }
+
+        .panel-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
         }
 
-        .team-grid-container.alpha {
-            border-color: var(--accent-alpha);
+        .ship-counter {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border: 1px solid;
+            font-size: 0.95rem;
+            font-family: 'Courier Prime', monospace;
+            margin-top: 0.3rem;
         }
+        .battle-grid-panel.alpha .ship-counter { border-color: var(--accent-alpha); color: var(--accent-alpha); }
+        .battle-grid-panel.omega .ship-counter { border-color: var(--accent-omega); color: var(--accent-omega); }
 
-        .team-grid-container.alpha h3 {
-            color: var(--accent-alpha);
+        /* Target panel — the enemy grid — gets a glow overlay when it's your turn to attack */
+        .battle-grid-panel.target-active {
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.25);
         }
-
-        .team-grid-container.omega {
-            border-color: var(--accent-omega);
+        .battle-grid-panel.target-active::before {
+            content: '🎯 CIBLER';
+            position: absolute;
+            top: 0.5rem; right: 0.8rem;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.1em;
+            animation: blink 1.2s ease-in-out infinite;
         }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-        .team-grid-container.omega h3 {
-            color: var(--accent-omega);
+        /* Clicking is disabled on own grid */
+        .battle-grid-panel.own-grid .grid-cell.playable { cursor: default; }
+        .battle-grid-panel.own-grid .grid-cell.playable:hover { background: var(--water-color); border-color: rgba(255,255,255,0.1); }
+
+        .last-shot-msg {
+            margin-top: 0.8rem;
+            min-height: 1.5rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
         }
+        .last-shot-msg.hit-msg { color: var(--hit-color); }
+        .last-shot-msg.sunk-msg { color: var(--accent-gold); }
+        .last-shot-msg.miss-msg { color: var(--text-secondary); }
 
-        .game-actions {
+        .battle-actions {
             display: flex;
             gap: 1rem;
             justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .message {
-            background: var(--bg-medium);
-            border: 2px solid var(--accent-gold);
-            padding: 1.5rem;
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+            margin-top: 1.5rem;
         }
 
         /* Victory Screen */
@@ -702,1670 +406,771 @@
             padding: 4rem;
             text-align: center;
         }
-
         .victory-container h1 {
             font-size: 4rem;
             margin-bottom: 2rem;
             text-transform: uppercase;
             letter-spacing: 0.2em;
         }
+        .victory-container h1.alpha { color: var(--accent-alpha); text-shadow: 0 0 30px rgba(0,255,136,0.6); }
+        .victory-container h1.omega { color: var(--accent-omega); text-shadow: 0 0 30px rgba(255,0,110,0.6); }
+        .victory-container p { font-size: 1.5rem; color: var(--text-secondary); margin-bottom: 3rem; }
 
-        .victory-container h1.alpha {
-            color: var(--accent-alpha);
-            text-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+        /* Stats in victory */
+        .victory-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
         }
-
-        .victory-container h1.omega {
-            color: var(--accent-omega);
-            text-shadow: 0 0 30px rgba(255, 0, 110, 0.6);
+        .stat-block {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
         }
-
-        .victory-container p {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-        }
+        .stat-block .stat-label { font-size: 0.95rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; }
+        .stat-block .stat-value { font-size: 2rem; font-weight: 900; margin-top: 0.3rem; }
+        .stat-block.alpha .stat-value { color: var(--accent-alpha); }
+        .stat-block.omega .stat-value { color: var(--accent-omega); }
 
         /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
+        .modal { display: none; position: fixed; top:0;left:0;width:100%;height:100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--bg-medium); border: 2px solid var(--accent-gold); padding: 2rem; max-width: 500px; width: 90%; }
+        .modal-content h3 { font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--accent-gold); text-align: center; }
+        .modal-content p { font-size: 1.2rem; margin-bottom: 1.5rem; text-align: center; }
+        .modal-actions { display: flex; gap: 1rem; justify-content: center; }
 
-        .modal.active {
-            display: flex;
+        /* Shot animation */
+        @keyframes shotFlash {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.4); }
+            100% { transform: scale(1); }
         }
-
-        .modal-content {
-            background: var(--bg-medium);
-            border: 2px solid var(--accent-gold);
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .modal-content h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent-gold);
-            text-align: center;
-        }
-
-        .modal-content p {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
+        .grid-cell.just-shot { animation: shotFlash 0.35s ease-out; }
 
         /* Responsive */
-        @media (max-width: 1200px) {
-            .create-layout {
-                grid-template-areas:
-                    "name"
-                    "alpha"
-                    "omega"
-                    "themes"
-                    "actions";
-                grid-template-columns: 1fr;
-            }
-
-            .team-grids {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 1100px) {
+            .battle-grids { grid-template-columns: 1fr; }
+            .create-layout { grid-template-areas: "name" "alpha" "omega" "actions"; grid-template-columns: 1fr; }
+            .battle-grid-panel.target-active::before { display: none; }
         }
-
         @media (max-width: 768px) {
-            .logo {
-                font-size: 2.5rem;
-            }
-
-            .grid {
-                grid-template-columns: 30px repeat(6, 45px);
-                grid-template-rows: 30px repeat(6, 45px);
-            }
-
-            .grid-cell {
-                font-size: 0.8rem;
-            }
-
-            .question-container {
-                padding: 2rem 1rem;
-            }
-
-            .question-text {
-                font-size: 1.4rem;
-            }
+            .logo { font-size: 2.2rem; }
+            .grid { grid-template-columns: 28px repeat(6, 42px); grid-template-rows: 28px repeat(6, 42px); }
+            .grid-cell { font-size: 0.75rem; }
+            .battle-header { flex-direction: column; }
         }
 
-        /* Loading Spinner */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid var(--border-color);
-            border-top-color: var(--accent-alpha);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
+        .loading { display: inline-block; width:20px;height:20px; border:3px solid var(--border-color); border-top-color:var(--accent-alpha); border-radius:50%; animation:spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">Bataille Navale</div>
-            <div class="subtitle">Alpha vs Oméga</div>
+<div class="container">
+    <div class="header">
+        <div class="logo">Bataille Navale</div>
+        <div class="subtitle">Alpha vs Oméga</div>
+    </div>
+
+    <!-- ===== MENU SCREEN ===== -->
+    <div id="menuScreen" class="screen active">
+        <div class="menu-buttons">
+            <button class="btn btn-alpha" onclick="gameApp.showCreateGame()">Nouvelle Partie</button>
+            <button class="btn btn-omega" onclick="gameApp.loadSavedGames()">Charger une Partie</button>
         </div>
-
-        <!-- Menu Screen -->
-        <div id="menuScreen" class="screen active">
-            <div class="menu-buttons">
-                <button class="btn btn-alpha" onclick="gameApp.showCreateGame()">Nouvelle Partie</button>
-                <button class="btn btn-omega" onclick="gameApp.loadSavedGames()">Charger une Partie</button>
-                <button class="btn btn-secondary" onclick="gameApp.syncQuestions()">
-                    <span id="syncText">Synchroniser Questions</span>
-                </button>
-            </div>
-
-            <div class="saved-games" id="savedGamesSection" style="display: none;">
-                <h2>Parties Sauvegardées</h2>
-                <div class="game-list" id="gameList"></div>
-            </div>
+        <div class="saved-games" id="savedGamesSection" style="display:none;">
+            <h2>Parties Sauvegardées</h2>
+            <div class="game-list" id="gameList"></div>
         </div>
+    </div>
 
-        <!-- Create Game Screen -->
-        <div id="createScreen" class="screen">
-            <div class="create-layout">
-                <div class="game-name-section">
-                    <h2>Nom de la Partie</h2>
-                    <input type="text" id="gameName" placeholder="Entrez le nom de la partie" maxlength="50">
-                </div>
-
-                <div class="grid-section alpha">
-                    <h3>Équipe Alpha</h3>
-                    <div class="grid-container">
-                        <div class="grid" id="gridAlpha"></div>
-                    </div>
-                    <div class="ship-selection">
-                        <h4>Navires à placer :</h4>
-                        <div class="ship-list" id="shipsAlpha"></div>
-                        <div class="orientation-toggle">
-                            <button class="btn btn-secondary" onclick="gameApp.toggleOrientation('alpha')">
-                                Orientation: <span id="orientationAlpha">Horizontal</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid-section omega">
-                    <h3>Équipe Oméga</h3>
-                    <div class="grid-container">
-                        <div class="grid" id="gridOmega"></div>
-                    </div>
-                    <div class="ship-selection">
-                        <h4>Navires à placer :</h4>
-                        <div class="ship-list" id="shipsOmega"></div>
-                        <div class="orientation-toggle">
-                            <button class="btn btn-secondary" onclick="gameApp.toggleOrientation('omega')">
-                                Orientation: <span id="orientationOmega">Horizontal</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="themes-section">
-                    <h2>Thèmes</h2>
-                    <div class="theme-list" id="themeList"></div>
-                </div>
-
-                <div class="create-actions">
-                    <button class="btn btn-secondary" onclick="gameApp.showMenu()">Annuler</button>
-                    <button class="btn btn-alpha" onclick="gameApp.finalizeGame()">Créer la Partie</button>
-                </div>
+    <!-- ===== CREATE SCREEN ===== -->
+    <div id="createScreen" class="screen">
+        <div class="create-layout">
+            <div class="game-name-section">
+                <h2>Nom de la Partie</h2>
+                <input type="text" id="gameName" placeholder="Entrez le nom de la partie" maxlength="50">
             </div>
-        </div>
 
-        <!-- Waiting Screen -->
-        <div id="waitingScreen" class="screen">
-            <div class="waiting-container">
-                <h2 class="team-indicator" id="waitingTeam"></h2>
-                
-                <button class="btn btn-alpha" id="startTurnBtn" onclick="gameApp.startTurn()">Commencer le Tour</button>
-                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
-                    <button class="btn btn-secondary" onclick="gameApp.showThemesModal()">Gérer les Thèmes</button>
-                    <button class="btn btn-secondary" onclick="gameApp.returnToMenuFromGame()">Retour au Menu</button>
+            <div class="grid-section alpha">
+                <h3>Équipe Alpha</h3>
+                <div class="grid-container">
+                    <div class="grid" id="gridAlpha"></div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Question Screen -->
-        <div id="questionScreen" class="screen">
-            <div class="question-container">
-                <div class="team-indicator" id="questionTeam"></div>
-                
-                <!-- Chronomètre -->
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <div id="timerDisplay" style="font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; color: var(--accent-gold); text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);"></div>
-                    <div id="timerBar" style="width: 100%; height: 8px; background: var(--bg-dark); margin-top: 1rem; position: relative; overflow: hidden;">
-                        <div id="timerProgress" style="height: 100%; background: #ffffff; transition: width 0.1s linear, background 0.3s;"></div>
-                    </div>
-                </div>
-                
-                <div class="question-theme" id="questionTheme"></div>
-                <div class="question-text" id="questionText"></div>
-                <img id="questionImage" class="question-image" style="display: none;">
-                
-                <div id="answerSection">
-                    <input type="text" id="answerInput" class="answer-input" placeholder="Votre réponse...">
-                    <div class="question-actions">
-                        <button class="btn btn-alpha" onclick="gameApp.submitAnswer()">Valider</button>
-                    </div>
-                </div>
-
-                <div id="feedbackSection" style="display: none;">
-                    <div class="answer-feedback" id="answerFeedback"></div>
-                    <div class="correct-answer" id="correctAnswer"></div>
-                    <div class="question-actions">
-                        <button class="btn btn-secondary" id="feedbackBtn" onclick="gameApp.handleAnswerResult()"></button>
+                <div class="ship-selection">
+                    <h4>Navires à placer :</h4>
+                    <div class="ship-list" id="shipsAlpha"></div>
+                    <div class="orientation-toggle" style="margin-top:1rem;">
+                        <button class="btn btn-secondary" onclick="gameApp.toggleOrientation('alpha')">
+                            Orientation: <span id="orientationAlpha">Horizontal</span>
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Attack Screen -->
-        <div id="attackScreen" class="screen">
-            <div class="message">Choisissez une case sur la grille adverse pour tirer</div>
-            <div class="team-grids">
-                <div class="team-grid-container" id="attackGridContainer">
-                    <h3 id="attackGridTitle"></h3>
-                    <div class="grid-container">
-                        <div class="grid" id="attackGrid"></div>
+            <div class="grid-section omega">
+                <h3>Équipe Oméga</h3>
+                <div class="grid-container">
+                    <div class="grid" id="gridOmega"></div>
+                </div>
+                <div class="ship-selection">
+                    <h4>Navires à placer :</h4>
+                    <div class="ship-list" id="shipsOmega"></div>
+                    <div class="orientation-toggle" style="margin-top:1rem;">
+                        <button class="btn btn-secondary" onclick="gameApp.toggleOrientation('omega')">
+                            Orientation: <span id="orientationOmega">Horizontal</span>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="game-actions">
-                <button class="btn btn-alpha" onclick="gameApp.endTurn()">Terminer le Tour</button>
-            </div>
-        </div>
 
-        <!-- Victory Screen -->
-        <div id="victoryScreen" class="screen">
-            <div class="victory-container">
-                <h1 id="victoryTeam"></h1>
-                <p>a remporté la bataille navale !</p>
-                <button class="btn btn-alpha" onclick="gameApp.showMenu()">Retour au Menu</button>
-            </div>
-        </div>
-
-        <!-- Modal -->
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <h3 id="modalTitle"></h3>
-                <p id="modalMessage"></p>
-                <div class="modal-actions">
-                    <button class="btn btn-secondary" onclick="gameApp.closeModal()">OK</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Themes Management Modal -->
-        <div id="themesModal" class="modal">
-            <div class="modal-content" style="max-width: 700px;">
-                <h3>Gestion des Thèmes et Chronomètre</h3>
-                
-                <!-- Configuration du chronomètre -->
-                <div style="margin: 1.5rem 0; padding: 1.5rem; background: var(--bg-dark); border: 1px solid var(--border-color);">
-                    <h4 style="color: var(--accent-gold); margin-bottom: 1rem; text-align: center;">⏱️ Temps pour répondre</h4>
-                    <div style="display: flex; gap: 1rem; justify-content: center; align-items: center;">
-                        <input type="number" id="timerMinutes" value="5" min="0" max="10" 
-                               style="width: 80px; padding: 0.8rem; text-align: center; font-size: 1.2rem; background: var(--bg-medium); border: 2px solid var(--border-color); color: var(--text-primary); font-family: 'Orbitron', sans-serif;">
-                        <span style="font-size: 1.5rem; color: var(--text-primary);">:</span>
-                        <input type="number" id="timerSeconds" value="0" min="0" max="59" 
-                               style="width: 80px; padding: 0.8rem; text-align: center; font-size: 1.2rem; background: var(--bg-medium); border: 2px solid var(--border-color); color: var(--text-primary); font-family: 'Orbitron', sans-serif;">
-                    </div>
-                    <p style="text-align: center; color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">
-                        (minutes : secondes)
-                    </p>
-                </div>
-                
-                <!-- Sélection des thèmes -->
-                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; text-align: center;">
-                    Sélectionnez les thèmes pour cette partie
-                </p>
-                <div class="theme-list" id="themesModalList"></div>
-                <div class="modal-actions" style="margin-top: 2rem;">
-                    <button class="btn btn-secondary" onclick="gameApp.closeThemesModal()">Annuler</button>
-                    <button class="btn btn-alpha" onclick="gameApp.saveThemesSelection()">Enregistrer</button>
-                </div>
+            <div class="create-actions">
+                <button class="btn btn-secondary" onclick="gameApp.showMenu()">Annuler</button>
+                <button class="btn btn-alpha" onclick="gameApp.finalizeGame()">Commencer la Bataille !</button>
             </div>
         </div>
     </div>
 
-    <script>
-        // IndexedDB Manager
-        class BattleshipDatabase {
-            constructor() {
-                this.dbName = 'BattleshipDB';
-                this.version = 1;
-                this.db = null;
-            }
+    <!-- ===== BATTLE SCREEN ===== -->
+    <div id="battleScreen" class="screen">
+        <div class="battle-header">
+            <button class="btn btn-secondary" style="flex-shrink:0;" onclick="gameApp.returnToMenu()">← Menu</button>
+            <div class="turn-indicator alpha" id="turnIndicator">Tour de l'Équipe Alpha</div>
+            <button class="btn btn-secondary" style="flex-shrink:0;" onclick="gameApp.endTurn()">Passer le Tour →</button>
+        </div>
 
-            async init() {
-                return new Promise((resolve, reject) => {
-                    const request = indexedDB.open(this.dbName, this.version);
+        <div class="battle-grids">
+            <!-- Alpha panel -->
+            <div class="battle-grid-panel alpha" id="panelAlpha">
+                <div class="panel-title">⚓ Équipe Alpha</div>
+                <div class="panel-subtitle" id="subtitleAlpha">Grille propre</div>
+                <div class="ship-counter" id="counterAlpha">4 navires actifs</div>
+                <div class="grid-container">
+                    <div class="grid" id="battleGridAlpha"></div>
+                </div>
+                <div class="last-shot-msg" id="msgAlpha"></div>
+            </div>
 
-                    request.onerror = () => reject(request.error);
-                    request.onsuccess = () => {
-                        this.db = request.result;
-                        resolve(this.db);
-                    };
+            <!-- Omega panel -->
+            <div class="battle-grid-panel omega" id="panelOmega">
+                <div class="panel-title">⚓ Équipe Oméga</div>
+                <div class="panel-subtitle" id="subtitleOmega">Grille propre</div>
+                <div class="ship-counter" id="counterOmega">4 navires actifs</div>
+                <div class="grid-container">
+                    <div class="grid" id="battleGridOmega"></div>
+                </div>
+                <div class="last-shot-msg" id="msgOmega"></div>
+            </div>
+        </div>
+    </div>
 
-                    request.onupgradeneeded = (event) => {
-                        const db = event.target.result;
-                        
-                        // Store for games
-                        if (!db.objectStoreNames.contains('games')) {
-                            const gamesStore = db.createObjectStore('games', { keyPath: 'id', autoIncrement: true });
-                            gamesStore.createIndex('name', 'name', { unique: false });
-                            gamesStore.createIndex('createdAt', 'createdAt', { unique: false });
-                        }
+    <!-- ===== VICTORY SCREEN ===== -->
+    <div id="victoryScreen" class="screen">
+        <div class="victory-container">
+            <div style="font-size:4rem; margin-bottom:1rem;">🏆</div>
+            <h1 id="victoryTeam"></h1>
+            <p>a remporté la bataille navale !</p>
+            <div class="victory-stats" id="victoryStats"></div>
+            <button class="btn btn-alpha" onclick="gameApp.showMenu()">Retour au Menu</button>
+        </div>
+    </div>
 
-                        // Store for themes
-                        if (!db.objectStoreNames.contains('themes')) {
-                            const themesStore = db.createObjectStore('themes', { keyPath: 'id' });
-                            themesStore.createIndex('nom', 'nom', { unique: false });
-                        }
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle"></h3>
+            <p id="modalMessage"></p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="gameApp.closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        // Store for questions
-                        if (!db.objectStoreNames.contains('questions')) {
-                            const questionsStore = db.createObjectStore('questions', { keyPath: 'id' });
-                            questionsStore.createIndex('theme', 'theme', { unique: false });
-                        }
-                    };
-                });
-            }
+<script>
+// ===================== IndexedDB =====================
+class BattleshipDatabase {
+    constructor() {
+        this.dbName = 'BattleshipDB_v2';
+        this.version = 1;
+        this.db = null;
+    }
 
-            async saveGame(gameData) {
-                return new Promise((resolve, reject) => {
-                    const transaction = this.db.transaction(['games'], 'readwrite');
-                    const objectStore = transaction.objectStore('games');
-                    
-                    const request = gameData.id 
-                        ? objectStore.put(gameData)
-                        : objectStore.add(gameData);
+    async init() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(this.dbName, this.version);
+            request.onerror = () => reject(request.error);
+            request.onsuccess = () => { this.db = request.result; resolve(this.db); };
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains('games')) {
+                    const store = db.createObjectStore('games', { keyPath: 'id', autoIncrement: true });
+                    store.createIndex('name', 'name', { unique: false });
+                    store.createIndex('createdAt', 'createdAt', { unique: false });
+                }
+            };
+        });
+    }
 
-                    request.onsuccess = () => {
-                        gameData.id = request.result;
-                        resolve(gameData);
-                    };
-                    request.onerror = () => reject(request.error);
-                });
-            }
+    async saveGame(g) {
+        return new Promise((resolve, reject) => {
+            const tx = this.db.transaction(['games'], 'readwrite');
+            const store = tx.objectStore('games');
+            const req = g.id ? store.put(g) : store.add(g);
+            req.onsuccess = () => { g.id = req.result; resolve(g); };
+            req.onerror = () => reject(req.error);
+        });
+    }
 
-            async getGame(id) {
-                return new Promise((resolve, reject) => {
-                    const transaction = this.db.transaction(['games'], 'readonly');
-                    const objectStore = transaction.objectStore('games');
-                    const request = objectStore.get(id);
+    async getGame(id) {
+        return new Promise((resolve, reject) => {
+            const tx = this.db.transaction(['games'], 'readonly');
+            const req = tx.objectStore('games').get(id);
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
+        });
+    }
 
-                    request.onsuccess = () => resolve(request.result);
-                    request.onerror = () => reject(request.error);
-                });
-            }
+    async getAllGames() {
+        return new Promise((resolve, reject) => {
+            const tx = this.db.transaction(['games'], 'readonly');
+            const req = tx.objectStore('games').getAll();
+            req.onsuccess = () => {
+                const games = req.result;
+                games.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                resolve(games);
+            };
+            req.onerror = () => reject(req.error);
+        });
+    }
 
-            async getAllGames() {
-                return new Promise((resolve, reject) => {
-                    const transaction = this.db.transaction(['games'], 'readonly');
-                    const objectStore = transaction.objectStore('games');
-                    const request = objectStore.getAll();
+    async deleteGame(id) {
+        return new Promise((resolve, reject) => {
+            const tx = this.db.transaction(['games'], 'readwrite');
+            const req = tx.objectStore('games').delete(id);
+            req.onsuccess = () => resolve();
+            req.onerror = () => reject(req.error);
+        });
+    }
+}
 
-                    request.onsuccess = () => {
-                        const games = request.result;
-                        games.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                        resolve(games);
-                    };
-                    request.onerror = () => reject(request.error);
-                });
-            }
+// ===================== Game Application =====================
+class BattleshipGame {
+    constructor() {
+        this.db = new BattleshipDatabase();
+        this.currentGame = null;
+        this.createMode = { alpha: null, omega: null };
+        this.stats = { alpha: { hits: 0, misses: 0 }, omega: { hits: 0, misses: 0 } };
+    }
 
-            async deleteGame(id) {
-                return new Promise((resolve, reject) => {
-                    const transaction = this.db.transaction(['games'], 'readwrite');
-                    const objectStore = transaction.objectStore('games');
-                    const request = objectStore.delete(id);
+    createEmptyGrid() {
+        return Array.from({ length: 6 }, () =>
+            Array.from({ length: 6 }, () => ({ ship: false, hit: false, miss: false }))
+        );
+    }
 
-                    request.onsuccess = () => resolve();
-                    request.onerror = () => reject(request.error);
-                });
-            }
+    resetCreateMode() {
+        const makeTeam = () => ({
+            ships: [
+                { size: 4, placed: false, cells: [] },
+                { size: 3, placed: false, cells: [] },
+                { size: 3, placed: false, cells: [] },
+                { size: 2, placed: false, cells: [] }
+            ],
+            grid: this.createEmptyGrid(),
+            selectedShip: null,
+            orientation: 'horizontal'
+        });
+        this.createMode = { alpha: makeTeam(), omega: makeTeam() };
+    }
 
-            async saveThemes(themes) {
-                return new Promise((resolve, reject) => {
-                    const transaction = this.db.transaction(['themes'], 'readwrite');
-                    const objectStore = transaction.objectStore('themes');
-                    
-                    // Clear existing themes
-                    objectStore.clear();
-                    
-                    // Add new themes
-                    themes.forEach(theme => {
-                        objectStore.add(theme);
-                    });
+    async init() {
+        try {
+            await this.db.init();
+            this.showMenu();
+        } catch (e) {
+            console.error(e);
+            this.showModal('Erreur', 'Impossible d\'initialiser la base de données.');
+        }
+    }
 
-                    transaction.oncomplete = () => resolve();
-                    transaction.onerror = () => reject(transaction.error);
-                });
-            }
+    // ---- Screen navigation ----
+    hideAllScreens() {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    }
 
-            async getAllThemes() {
-                return new Promise((resolve, reject) => {
-                    const transaction = this.db.transaction(['themes'], 'readonly');
-                    const objectStore = transaction.objectStore('themes');
-                    const request = objectStore.getAll();
+    showMenu() {
+        this.currentGame = null;
+        this.hideAllScreens();
+        document.getElementById('menuScreen').classList.add('active');
+        document.getElementById('savedGamesSection').style.display = 'none';
+    }
 
-                    request.onsuccess = () => resolve(request.result);
-                    request.onerror = () => reject(request.error);
-                });
-            }
+    showCreateGame() {
+        this.hideAllScreens();
+        document.getElementById('createScreen').classList.add('active');
+        this.resetCreateMode();
+        this.renderCreateGrid('gridAlpha', 'alpha');
+        this.renderCreateGrid('gridOmega', 'omega');
+        this.renderShipButtons('alpha');
+        this.renderShipButtons('omega');
+    }
 
-            async saveQuestions(questions) {
-                return new Promise((resolve, reject) => {
-                    const transaction = this.db.transaction(['questions'], 'readwrite');
-                    const objectStore = transaction.objectStore('questions');
-                    
-                    // Clear existing questions
-                    objectStore.clear();
-                    
-                    // Add new questions
-                    questions.forEach(question => {
-                        objectStore.add(question);
-                    });
+    // ---- Grid rendering ----
+    renderGrid(containerId, grid, clickable, clickFn) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        const rowLabels = ['A','B','C','D','E','F'];
 
-                    transaction.oncomplete = () => resolve();
-                    transaction.onerror = () => reject(transaction.error);
-                });
-            }
+        // Corner
+        const corner = document.createElement('div');
+        corner.className = 'grid-cell label';
+        container.appendChild(corner);
 
-            async getAllQuestions() {
-                return new Promise((resolve, reject) => {
-                    const transaction = this.db.transaction(['questions'], 'readonly');
-                    const objectStore = transaction.objectStore('questions');
-                    const request = objectStore.getAll();
-
-                    request.onsuccess = () => resolve(request.result);
-                    request.onerror = () => reject(request.error);
-                });
-            }
-
-            async getQuestionsByTheme(themeId) {
-                return new Promise((resolve, reject) => {
-                    const transaction = this.db.transaction(['questions'], 'readonly');
-                    const objectStore = transaction.objectStore('questions');
-                    const index = objectStore.index('theme');
-                    const request = index.getAll(themeId);
-
-                    request.onsuccess = () => resolve(request.result);
-                    request.onerror = () => reject(request.error);
-                });
-            }
+        // Column labels
+        for (let j = 0; j < 6; j++) {
+            const lbl = document.createElement('div');
+            lbl.className = 'grid-cell label';
+            lbl.textContent = j + 1;
+            container.appendChild(lbl);
         }
 
-        // Game Application
-        class BattleshipGame {
-            constructor() {
-                this.db = new BattleshipDatabase();
-                this.currentGame = null;
-                this.createMode = {
-                    alpha: {
-                        ships: [
-                            { size: 4, placed: false, cells: [] },
-                            { size: 3, placed: false, cells: [] },
-                            { size: 3, placed: false, cells: [] },
-                            { size: 2, placed: false, cells: [] }
-                        ],
-                        grid: this.createEmptyGrid(),
-                        selectedShip: null,
-                        orientation: 'horizontal'
-                    },
-                    omega: {
-                        ships: [
-                            { size: 4, placed: false, cells: [] },
-                            { size: 3, placed: false, cells: [] },
-                            { size: 3, placed: false, cells: [] },
-                            { size: 2, placed: false, cells: [] }
-                        ],
-                        grid: this.createEmptyGrid(),
-                        selectedShip: null,
-                        orientation: 'horizontal'
-                    }
-                };
-                this.currentQuestion = null;
-                this.currentAnswer = null;
-                this.timerInterval = null;
-                this.timeRemaining = 0;
-            }
+        // Rows
+        for (let i = 0; i < 6; i++) {
+            const rowLbl = document.createElement('div');
+            rowLbl.className = 'grid-cell label';
+            rowLbl.textContent = rowLabels[i];
+            container.appendChild(rowLbl);
 
-            createEmptyGrid() {
-                const grid = [];
-                for (let i = 0; i < 6; i++) {
-                    grid[i] = [];
-                    for (let j = 0; j < 6; j++) {
-                        grid[i][j] = {
-                            ship: false,
-                            hit: false,
-                            miss: false
-                        };
-                    }
+            for (let j = 0; j < 6; j++) {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell playable';
+                cell.dataset.row = i;
+                cell.dataset.col = j;
+
+                const c = grid[i][j];
+                if (c.sunk) { cell.classList.add('sunk'); }
+                else if (c.hit) { cell.classList.add('hit'); }
+                else if (c.miss) { cell.classList.add('miss'); }
+                else if (c.ship) { cell.classList.add('ship'); }
+
+                if (clickable && clickFn) {
+                    cell.onclick = () => clickFn(i, j);
                 }
-                return grid;
-            }
-
-            async init() {
-                try {
-                    await this.db.init();
-                    this.showMenu();
-                } catch (error) {
-                    console.error('Erreur d\'initialisation:', error);
-                    this.showModal('Erreur', 'Impossible d\'initialiser la base de données');
-                }
-            }
-
-            // Screen Navigation
-            hideAllScreens() {
-                document.querySelectorAll('.screen').forEach(screen => {
-                    screen.classList.remove('active');
-                });
-            }
-
-            showMenu() {
-                this.hideAllScreens();
-                document.getElementById('menuScreen').classList.add('active');
-                document.getElementById('savedGamesSection').style.display = 'none';
-            }
-
-            showCreateGame() {
-                this.hideAllScreens();
-                document.getElementById('createScreen').classList.add('active');
-                this.resetCreateMode();
-                this.renderCreateScreen();
-            }
-
-            resetCreateMode() {
-                this.createMode = {
-                    alpha: {
-                        ships: [
-                            { size: 4, placed: false, cells: [] },
-                            { size: 3, placed: false, cells: [] },
-                            { size: 3, placed: false, cells: [] },
-                            { size: 2, placed: false, cells: [] }
-                        ],
-                        grid: this.createEmptyGrid(),
-                        selectedShip: null,
-                        orientation: 'horizontal'
-                    },
-                    omega: {
-                        ships: [
-                            { size: 4, placed: false, cells: [] },
-                            { size: 3, placed: false, cells: [] },
-                            { size: 3, placed: false, cells: [] },
-                            { size: 2, placed: false, cells: [] }
-                        ],
-                        grid: this.createEmptyGrid(),
-                        selectedShip: null,
-                        orientation: 'horizontal'
-                    }
-                };
-            }
-
-            async renderCreateScreen() {
-                // Render grids
-                this.renderGrid('gridAlpha', this.createMode.alpha.grid, 'alpha', true);
-                this.renderGrid('gridOmega', this.createMode.omega.grid, 'omega', true);
-
-                // Render ship buttons
-                this.renderShipButtons('alpha');
-                this.renderShipButtons('omega');
-
-                // Render themes
-                await this.renderThemes();
-            }
-
-            renderGrid(containerId, grid, team, editable = false) {
-                const container = document.getElementById(containerId);
-                container.innerHTML = '';
-
-                // Empty corner cell
-                const corner = document.createElement('div');
-                corner.className = 'grid-cell label';
-                container.appendChild(corner);
-
-                // Column labels (1-6)
-                for (let j = 0; j < 6; j++) {
-                    const label = document.createElement('div');
-                    label.className = 'grid-cell label';
-                    label.textContent = j + 1;
-                    container.appendChild(label);
-                }
-
-                // Rows with labels (A-F)
-                const rowLabels = ['A', 'B', 'C', 'D', 'E', 'F'];
-                for (let i = 0; i < 6; i++) {
-                    // Row label
-                    const label = document.createElement('div');
-                    label.className = 'grid-cell label';
-                    label.textContent = rowLabels[i];
-                    container.appendChild(label);
-
-                    // Grid cells
-                    for (let j = 0; j < 6; j++) {
-                        const cell = document.createElement('div');
-                        cell.className = 'grid-cell playable';
-                        cell.dataset.row = i;
-                        cell.dataset.col = j;
-
-                        if (grid[i][j].ship) {
-                            cell.classList.add('ship');
-                        }
-                        if (grid[i][j].hit) {
-                            cell.classList.add('hit');
-                        }
-                        if (grid[i][j].miss) {
-                            cell.classList.add('miss');
-                        }
-
-                        if (editable) {
-                            cell.onclick = () => this.handleCellClick(i, j, team);
-                            cell.onmouseover = () => this.handleCellHover(i, j, team);
-                            cell.onmouseout = () => this.handleCellOut(team);
-                        }
-
-                        container.appendChild(cell);
-                    }
-                }
-            }
-
-            renderShipButtons(team) {
-                const container = document.getElementById(`ships${team.charAt(0).toUpperCase() + team.slice(1)}`);
-                container.innerHTML = '';
-
-                this.createMode[team].ships.forEach((ship, index) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'ship-btn';
-                    btn.textContent = `Navire (${ship.size} cases)`;
-                    
-                    if (ship.placed) {
-                        btn.classList.add('placed');
-                        btn.disabled = true;
-                    }
-                    
-                    if (this.createMode[team].selectedShip === index) {
-                        btn.classList.add('selected');
-                    }
-
-                    btn.onclick = () => this.selectShip(team, index);
-                    container.appendChild(btn);
-                });
-            }
-
-            selectShip(team, index) {
-                if (this.createMode[team].ships[index].placed) return;
-                
-                this.createMode[team].selectedShip = index;
-                this.renderShipButtons(team);
-            }
-
-            toggleOrientation(team) {
-                this.createMode[team].orientation = 
-                    this.createMode[team].orientation === 'horizontal' ? 'vertical' : 'horizontal';
-                document.getElementById(`orientation${team.charAt(0).toUpperCase() + team.slice(1)}`).textContent = 
-                    this.createMode[team].orientation === 'horizontal' ? 'Horizontal' : 'Vertical';
-            }
-
-            handleCellHover(row, col, team) {
-                const shipIndex = this.createMode[team].selectedShip;
-                if (shipIndex === null) return;
-
-                const ship = this.createMode[team].ships[shipIndex];
-                if (ship.placed) return;
-
-                const cells = this.getShipCells(row, col, ship.size, this.createMode[team].orientation);
-                
-                // Preview ship placement
-                const grid = document.getElementById(`grid${team.charAt(0).toUpperCase() + team.slice(1)}`);
-                grid.querySelectorAll('.grid-cell.placing').forEach(cell => {
-                    cell.classList.remove('placing');
-                });
-
-                if (this.canPlaceShip(team, row, col, ship.size, this.createMode[team].orientation)) {
-                    cells.forEach(([r, c]) => {
-                        const cell = grid.querySelector(`[data-row="${r}"][data-col="${c}"]`);
-                        if (cell) cell.classList.add('placing');
-                    });
-                }
-            }
-
-            handleCellOut(team) {
-                const grid = document.getElementById(`grid${team.charAt(0).toUpperCase() + team.slice(1)}`);
-                grid.querySelectorAll('.grid-cell.placing').forEach(cell => {
-                    cell.classList.remove('placing');
-                });
-            }
-
-            handleCellClick(row, col, team) {
-                const shipIndex = this.createMode[team].selectedShip;
-                if (shipIndex === null) {
-                    this.showModal('Attention', 'Veuillez d\'abord sélectionner un navire à placer');
-                    return;
-                }
-
-                const ship = this.createMode[team].ships[shipIndex];
-                if (ship.placed) return;
-
-                if (this.canPlaceShip(team, row, col, ship.size, this.createMode[team].orientation)) {
-                    const cells = this.getShipCells(row, col, ship.size, this.createMode[team].orientation);
-                    
-                    // Placer le navire sur la grille
-                    this.placeShip(team, row, col, ship.size, this.createMode[team].orientation);
-                    
-                    // Enregistrer les coordonnées des cases du navire
-                    ship.cells = cells.map(([r, c]) => ({ row: r, col: c }));
-                    ship.placed = true;
-                    
-                    this.createMode[team].selectedShip = null;
-                    this.renderGrid(`grid${team.charAt(0).toUpperCase() + team.slice(1)}`, this.createMode[team].grid, team, true);
-                    this.renderShipButtons(team);
-                } else {
-                    this.showModal('Placement impossible', 'Le navire ne peut pas être placé ici');
-                }
-            }
-
-            getShipCells(row, col, size, orientation) {
-                const cells = [];
-                if (orientation === 'horizontal') {
-                    for (let j = 0; j < size; j++) {
-                        cells.push([row, col + j]);
-                    }
-                } else {
-                    for (let i = 0; i < size; i++) {
-                        cells.push([row + i, col]);
-                    }
-                }
-                return cells;
-            }
-
-            canPlaceShip(team, row, col, size, orientation) {
-                const cells = this.getShipCells(row, col, size, orientation);
-                
-                for (const [r, c] of cells) {
-                    if (r < 0 || r >= 6 || c < 0 || c >= 6) return false;
-                    if (this.createMode[team].grid[r][c].ship) return false;
-                }
-                
-                return true;
-            }
-
-            placeShip(team, row, col, size, orientation) {
-                const cells = this.getShipCells(row, col, size, orientation);
-                cells.forEach(([r, c]) => {
-                    this.createMode[team].grid[r][c].ship = true;
-                });
-            }
-
-            async renderThemes() {
-                const themes = await this.db.getAllThemes();
-                const container = document.getElementById('themeList');
-                container.innerHTML = '';
-
-                if (themes.length === 0) {
-                    container.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">Aucun thème disponible. Veuillez synchroniser les questions.</p>';
-                    return;
-                }
-
-                themes.forEach(theme => {
-                    const div = document.createElement('div');
-                    div.className = 'theme-checkbox';
-                    div.innerHTML = `
-                        <input type="checkbox" id="theme-${theme.id}" value="${theme.id}">
-                        <label for="theme-${theme.id}">${theme.nom}</label>
-                    `;
-                    
-                    const checkbox = div.querySelector('input');
-                    checkbox.onchange = () => {
-                        div.classList.toggle('checked', checkbox.checked);
-                    };
-                    
-                    container.appendChild(div);
-                });
-            }
-
-            async finalizeGame() {
-                // Validate game name
-                const gameName = document.getElementById('gameName').value.trim();
-                if (!gameName) {
-                    this.showModal('Erreur', 'Veuillez entrer un nom pour la partie');
-                    return;
-                }
-
-                // Validate ship placement
-                const alphaAllPlaced = this.createMode.alpha.ships.every(ship => ship.placed);
-                const omegaAllPlaced = this.createMode.omega.ships.every(ship => ship.placed);
-                
-                if (!alphaAllPlaced || !omegaAllPlaced) {
-                    this.showModal('Erreur', 'Tous les navires doivent être placés pour les deux équipes');
-                    return;
-                }
-
-                // Validate theme selection
-                const selectedThemes = [];
-                document.querySelectorAll('#themeList input[type="checkbox"]:checked').forEach(checkbox => {
-                    selectedThemes.push(checkbox.value);
-                });
-
-                if (selectedThemes.length === 0) {
-                    this.showModal('Erreur', 'Veuillez sélectionner au moins un thème');
-                    return;
-                }
-
-                // Create game data
-                const allQuestions = await this.db.getAllQuestions();
-                const gameQuestions = allQuestions
-                    .filter(q => selectedThemes.includes(q.theme))
-                    .map(q => ({ ...q, asked: false }));
-
-                if (gameQuestions.length === 0) {
-                    this.showModal('Erreur', 'Aucune question disponible pour les thèmes sélectionnés');
-                    return;
-                }
-
-                // Préparer les informations des navires (déjà enregistrées lors du placement)
-                const prepareShipsData = (ships) => {
-                    return ships.map(ship => ({
-                        size: ship.size,
-                        cells: ship.cells
-                    }));
-                };
-
-                const gameData = {
-                    name: gameName,
-                    currentTeam: 'alpha',
-                    alpha: {
-                        grid: JSON.parse(JSON.stringify(this.createMode.alpha.grid)),
-                        ships: prepareShipsData(this.createMode.alpha.ships)
-                    },
-                    omega: {
-                        grid: JSON.parse(JSON.stringify(this.createMode.omega.grid)),
-                        ships: prepareShipsData(this.createMode.omega.ships)
-                    },
-                    selectedThemes: selectedThemes,
-                    questions: gameQuestions,
-                    createdAt: new Date().toISOString()
-                };
-
-                console.log('=== Création de la partie ===');
-                console.log('Alpha ships:', gameData.alpha.ships);
-                console.log('Omega ships:', gameData.omega.ships);
-                console.log('============================');
-
-                try {
-                    await this.db.saveGame(gameData);
-                    this.showModal('Succès', 'La partie a été créée avec succès');
-                    setTimeout(() => {
-                        this.closeModal();
-                        this.showMenu();
-                    }, 1500);
-                } catch (error) {
-                    console.error('Erreur lors de la création de la partie:', error);
-                    this.showModal('Erreur', 'Impossible de créer la partie');
-                }
-            }
-
-            async loadSavedGames() {
-                const games = await this.db.getAllGames();
-                const gameList = document.getElementById('gameList');
-                const savedGamesSection = document.getElementById('savedGamesSection');
-
-                if (games.length === 0) {
-                    this.showModal('Information', 'Aucune partie sauvegardée');
-                    return;
-                }
-
-                console.log('=== Parties chargées ===');
-                
-                gameList.innerHTML = '';
-                games.forEach((game, idx) => {
-                    console.log(`Partie ${idx + 1}: ${game.name}`);
-                    console.log('  - Alpha ships:', game.alpha.ships ? `${game.alpha.ships.length} navires` : 'NON DÉFINI');
-                    console.log('  - Omega ships:', game.omega.ships ? `${game.omega.ships.length} navires` : 'NON DÉFINI');
-                    
-                    const card = document.createElement('div');
-                    card.className = 'game-card';
-                    
-                    const alphaShips = this.countShips(game.alpha.grid, game.alpha.ships);
-                    const omegaShips = this.countShips(game.omega.grid, game.omega.ships);
-                    
-                    // Compter les questions non posées
-                    const totalQuestions = game.questions ? game.questions.length : 0;
-                    const askedQuestions = game.questions ? game.questions.filter(q => q.asked).length : 0;
-                    const remainingQuestions = totalQuestions - askedQuestions;
-                    
-                    card.innerHTML = `
-                        <div class="game-info">
-                            <h3>${game.name}</h3>
-                            <div class="game-meta">
-                                <span>Tour: ${game.currentTeam === 'alpha' ? 'Alpha' : 'Oméga'}</span>
-                                <span>Alpha: ${alphaShips} navires</span>
-                                <span>Oméga: ${omegaShips} navires</span>
-                                <span style="color: var(--accent-gold);">📋 ${remainingQuestions}/${totalQuestions} questions restantes</span>
-                            </div>
-                        </div>
-                        <button class="delete-btn" onclick="gameApp.deleteGame(event, ${game.id})">Supprimer</button>
-                    `;
-                    
-                    card.onclick = (e) => {
-                        if (!e.target.classList.contains('delete-btn')) {
-                            this.loadGame(game.id);
-                        }
-                    };
-                    
-                    gameList.appendChild(card);
-                });
-
-                console.log('=======================');
-                savedGamesSection.style.display = 'block';
-            }
-
-            countShips(grid, ships) {
-                // Si les informations des navires sont disponibles (nouvelles parties)
-                if (ships && Array.isArray(ships)) {
-                    console.log('=== Comptage des navires ===');
-                    console.log('Nombre total de navires:', ships.length);
-                    
-                    let notSunkCount = 0;
-                    
-                    ships.forEach((ship, index) => {
-                        // Vérifier si toutes les cases du navire sont touchées
-                        const hitStatus = ship.cells.map(cell => ({
-                            position: `(${cell.row},${cell.col})`,
-                            hit: grid[cell.row][cell.col].hit
-                        }));
-                        
-                        const allHit = ship.cells.every(cell => grid[cell.row][cell.col].hit);
-                        
-                        console.log(`Navire ${index + 1} (taille ${ship.size}):`, {
-                            cells: hitStatus,
-                            coulé: allHit
-                        });
-                        
-                        if (!allHit) {
-                            notSunkCount++;
-                        }
-                    });
-                    
-                    console.log('Navires non coulés:', notSunkCount);
-                    console.log('========================');
-                    
-                    return notSunkCount;
-                }
-                
-                console.log('Pas d\'info ships - utilisation fallback');
-                // Fallback pour les anciennes parties (sans info ships)
-                // Compter simplement les cases non touchées
-                let cellCount = 0;
-                for (let i = 0; i < 6; i++) {
-                    for (let j = 0; j < 6; j++) {
-                        if (grid[i][j].ship && !grid[i][j].hit) {
-                            cellCount++;
-                        }
-                    }
-                }
-                const estimate = Math.min(4, Math.ceil(cellCount / 3));
-                console.log('Estimation:', estimate, 'navires (basé sur', cellCount, 'cases)');
-                return estimate;
-            }
-
-            async deleteGame(event, gameId) {
-                event.stopPropagation();
-                if (confirm('Êtes-vous sûr de vouloir supprimer cette partie ?')) {
-                    await this.db.deleteGame(gameId);
-                    this.loadSavedGames();
-                }
-            }
-
-            async loadGame(gameId) {
-                this.currentGame = await this.db.getGame(gameId);
-                this.showWaitingScreen();
-            }
-
-            showWaitingScreen() {
-                this.hideAllScreens();
-                document.getElementById('waitingScreen').classList.add('active');
-                
-                const teamIndicator = document.getElementById('waitingTeam');
-                const startBtn = document.getElementById('startTurnBtn');
-                
-                if (this.currentGame.currentTeam === 'alpha') {
-                    teamIndicator.textContent = 'Tour de l\'Équipe Alpha';
-                    teamIndicator.className = 'team-indicator alpha';
-                    startBtn.className = 'btn btn-alpha';
-                } else {
-                    teamIndicator.textContent = 'Tour de l\'Équipe Oméga';
-                    teamIndicator.className = 'team-indicator omega';
-                    startBtn.className = 'btn btn-omega';
-                }
-            }
-
-            async startTurn() {
-                // Check if there are available questions
-                const availableQuestions = this.currentGame.questions.filter(q => !q.asked);
-                
-                if (availableQuestions.length === 0) {
-                    this.showModal('Attention', 'Toutes les questions ont été posées. Réinitialisation...');
-                    this.currentGame.questions.forEach(q => q.asked = false);
-                    await this.db.saveGame(this.currentGame);
-                }
-
-                await this.askQuestion();
-            }
-
-            async askQuestion() {
-                const availableQuestions = this.currentGame.questions.filter(q => !q.asked);
-                
-                if (availableQuestions.length === 0) {
-                    this.showModal('Erreur', 'Aucune question disponible');
-                    return;
-                }
-
-                // Select random question
-                const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-                this.currentQuestion = availableQuestions[randomIndex];
-                this.currentQuestion.asked = true;
-
-                // Save game state
-                await this.db.saveGame(this.currentGame);
-
-                // Show question screen
-                this.hideAllScreens();
-                document.getElementById('questionScreen').classList.add('active');
-
-                const teamIndicator = document.getElementById('questionTeam');
-                if (this.currentGame.currentTeam === 'alpha') {
-                    teamIndicator.textContent = 'Équipe Alpha';
-                    teamIndicator.className = 'team-indicator alpha';
-                } else {
-                    teamIndicator.textContent = 'Équipe Oméga';
-                    teamIndicator.className = 'team-indicator omega';
-                }
-
-                // Get theme name
-                const themes = await this.db.getAllThemes();
-                const theme = themes.find(t => t.id === this.currentQuestion.theme);
-                document.getElementById('questionTheme').textContent = theme ? theme.nom : this.currentQuestion.theme;
-
-                document.getElementById('questionText').textContent = this.currentQuestion.intitule;
-
-                // Handle image
-                const imageEl = document.getElementById('questionImage');
-                if (this.currentQuestion.image) {
-                    imageEl.src = this.currentQuestion.image;
-                    imageEl.style.display = 'block';
-                } else {
-                    imageEl.style.display = 'none';
-                }
-
-                // Reset answer section
-                document.getElementById('answerSection').style.display = 'block';
-                document.getElementById('feedbackSection').style.display = 'none';
-                document.getElementById('answerInput').value = '';
-                document.getElementById('answerInput').focus();
-
-                // Récupérer le temps configuré (ou valeur par défaut 5:00)
-                const minutes = this.currentGame.timerMinutes !== undefined ? this.currentGame.timerMinutes : 5;
-                const seconds = this.currentGame.timerSeconds !== undefined ? this.currentGame.timerSeconds : 0;
-                const totalSeconds = (minutes * 60) + seconds;
-
-                // Démarrer le chronomètre
-                this.startTimer(totalSeconds);
-            }
-
-            startTimer(duration) {
-                // Arrêter le timer précédent s'il existe
-                this.stopTimer();
-
-                this.timeRemaining = duration;
-                const totalDuration = duration;
-
-                // Réinitialiser et afficher la barre de progression en blanc
-                const progressBar = document.getElementById('timerProgress');
-                const timerBar = document.getElementById('timerBar');
-                progressBar.style.width = '100%';
-                progressBar.style.background = '#ffffff'; // Blanc par défaut
-                timerBar.style.opacity = '1'; // Visible dès le début
-
-                // Mise à jour initiale
-                this.updateTimerDisplay();
-
-                // Démarrer le compte à rebours
-                this.timerInterval = setInterval(() => {
-                    this.timeRemaining--;
-                    this.updateTimerDisplay();
-
-                    // Calculer le pourcentage restant
-                    const percentage = (this.timeRemaining / totalDuration) * 100;
-                    progressBar.style.width = percentage + '%';
-
-                    // Changer la couleur en rouge quand il reste moins d'1 minute (60 secondes)
-                    if (this.timeRemaining <= 60) {
-                        progressBar.style.background = 'linear-gradient(90deg, var(--hit-color), #ff6b6b)';
-                    } else {
-                        progressBar.style.background = '#ffffff';
-                    }
-
-                    // Temps écoulé
-                    if (this.timeRemaining <= 0) {
-                        this.stopTimer();
-                        this.handleTimeOut();
-                    }
-                }, 1000);
-            }
-
-            stopTimer() {
-                if (this.timerInterval) {
-                    clearInterval(this.timerInterval);
-                    this.timerInterval = null;
-                }
-            }
-
-            updateTimerDisplay() {
-                const timerDisplay = document.getElementById('timerDisplay');
-                const minutes = Math.floor(this.timeRemaining / 60);
-                const seconds = this.timeRemaining % 60;
-                timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
-                // Animation de pulsation et couleur rouge quand il reste moins d'1 minute
-                if (this.timeRemaining <= 60 && this.timeRemaining > 0) {
-                    timerDisplay.style.color = 'var(--hit-color)';
-                    // Pulsation plus rapide dans les 10 dernières secondes
-                    if (this.timeRemaining <= 10) {
-                        timerDisplay.style.animation = 'pulse 0.5s ease-in-out';
-                    } else {
-                        timerDisplay.style.animation = 'none';
-                    }
-                } else {
-                    timerDisplay.style.color = 'var(--accent-gold)';
-                    timerDisplay.style.animation = 'none';
-                }
-            }
-
-            handleTimeOut() {
-                // Le temps est écoulé, considérer comme mauvaise réponse
-                this.currentAnswer = '';
-                
-                // Désactiver le champ de réponse
-                document.getElementById('answerInput').disabled = true;
-                
-                // Afficher le feedback automatiquement
-                setTimeout(() => {
-                    this.showAnswerFeedback(true); // true = timeout
-                }, 500);
-            }
-
-            submitAnswer() {
-                const userAnswer = document.getElementById('answerInput').value.trim();
-                
-                if (!userAnswer) {
-                    this.showModal('Attention', 'Veuillez entrer une réponse');
-                    return;
-                }
-
-                // Arrêter le chronomètre
-                this.stopTimer();
-
-                this.currentAnswer = userAnswer;
-                this.showAnswerFeedback(false);
-            }
-
-            showAnswerFeedback(isTimeout = false) {
-                const correctAnswer = this.currentQuestion.reponse.toLowerCase().trim();
-                const userAnswer = this.currentAnswer.toLowerCase().trim();
-                
-                // Simple comparison (can be improved)
-                const isCorrect = !isTimeout && (userAnswer === correctAnswer || 
-                                 correctAnswer.includes(userAnswer) || 
-                                 userAnswer.includes(correctAnswer));
-
-                document.getElementById('answerSection').style.display = 'none';
-                document.getElementById('feedbackSection').style.display = 'block';
-
-                const feedbackEl = document.getElementById('answerFeedback');
-                const correctAnswerEl = document.getElementById('correctAnswer');
-                const feedbackBtn = document.getElementById('feedbackBtn');
-
-                if (isTimeout) {
-                    feedbackEl.className = 'answer-feedback incorrect';
-                    feedbackEl.textContent = '⏱️ Temps écoulé !';
-                    feedbackBtn.textContent = 'Passer le tour';
-                    feedbackBtn.className = 'btn btn-secondary';
-                } else if (isCorrect) {
-                    feedbackEl.className = 'answer-feedback correct';
-                    feedbackEl.textContent = '✓ Bonne réponse !';
-                    feedbackBtn.textContent = 'Attaquer';
-                    feedbackBtn.className = 'btn btn-alpha';
-                } else {
-                    feedbackEl.className = 'answer-feedback incorrect';
-                    feedbackEl.textContent = '✗ Mauvaise réponse';
-                    feedbackBtn.textContent = 'Passer le tour';
-                    feedbackBtn.className = 'btn btn-secondary';
-                }
-
-                correctAnswerEl.innerHTML = `<strong>Réponse correcte :</strong> ${this.currentQuestion.reponse}`;
-
-                // Add override button for incorrect answers (but not for timeout)
-                if (!isCorrect && !isTimeout) {
-                    const actionsDiv = document.querySelector('#feedbackSection .question-actions');
-                    // Remove existing override button if any
-                    const existingOverride = actionsDiv.querySelector('.override-btn');
-                    if (existingOverride) existingOverride.remove();
-                    
-                    const overrideBtn = document.createElement('button');
-                    overrideBtn.className = 'btn btn-alpha override-btn';
-                    overrideBtn.textContent = 'Valider quand même';
-                    overrideBtn.style.marginLeft = '1rem';
-                    overrideBtn.onclick = () => {
-                        feedbackEl.className = 'answer-feedback correct';
-                        feedbackEl.textContent = '✓ Réponse validée !';
-                        feedbackBtn.textContent = 'Attaquer';
-                        feedbackBtn.className = 'btn btn-alpha';
-                        overrideBtn.remove();
-                    };
-                    actionsDiv.appendChild(overrideBtn);
-                }
-
-                // Réactiver le champ de réponse pour la prochaine question
-                document.getElementById('answerInput').disabled = false;
-            }
-
-            async handleAnswerResult() {
-                const feedbackBtn = document.getElementById('feedbackBtn');
-                
-                if (feedbackBtn.textContent === 'Attaquer') {
-                    // Show attack screen
-                    await this.showAttackScreen();
-                } else {
-                    // Pass turn
-                    this.switchTeam();
-                    await this.db.saveGame(this.currentGame);
-                    this.showWaitingScreen();
-                }
-            }
-
-            async showAttackScreen() {
-                this.hideAllScreens();
-                document.getElementById('attackScreen').classList.add('active');
-
-                // Determine which grid to show (opponent's grid)
-                const opponentTeam = this.currentGame.currentTeam === 'alpha' ? 'omega' : 'alpha';
-                const opponentGrid = this.currentGame[opponentTeam].grid;
-
-                // Create a display grid (hide ships)
-                const displayGrid = JSON.parse(JSON.stringify(opponentGrid));
-                for (let i = 0; i < 6; i++) {
-                    for (let j = 0; j < 6; j++) {
-                        if (!displayGrid[i][j].hit && !displayGrid[i][j].miss) {
-                            displayGrid[i][j].ship = false;
-                        }
-                    }
-                }
-
-                const titleEl = document.getElementById('attackGridTitle');
-                const containerEl = document.getElementById('attackGridContainer');
-                
-                if (opponentTeam === 'alpha') {
-                    titleEl.textContent = 'Grille Alpha (Adverse)';
-                    containerEl.className = 'team-grid-container alpha';
-                } else {
-                    titleEl.textContent = 'Grille Oméga (Adverse)';
-                    containerEl.className = 'team-grid-container omega';
-                }
-
-                this.renderAttackGrid(displayGrid, opponentGrid, opponentTeam);
-            }
-
-            renderAttackGrid(displayGrid, actualGrid, opponentTeam) {
-                const container = document.getElementById('attackGrid');
-                container.innerHTML = '';
-
-                // Empty corner cell
-                const corner = document.createElement('div');
-                corner.className = 'grid-cell label';
-                container.appendChild(corner);
-
-                // Column labels (1-6)
-                for (let j = 0; j < 6; j++) {
-                    const label = document.createElement('div');
-                    label.className = 'grid-cell label';
-                    label.textContent = j + 1;
-                    container.appendChild(label);
-                }
-
-                // Rows with labels (A-F)
-                const rowLabels = ['A', 'B', 'C', 'D', 'E', 'F'];
-                for (let i = 0; i < 6; i++) {
-                    // Row label
-                    const label = document.createElement('div');
-                    label.className = 'grid-cell label';
-                    label.textContent = rowLabels[i];
-                    container.appendChild(label);
-
-                    // Grid cells
-                    for (let j = 0; j < 6; j++) {
-                        const cell = document.createElement('div');
-                        cell.className = 'grid-cell playable';
-                        cell.dataset.row = i;
-                        cell.dataset.col = j;
-
-                        if (displayGrid[i][j].hit) {
-                            cell.classList.add('hit');
-                            cell.style.cursor = 'not-allowed';
-                        } else if (displayGrid[i][j].miss) {
-                            cell.classList.add('miss');
-                            cell.style.cursor = 'not-allowed';
-                        } else {
-                            cell.onclick = () => this.handleAttack(i, j, opponentTeam);
-                        }
-
-                        container.appendChild(cell);
-                    }
-                }
-            }
-
-            async handleAttack(row, col, opponentTeam) {
-                const grid = this.currentGame[opponentTeam].grid;
-                
-                if (grid[row][col].hit || grid[row][col].miss) {
-                    this.showModal('Attention', 'Cette case a déjà été ciblée');
-                    return;
-                }
-
-                if (grid[row][col].ship) {
-                    grid[row][col].hit = true;
-                    
-                    // Vérifier si le navire entier est coulé
-                    const isSunk = this.checkIfShipSunk(grid, row, col);
-                    
-                    if (isSunk) {
-                        this.showModal('Succès', 'Coulé ! 💥🚢');
-                    } else {
-                        this.showModal('Succès', 'Touché ! 🎯');
-                    }
-                } else {
-                    grid[row][col].miss = true;
-                    this.showModal('Information', 'Manqué ! 💦');
-                }
-
-                await this.db.saveGame(this.currentGame);
-
-                // Check for victory
-                if (this.checkVictory(opponentTeam)) {
-                    await this.showVictory();
-                    return;
-                }
-
-                // Refresh attack grid
-                const displayGrid = JSON.parse(JSON.stringify(grid));
-                for (let i = 0; i < 6; i++) {
-                    for (let j = 0; j < 6; j++) {
-                        if (!displayGrid[i][j].hit && !displayGrid[i][j].miss) {
-                            displayGrid[i][j].ship = false;
-                        }
-                    }
-                }
-                this.renderAttackGrid(displayGrid, grid, opponentTeam);
-            }
-
-            checkIfShipSunk(grid, row, col) {
-                // Si les informations des navires sont disponibles, les utiliser
-                const team = this.currentGame.currentTeam === 'alpha' ? 'omega' : 'alpha';
-                const ships = this.currentGame[team].ships;
-                
-                if (ships && Array.isArray(ships)) {
-                    // Trouver le navire qui contient cette case
-                    for (const ship of ships) {
-                        const containsCell = ship.cells.some(cell => cell.row === row && cell.col === col);
-                        if (containsCell) {
-                            // Vérifier si toutes les cases de ce navire sont touchées
-                            return ship.cells.every(cell => grid[cell.row][cell.col].hit);
-                        }
-                    }
-                }
-                
-                // Fallback : méthode d'exploration (pour compatibilité avec anciennes parties)
-                const visited = Array(6).fill(null).map(() => Array(6).fill(false));
-                
-                const exploreShip = (r, c) => {
-                    if (r < 0 || r >= 6 || c < 0 || c >= 6) return true;
-                    if (visited[r][c] || !grid[r][c].ship) return true;
-                    
-                    visited[r][c] = true;
-                    
-                    if (!grid[r][c].hit) return false;
-                    
-                    const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
-                    for (const [dr, dc] of directions) {
-                        if (!exploreShip(r + dr, c + dc)) {
-                            return false;
-                        }
-                    }
-                    
-                    return true;
-                };
-                
-                return exploreShip(row, col);
-            }
-
-            checkVictory(opponentTeam) {
-                const grid = this.currentGame[opponentTeam].grid;
-                for (let i = 0; i < 6; i++) {
-                    for (let j = 0; j < 6; j++) {
-                        if (grid[i][j].ship && !grid[i][j].hit) {
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            }
-
-            async showVictory() {
-                this.hideAllScreens();
-                document.getElementById('victoryScreen').classList.add('active');
-
-                const victoryTeamEl = document.getElementById('victoryTeam');
-                
-                if (this.currentGame.currentTeam === 'alpha') {
-                    victoryTeamEl.textContent = 'Équipe Alpha';
-                    victoryTeamEl.className = 'alpha';
-                } else {
-                    victoryTeamEl.textContent = 'Équipe Oméga';
-                    victoryTeamEl.className = 'omega';
-                }
-
-                // Delete the completed game
-                await this.db.deleteGame(this.currentGame.id);
-            }
-
-            async endTurn() {
-                this.switchTeam();
-                await this.db.saveGame(this.currentGame);
-                this.showWaitingScreen();
-            }
-
-            switchTeam() {
-                this.currentGame.currentTeam = this.currentGame.currentTeam === 'alpha' ? 'omega' : 'alpha';
-            }
-
-            async syncQuestions() {
-                const syncBtn = document.getElementById('syncText');
-                const originalText = syncBtn.textContent;
-                syncBtn.innerHTML = '<span class="loading"></span> Synchronisation...';
-
-                try {
-                    // Try to fetch from local file
-                    const response = await fetch('questions.json');
-                    if (!response.ok) {
-                        throw new Error('Fichier questions.json introuvable');
-                    }
-
-                    const rawData = await response.json();
-
-                    // Adapter le format si nécessaire
-                    let data;
-                    
-                    // Vérifier si le format est un tableau (nouveau format)
-                    if (Array.isArray(rawData)) {
-                        // Extraire les thèmes uniques
-                        const themeSet = new Set();
-                        rawData.forEach(q => themeSet.add(q.theme));
-                        
-                        const themes = Array.from(themeSet).map(themeName => ({
-                            id: themeName.toLowerCase().replace(/\s+/g, '_'),
-                            nom: themeName
-                        }));
-
-                        // Convertir les questions au format attendu
-                        const questions = rawData.map((q, index) => ({
-                            id: index + 1,
-                            theme: q.theme.toLowerCase().replace(/\s+/g, '_'),
-                            intitule: q.question,
-                            image: q.image || null,
-                            reponse: q.answer
-                        }));
-
-                        data = { themes, questions };
-                    } else {
-                        // Format original avec themes et questions séparés
-                        data = rawData;
-                    }
-
-                    // Save themes
-                    await this.db.saveThemes(data.themes);
-
-                    // Save questions
-                    await this.db.saveQuestions(data.questions);
-
-                    syncBtn.textContent = '✓ Synchronisé';
-                    setTimeout(() => {
-                        syncBtn.textContent = originalText;
-                    }, 2000);
-
-                    this.showModal('Succès', `${data.questions.length} questions et ${data.themes.length} thèmes ont été synchronisés`);
-                } catch (error) {
-                    console.error('Erreur de synchronisation:', error);
-                    syncBtn.textContent = originalText;
-                    this.showModal('Erreur', 'Impossible de synchroniser les questions. Assurez-vous que le fichier questions.json est présent.');
-                }
-            }
-
-            showModal(title, message) {
-                document.getElementById('modalTitle').textContent = title;
-                document.getElementById('modalMessage').textContent = message;
-                document.getElementById('modal').classList.add('active');
-            }
-
-            closeModal() {
-                document.getElementById('modal').classList.remove('active');
-            }
-
-            async returnToMenuFromGame() {
-                if (this.currentGame) {
-                    if (confirm('Voulez-vous sauvegarder la partie avant de retourner au menu ?')) {
-                        await this.db.saveGame(this.currentGame);
-                    }
-                }
-                this.currentGame = null;
-                this.showMenu();
-            }
-
-            async showThemesModal() {
-                if (!this.currentGame) return;
-
-                const allThemes = await this.db.getAllThemes();
-                const modalList = document.getElementById('themesModalList');
-                modalList.innerHTML = '';
-
-                allThemes.forEach(theme => {
-                    const isSelected = this.currentGame.selectedThemes.includes(theme.id);
-                    
-                    const div = document.createElement('div');
-                    div.className = 'theme-checkbox' + (isSelected ? ' checked' : '');
-                    div.innerHTML = `
-                        <input type="checkbox" id="modal-theme-${theme.id}" value="${theme.id}" ${isSelected ? 'checked' : ''}>
-                        <label for="modal-theme-${theme.id}">${theme.nom}</label>
-                    `;
-                    
-                    const checkbox = div.querySelector('input');
-                    checkbox.onchange = () => {
-                        div.classList.toggle('checked', checkbox.checked);
-                    };
-                    
-                    modalList.appendChild(div);
-                });
-
-                // Charger la configuration actuelle du chronomètre (ou valeur par défaut 5:00)
-                const savedMinutes = this.currentGame.timerMinutes !== undefined ? this.currentGame.timerMinutes : 5;
-                const savedSeconds = this.currentGame.timerSeconds !== undefined ? this.currentGame.timerSeconds : 0;
-                
-                document.getElementById('timerMinutes').value = savedMinutes;
-                document.getElementById('timerSeconds').value = savedSeconds;
-
-                document.getElementById('themesModal').classList.add('active');
-            }
-
-            closeThemesModal() {
-                document.getElementById('themesModal').classList.remove('active');
-            }
-
-            async saveThemesSelection() {
-                if (!this.currentGame) return;
-
-                // Get selected themes
-                const selectedThemes = [];
-                document.querySelectorAll('#themesModalList input[type="checkbox"]:checked').forEach(checkbox => {
-                    selectedThemes.push(checkbox.value);
-                });
-
-                if (selectedThemes.length === 0) {
-                    this.showModal('Erreur', 'Vous devez sélectionner au moins un thème');
-                    return;
-                }
-
-                // Get timer configuration
-                const timerMinutes = parseInt(document.getElementById('timerMinutes').value) || 0;
-                const timerSeconds = parseInt(document.getElementById('timerSeconds').value) || 0;
-                
-                if (timerMinutes === 0 && timerSeconds === 0) {
-                    this.showModal('Erreur', 'Le chronomètre doit être configuré avec au moins 1 seconde');
-                    return;
-                }
-
-                // Update game with new themes and timer settings
-                this.currentGame.selectedThemes = selectedThemes;
-                this.currentGame.timerMinutes = timerMinutes;
-                this.currentGame.timerSeconds = timerSeconds;
-
-                // Get all questions and filter by selected themes
-                const allQuestions = await this.db.getAllQuestions();
-                
-                // Preserve 'asked' status for questions that were already in the game
-                const existingQuestionsMap = new Map();
-                this.currentGame.questions.forEach(q => {
-                    existingQuestionsMap.set(q.id, q.asked);
-                });
-
-                // Update questions list
-                this.currentGame.questions = allQuestions
-                    .filter(q => selectedThemes.includes(q.theme))
-                    .map(q => ({
-                        ...q,
-                        asked: existingQuestionsMap.has(q.id) ? existingQuestionsMap.get(q.id) : false
-                    }));
-
-                if (this.currentGame.questions.length === 0) {
-                    this.showModal('Erreur', 'Aucune question disponible pour les thèmes sélectionnés');
-                    return;
-                }
-
-                // Save game
-                await this.db.saveGame(this.currentGame);
-
-                this.closeThemesModal();
-                this.showModal('Succès', `Configuration mise à jour !\n${this.currentGame.questions.length} questions disponibles.\nChronomètre: ${timerMinutes}:${timerSeconds.toString().padStart(2, '0')}`);
+                container.appendChild(cell);
             }
         }
+    }
 
-        // Initialize app
-        const gameApp = new BattleshipGame();
-        window.addEventListener('DOMContentLoaded', () => gameApp.init());
-    </script>
+    renderCreateGrid(containerId, team) {
+        const t = this.createMode[team];
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        const rowLabels = ['A','B','C','D','E','F'];
+
+        const corner = document.createElement('div');
+        corner.className = 'grid-cell label';
+        container.appendChild(corner);
+
+        for (let j = 0; j < 6; j++) {
+            const lbl = document.createElement('div');
+            lbl.className = 'grid-cell label';
+            lbl.textContent = j + 1;
+            container.appendChild(lbl);
+        }
+
+        for (let i = 0; i < 6; i++) {
+            const rowLbl = document.createElement('div');
+            rowLbl.className = 'grid-cell label';
+            rowLbl.textContent = rowLabels[i];
+            container.appendChild(rowLbl);
+
+            for (let j = 0; j < 6; j++) {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell playable';
+                cell.dataset.row = i;
+                cell.dataset.col = j;
+                if (t.grid[i][j].ship) cell.classList.add('ship');
+
+                cell.onclick = () => this.handleCreateClick(i, j, team);
+                cell.onmouseover = () => this.handleCreateHover(i, j, team);
+                cell.onmouseout = () => this.clearPlacing(team);
+                container.appendChild(cell);
+            }
+        }
+    }
+
+    renderShipButtons(team) {
+        const cap = team.charAt(0).toUpperCase() + team.slice(1);
+        const container = document.getElementById(`ships${cap}`);
+        container.innerHTML = '';
+        const names = ['Porte-avions','Croiseur','Destroyer','Sous-marin'];
+        this.createMode[team].ships.forEach((ship, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'ship-btn';
+            btn.textContent = `${names[idx]} (${ship.size})`;
+            if (ship.placed) { btn.classList.add('placed'); btn.disabled = true; }
+            if (this.createMode[team].selectedShip === idx) btn.classList.add('selected');
+            btn.onclick = () => this.selectShip(team, idx);
+            container.appendChild(btn);
+        });
+    }
+
+    selectShip(team, idx) {
+        if (this.createMode[team].ships[idx].placed) return;
+        this.createMode[team].selectedShip = idx;
+        this.renderShipButtons(team);
+    }
+
+    toggleOrientation(team) {
+        const t = this.createMode[team];
+        t.orientation = t.orientation === 'horizontal' ? 'vertical' : 'horizontal';
+        const cap = team.charAt(0).toUpperCase() + team.slice(1);
+        document.getElementById(`orientation${cap}`).textContent =
+            t.orientation === 'horizontal' ? 'Horizontal' : 'Vertical';
+    }
+
+    getShipCells(row, col, size, orientation) {
+        const cells = [];
+        for (let k = 0; k < size; k++) {
+            cells.push(orientation === 'horizontal' ? [row, col + k] : [row + k, col]);
+        }
+        return cells;
+    }
+
+    canPlaceShip(team, row, col, size, orientation) {
+        const cells = this.getShipCells(row, col, size, orientation);
+        for (const [r, c] of cells) {
+            if (r < 0 || r >= 6 || c < 0 || c >= 6) return false;
+            if (this.createMode[team].grid[r][c].ship) return false;
+        }
+        return true;
+    }
+
+    handleCreateHover(row, col, team) {
+        const t = this.createMode[team];
+        if (t.selectedShip === null) return;
+        const ship = t.ships[t.selectedShip];
+        if (ship.placed) return;
+        this.clearPlacing(team);
+        if (this.canPlaceShip(team, row, col, ship.size, t.orientation)) {
+            const cap = team.charAt(0).toUpperCase() + team.slice(1);
+            const gridEl = document.getElementById(`grid${cap}`);
+            this.getShipCells(row, col, ship.size, t.orientation).forEach(([r, c]) => {
+                const cell = gridEl.querySelector(`[data-row="${r}"][data-col="${c}"]`);
+                if (cell) cell.classList.add('placing');
+            });
+        }
+    }
+
+    clearPlacing(team) {
+        const cap = team.charAt(0).toUpperCase() + team.slice(1);
+        document.getElementById(`grid${cap}`).querySelectorAll('.placing')
+            .forEach(c => c.classList.remove('placing'));
+    }
+
+    handleCreateClick(row, col, team) {
+        const t = this.createMode[team];
+        if (t.selectedShip === null) {
+            this.showModal('Attention', 'Sélectionnez d\'abord un navire à placer.');
+            return;
+        }
+        const ship = t.ships[t.selectedShip];
+        if (!this.canPlaceShip(team, row, col, ship.size, t.orientation)) {
+            this.showModal('Placement impossible', 'Le navire ne peut pas être placé ici.');
+            return;
+        }
+        const cells = this.getShipCells(row, col, ship.size, t.orientation);
+        cells.forEach(([r, c]) => { t.grid[r][c].ship = true; });
+        ship.cells = cells.map(([r, c]) => ({ row: r, col: c }));
+        ship.placed = true;
+        t.selectedShip = null;
+        this.renderCreateGrid(`grid${team.charAt(0).toUpperCase() + team.slice(1)}`, team);
+        this.renderShipButtons(team);
+    }
+
+    async finalizeGame() {
+        const gameName = document.getElementById('gameName').value.trim();
+        if (!gameName) { this.showModal('Erreur', 'Veuillez entrer un nom pour la partie.'); return; }
+
+        if (!this.createMode.alpha.ships.every(s => s.placed) ||
+            !this.createMode.omega.ships.every(s => s.placed)) {
+            this.showModal('Erreur', 'Tous les navires doivent être placés pour les deux équipes.');
+            return;
+        }
+
+        const gameData = {
+            name: gameName,
+            currentTeam: 'alpha',
+            alpha: {
+                grid: JSON.parse(JSON.stringify(this.createMode.alpha.grid)),
+                ships: this.createMode.alpha.ships.map(s => ({ size: s.size, cells: s.cells }))
+            },
+            omega: {
+                grid: JSON.parse(JSON.stringify(this.createMode.omega.grid)),
+                ships: this.createMode.omega.ships.map(s => ({ size: s.size, cells: s.cells }))
+            },
+            stats: { alpha: { hits: 0, misses: 0 }, omega: { hits: 0, misses: 0 } },
+            createdAt: new Date().toISOString()
+        };
+
+        try {
+            await this.db.saveGame(gameData);
+            this.currentGame = gameData;
+            this.startBattle();
+        } catch (e) {
+            console.error(e);
+            this.showModal('Erreur', 'Impossible de créer la partie.');
+        }
+    }
+
+    async loadSavedGames() {
+        const games = await this.db.getAllGames();
+        const gameList = document.getElementById('gameList');
+        const section = document.getElementById('savedGamesSection');
+        if (games.length === 0) { this.showModal('Information', 'Aucune partie sauvegardée.'); return; }
+
+        gameList.innerHTML = '';
+        games.forEach(game => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            const alive = (team) => game[team].ships
+                ? game[team].ships.filter(s => !s.cells.every(c => game[team].grid[c.row][c.col].hit)).length
+                : '?';
+            card.innerHTML = `
+                <div class="game-info">
+                    <h3>${game.name}</h3>
+                    <div class="game-meta">
+                        <span>Tour : ${game.currentTeam === 'alpha' ? 'Alpha' : 'Oméga'}</span>
+                        <span>Alpha : ${alive('alpha')} navires</span>
+                        <span>Oméga : ${alive('omega')} navires</span>
+                    </div>
+                </div>
+                <button class="delete-btn" onclick="gameApp.deleteGame(event, ${game.id})">Supprimer</button>`;
+            card.onclick = (e) => { if (!e.target.classList.contains('delete-btn')) this.loadGame(game.id); };
+            gameList.appendChild(card);
+        });
+        section.style.display = 'block';
+    }
+
+    async deleteGame(event, id) {
+        event.stopPropagation();
+        if (confirm('Supprimer cette partie ?')) {
+            await this.db.deleteGame(id);
+            this.loadSavedGames();
+        }
+    }
+
+    async loadGame(id) {
+        this.currentGame = await this.db.getGame(id);
+        if (!this.currentGame.stats) this.currentGame.stats = { alpha:{hits:0,misses:0}, omega:{hits:0,misses:0} };
+        this.startBattle();
+    }
+
+    // ===================== BATTLE =====================
+    startBattle() {
+        this.hideAllScreens();
+        document.getElementById('battleScreen').classList.add('active');
+        this.renderBattle();
+    }
+
+    renderBattle() {
+        const g = this.currentGame;
+        const currentTeam = g.currentTeam;
+        const opponentTeam = currentTeam === 'alpha' ? 'omega' : 'alpha';
+
+        // Turn indicator
+        const indicator = document.getElementById('turnIndicator');
+        indicator.textContent = `Tour de l'Équipe ${currentTeam === 'alpha' ? 'Alpha' : 'Oméga'} — Tirez sur la grille adverse !`;
+        indicator.className = `turn-indicator ${currentTeam}`;
+
+        // Update panels
+        ['alpha', 'omega'].forEach(team => {
+            const isOwn = team === currentTeam;
+            const panel = document.getElementById(`panel${team.charAt(0).toUpperCase() + team.slice(1)}`);
+            const gridId = `battleGrid${team.charAt(0).toUpperCase() + team.slice(1)}`;
+            const subtitleId = `subtitle${team.charAt(0).toUpperCase() + team.slice(1)}`;
+
+            // Clear panel state classes
+            panel.classList.remove('target-active', 'own-grid');
+
+            if (isOwn) {
+                // Own grid — show ships, no clicking
+                panel.classList.add('own-grid');
+                document.getElementById(subtitleId).textContent = 'Votre flotte';
+                this.renderGrid(gridId, g[team].grid, false, null);
+            } else {
+                // Opponent grid — hide intact ships, allow clicking
+                panel.classList.add('target-active');
+                document.getElementById(subtitleId).textContent = 'Grille adverse — cliquez pour tirer !';
+                const displayGrid = this.makeDisplayGrid(g[team].grid);
+                this.renderGrid(gridId, displayGrid, true, (row, col) => this.handleAttack(row, col, team));
+            }
+
+            // Ship counter
+            const alive = this.countAliveShips(team);
+            const counter = document.getElementById(`counter${team.charAt(0).toUpperCase() + team.slice(1)}`);
+            counter.textContent = `${alive} navire${alive !== 1 ? 's' : ''} actif${alive !== 1 ? 's' : ''}`;
+        });
+    }
+
+    makeDisplayGrid(grid) {
+        // Deep clone but hide intact ships
+        return grid.map(row => row.map(cell => ({
+            ship: cell.ship && (cell.hit || cell.sunk), // only show ship cells that are already hit
+            hit: cell.hit,
+            miss: cell.miss,
+            sunk: cell.sunk
+        })));
+    }
+
+    countAliveShips(team) {
+        const g = this.currentGame;
+        return g[team].ships.filter(ship =>
+            !ship.cells.every(c => g[team].grid[c.row][c.col].hit || g[team].grid[c.row][c.col].sunk)
+        ).length;
+    }
+
+    async handleAttack(row, col, targetTeam) {
+        const g = this.currentGame;
+        const cell = g[targetTeam].grid[row][col];
+        const attackingTeam = g.currentTeam;
+        const msgId = `msg${targetTeam.charAt(0).toUpperCase() + targetTeam.slice(1)}`;
+
+        if (cell.hit || cell.miss || cell.sunk) return; // already shot
+
+        if (!g.stats) g.stats = { alpha: {hits:0,misses:0}, omega:{hits:0,misses:0} };
+
+        if (cell.ship) {
+            cell.hit = true;
+            g.stats[attackingTeam].hits++;
+
+            // Check if the ship is now fully sunk
+            const sunkShip = g[targetTeam].ships.find(ship =>
+                ship.cells.some(c => c.row === row && c.col === col) &&
+                ship.cells.every(c => g[targetTeam].grid[c.row][c.col].hit || g[targetTeam].grid[c.row][c.col].sunk)
+            );
+
+            if (sunkShip) {
+                // Mark all cells as sunk
+                sunkShip.cells.forEach(c => {
+                    g[targetTeam].grid[c.row][c.col].hit = false;
+                    g[targetTeam].grid[c.row][c.col].sunk = true;
+                });
+                this.showMsg(msgId, `💥 Coulé ! Le ${this.shipName(sunkShip.size)} est détruit !`, 'sunk-msg');
+            } else {
+                this.showMsg(msgId, '🎯 Touché !', 'hit-msg');
+            }
+        } else {
+            cell.miss = true;
+            g.stats[attackingTeam].misses++;
+            this.showMsg(msgId, '💦 Manqué !', 'miss-msg');
+        }
+
+        // Animate the cell
+        const gridEl = document.getElementById(`battleGrid${targetTeam.charAt(0).toUpperCase() + targetTeam.slice(1)}`);
+        const shotCell = gridEl.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+        if (shotCell) {
+            shotCell.classList.add('just-shot');
+            setTimeout(() => shotCell.classList.remove('just-shot'), 400);
+        }
+
+        await this.db.saveGame(g);
+
+        // Check victory
+        if (this.checkVictory(targetTeam)) {
+            await this.showVictory();
+            return;
+        }
+
+        // Re-render to reflect changes
+        this.renderBattle();
+    }
+
+    shipName(size) {
+        const names = { 4: 'Porte-avions', 3: 'Croiseur', 2: 'Sous-marin' };
+        return names[size] || `navire (${size})`;
+    }
+
+    showMsg(id, text, cls) {
+        const el = document.getElementById(id);
+        el.textContent = text;
+        el.className = `last-shot-msg ${cls}`;
+    }
+
+    checkVictory(targetTeam) {
+        const grid = this.currentGame[targetTeam].grid;
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < 6; j++) {
+                if (grid[i][j].ship && !grid[i][j].hit && !grid[i][j].sunk) return false;
+            }
+        }
+        return true;
+    }
+
+    endTurn() {
+        const g = this.currentGame;
+        g.currentTeam = g.currentTeam === 'alpha' ? 'omega' : 'alpha';
+        // Clear messages
+        document.getElementById('msgAlpha').textContent = '';
+        document.getElementById('msgOmega').textContent = '';
+        this.db.saveGame(g);
+        this.renderBattle();
+    }
+
+    async showVictory() {
+        this.hideAllScreens();
+        document.getElementById('victoryScreen').classList.add('active');
+
+        const winner = this.currentGame.currentTeam;
+        const el = document.getElementById('victoryTeam');
+        el.textContent = `Équipe ${winner === 'alpha' ? 'Alpha' : 'Oméga'} Victorieuse !`;
+        el.className = winner;
+
+        const stats = this.currentGame.stats || { alpha:{hits:0,misses:0}, omega:{hits:0,misses:0} };
+        const statsEl = document.getElementById('victoryStats');
+        statsEl.innerHTML = `
+            <div class="stat-block alpha">
+                <div class="stat-label">Alpha — Tirs réussis</div>
+                <div class="stat-value">${stats.alpha.hits}</div>
+            </div>
+            <div class="stat-block alpha">
+                <div class="stat-label">Alpha — Tirs manqués</div>
+                <div class="stat-value">${stats.alpha.misses}</div>
+            </div>
+            <div class="stat-block omega">
+                <div class="stat-label">Oméga — Tirs réussis</div>
+                <div class="stat-value">${stats.omega.hits}</div>
+            </div>
+            <div class="stat-block omega">
+                <div class="stat-label">Oméga — Tirs manqués</div>
+                <div class="stat-value">${stats.omega.misses}</div>
+            </div>`;
+
+        await this.db.deleteGame(this.currentGame.id);
+    }
+
+    async returnToMenu() {
+        if (this.currentGame) {
+            await this.db.saveGame(this.currentGame);
+        }
+        this.showMenu();
+    }
+
+    showModal(title, msg) {
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalMessage').textContent = msg;
+        document.getElementById('modal').classList.add('active');
+    }
+
+    closeModal() {
+        document.getElementById('modal').classList.remove('active');
+    }
+}
+
+const gameApp = new BattleshipGame();
+window.addEventListener('DOMContentLoaded', () => gameApp.init());
+</script>
 </body>
 </html>
