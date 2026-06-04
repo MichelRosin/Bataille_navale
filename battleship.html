@@ -298,20 +298,10 @@
             text-transform: uppercase;
             letter-spacing: 0.15em;
             padding: 0.7rem 1.5rem;
-            border: 2px solid;
+            border: 2px solid var(--accent-gold);
             background: var(--bg-medium);
-        }
-        .turn-indicator.alpha {
-            color: var(--accent-alpha);
-            border-color: var(--accent-alpha);
-            text-shadow: 0 0 15px rgba(0,255,136,0.5);
-            box-shadow: 0 0 20px rgba(0,255,136,0.15);
-        }
-        .turn-indicator.omega {
-            color: var(--accent-omega);
-            border-color: var(--accent-omega);
-            text-shadow: 0 0 15px rgba(255,0,110,0.5);
-            box-shadow: 0 0 20px rgba(255,0,110,0.15);
+            color: var(--accent-gold);
+            text-shadow: 0 0 15px rgba(255,215,0,0.4);
         }
 
         .battle-grids {
@@ -536,8 +526,7 @@
     <div id="battleScreen" class="screen">
         <div class="battle-header">
             <button class="btn btn-secondary" style="flex-shrink:0;" onclick="gameApp.returnToMenu()">← Menu</button>
-            <div class="turn-indicator alpha" id="turnIndicator">Tour de l'Équipe Alpha</div>
-            <button class="btn btn-secondary" style="flex-shrink:0;" onclick="gameApp.endTurn()">Passer le Tour →</button>
+            <div class="turn-indicator" id="turnIndicator">⚔️ Bataille en cours — Tirez librement !</div>
         </div>
 
         <div class="battle-grids">
@@ -942,7 +931,6 @@ class BattleshipGame {
                 <div class="game-info">
                     <h3>${game.name}</h3>
                     <div class="game-meta">
-                        <span>Tour : ${game.currentTeam === 'alpha' ? 'Alpha' : 'Oméga'}</span>
                         <span>Alpha : ${alive('alpha')} navires</span>
                         <span>Oméga : ${alive('omega')} navires</span>
                     </div>
@@ -977,38 +965,22 @@ class BattleshipGame {
 
     renderBattle() {
         const g = this.currentGame;
-        const currentTeam = g.currentTeam;
-        const opponentTeam = currentTeam === 'alpha' ? 'omega' : 'alpha';
 
-        // Turn indicator
-        const indicator = document.getElementById('turnIndicator');
-        indicator.textContent = `Tour de l'Équipe ${currentTeam === 'alpha' ? 'Alpha' : 'Oméga'} — Tirez sur la grille adverse !`;
-        indicator.className = `turn-indicator ${currentTeam}`;
-
-        // Update panels
+        // Both grids: hide intact ships, both clickable on the opposing side
         ['alpha', 'omega'].forEach(team => {
-            const isOwn = team === currentTeam;
+            const opponent = team === 'alpha' ? 'omega' : 'alpha';
             const panel = document.getElementById(`panel${team.charAt(0).toUpperCase() + team.slice(1)}`);
             const gridId = `battleGrid${team.charAt(0).toUpperCase() + team.slice(1)}`;
             const subtitleId = `subtitle${team.charAt(0).toUpperCase() + team.slice(1)}`;
 
-            // Clear panel state classes
             panel.classList.remove('target-active', 'own-grid');
+            panel.classList.add('target-active');
+            document.getElementById(subtitleId).textContent = 'Cliquez pour tirer !';
 
-            if (isOwn) {
-                // Own grid — show ships, no clicking
-                panel.classList.add('own-grid');
-                document.getElementById(subtitleId).textContent = 'Votre flotte';
-                this.renderGrid(gridId, g[team].grid, false, null);
-            } else {
-                // Opponent grid — hide intact ships, allow clicking
-                panel.classList.add('target-active');
-                document.getElementById(subtitleId).textContent = 'Grille adverse — cliquez pour tirer !';
-                const displayGrid = this.makeDisplayGrid(g[team].grid);
-                this.renderGrid(gridId, displayGrid, true, (row, col) => this.handleAttack(row, col, team));
-            }
+            // Never reveal intact ship positions
+            const displayGrid = this.makeDisplayGrid(g[team].grid);
+            this.renderGrid(gridId, displayGrid, true, (row, col) => this.handleAttack(row, col, team));
 
-            // Ship counter
             const alive = this.countAliveShips(team);
             const counter = document.getElementById(`counter${team.charAt(0).toUpperCase() + team.slice(1)}`);
             counter.textContent = `${alive} navire${alive !== 1 ? 's' : ''} actif${alive !== 1 ? 's' : ''}`;
@@ -1035,7 +1007,6 @@ class BattleshipGame {
     async handleAttack(row, col, targetTeam) {
         const g = this.currentGame;
         const cell = g[targetTeam].grid[row][col];
-        const attackingTeam = g.currentTeam;
         const msgId = `msg${targetTeam.charAt(0).toUpperCase() + targetTeam.slice(1)}`;
 
         if (cell.hit || cell.miss || cell.sunk) return; // already shot
@@ -1044,16 +1015,13 @@ class BattleshipGame {
 
         if (cell.ship) {
             cell.hit = true;
-            g.stats[attackingTeam].hits++;
 
-            // Check if the ship is now fully sunk
             const sunkShip = g[targetTeam].ships.find(ship =>
                 ship.cells.some(c => c.row === row && c.col === col) &&
                 ship.cells.every(c => g[targetTeam].grid[c.row][c.col].hit || g[targetTeam].grid[c.row][c.col].sunk)
             );
 
             if (sunkShip) {
-                // Mark all cells as sunk
                 sunkShip.cells.forEach(c => {
                     g[targetTeam].grid[c.row][c.col].hit = false;
                     g[targetTeam].grid[c.row][c.col].sunk = true;
@@ -1064,7 +1032,6 @@ class BattleshipGame {
             }
         } else {
             cell.miss = true;
-            g.stats[attackingTeam].misses++;
             this.showMsg(msgId, '💦 Manqué !', 'miss-msg');
         }
 
@@ -1078,13 +1045,13 @@ class BattleshipGame {
 
         await this.db.saveGame(g);
 
-        // Check victory
+        // Check victory — targetTeam lost, so the opponent wins
         if (this.checkVictory(targetTeam)) {
-            await this.showVictory();
+            const winner = targetTeam === 'alpha' ? 'omega' : 'alpha';
+            await this.showVictory(winner);
             return;
         }
 
-        // Re-render to reflect changes
         this.renderBattle();
     }
 
@@ -1109,21 +1076,10 @@ class BattleshipGame {
         return true;
     }
 
-    endTurn() {
-        const g = this.currentGame;
-        g.currentTeam = g.currentTeam === 'alpha' ? 'omega' : 'alpha';
-        // Clear messages
-        document.getElementById('msgAlpha').textContent = '';
-        document.getElementById('msgOmega').textContent = '';
-        this.db.saveGame(g);
-        this.renderBattle();
-    }
-
-    async showVictory() {
+    async showVictory(winner) {
         this.hideAllScreens();
         document.getElementById('victoryScreen').classList.add('active');
 
-        const winner = this.currentGame.currentTeam;
         const el = document.getElementById('victoryTeam');
         el.textContent = `Équipe ${winner === 'alpha' ? 'Alpha' : 'Oméga'} Victorieuse !`;
         el.className = winner;
